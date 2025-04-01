@@ -6,13 +6,22 @@
             "id": "d5ddcac3-0389-4609-9e20-ae0781536142",
             "actions": [
                 {
-                    "name": "click",
+                    "name": "Click",
                     "type": "Button",
                     "id": "09916e9d-24a0-4435-ad46-67301bddda82",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Position",
+                    "type": "Value",
+                    "id": "e9afdb02-4a3a-4f13-be09-55ab6eca8520",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -23,7 +32,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "click",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ec2b382-9156-4db1-8d6f-6f6d8b5a1475",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
