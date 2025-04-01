@@ -1,14 +1,15 @@
 using System;
+using DI.Utiles;
 using VContainer;
 using VContainer.Unity;
 
 namespace DI.Installers
 {
-    public class InputInstaller : IInstaller
+    public class InputInstaller : MonoInstaller
     {
         private BaseInput _baseInput;
         
-        public void Install(IContainerBuilder builder)
+        public override void Install(IContainerBuilder builder)
         {
             _baseInput = new BaseInput();
             _baseInput.Enable();
@@ -16,7 +17,7 @@ namespace DI.Installers
             builder.RegisterInstance(_baseInput);
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             _baseInput.Disable();
         }
