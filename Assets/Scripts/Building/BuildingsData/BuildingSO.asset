@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2121850401e4eac84d2b5f48626a733, type: 3}
+  m_Name: BuildingSO
+  m_EditorClassIdentifier: 
+  <Buildings>k__BackingField:
+  - <Name>k__BackingField: Cube
+    <Description>k__BackingField: Cube is cube
+    <BuildingPrefab>k__BackingField: {fileID: 5395426788147490963, guid: d0ce96ca4e744d345b7c129d1ee77b07, type: 3}
+    interactionWithObjectsOffset: 1
+  - <Name>k__BackingField: House
+    <Description>k__BackingField: Mushroom?
+    <BuildingPrefab>k__BackingField: {fileID: 1571833131728098428, guid: 8e94690419e2c0048998654ac7d97273, type: 3}
+    interactionWithObjectsOffset: 1
+  - <Name>k__BackingField: Sphere
+    <Description>k__BackingField: Sphere is cube
+    <BuildingPrefab>k__BackingField: {fileID: 9152466786250297353, guid: 910983757b3b93b43a476c383f71a0eb, type: 3}
+    interactionWithObjectsOffset: 2
