@@ -1,5 +1,6 @@
 using Player.Controls;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utiles.FSM;
 
 namespace Player.FSM.States
@@ -22,6 +23,25 @@ namespace Player.FSM.States
         
         public override void Enter()
         {
+            ComputeDestination();
+
+            _input.Mouse.Click.performed += HandleClick;
+        }
+
+        public override void Update() { }
+
+        public override void Exit()
+        {
+            _input.Mouse.Click.performed -= HandleClick;
+        }
+
+        private void HandleClick(InputAction.CallbackContext context)
+        {
+            ComputeDestination();
+        }
+
+        private void ComputeDestination()
+        {
             var mousePosition = _input.Mouse.Position.ReadValue<Vector2>();
 
             var ray = _mainCamera.ScreenPointToRay(mousePosition);
@@ -31,9 +51,5 @@ namespace Player.FSM.States
                 _movementSystem.SetDestination(hitInfo.point);
             }
         }
-
-        public override void Update() { }
-
-        public override void Exit() { }
     }
 }

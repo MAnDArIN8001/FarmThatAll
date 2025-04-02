@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Player.Controls;
 using Player.FSM;
@@ -10,7 +11,7 @@ namespace Player
 {
     public class Player : MonoBehaviour
     {
-        [field: SerializeField] public MovementSystem MovementSystem { get; private set; }
+        [field: SerializeField, Space] public MovementSystem MovementSystem { get; private set; }
 
         private BaseInput _baseInput;
 
@@ -24,7 +25,6 @@ namespace Player
             var transitions = new List<Transition>()
             {
                 new Transition(StateType.Idle, StateType.Movement,() => _baseInput.Mouse.Click.WasPerformedThisFrame()),
-                new Transition(StateType.Movement, StateType.Movement, () => _baseInput.Mouse.Click.WasPerformedThisFrame()),
                 new Transition(StateType.Movement, StateType.Idle, () => MovementSystem.IsMovementDone)
             };
 
@@ -40,6 +40,11 @@ namespace Player
         private void Update()
         {
             _playerStateMachine?.Update();
+        }
+
+        private void LateUpdate()
+        {
+            _playerStateMachine?.LateUpdate();
         }
     }
 }
