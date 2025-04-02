@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
+using Utiles.FSM;
 
 namespace Building.BuildingSystemStates
 {
-    public class BuildingSystemPlaceSelectionState : BuildingSystemBaseState
+    public class BuildingActiveState : State
     {
-        private BuildingSystem _buildingSystem;
+        private Building _currentBuilding;
+        private BaseInput _input;
+        
+        private readonly BuildingStateMachine _buildingStateMachine;
+        private readonly Material _validateMaterial;
+        
         private GameObject _buildingShape;
-
         private ValidateBuilding _validateBuildingComponent;
-        private Material _validateMaterial;
+        
         private Color _validateColor;
         private Color ValidateColor
         {
@@ -23,24 +28,20 @@ namespace Building.BuildingSystemStates
                 
             }
         }
-        private bool _isValidated = true;
-        private bool IsValidated
-        {
-            get => _isValidated;
-            set
-            {
-                if (_isValidated == value)
-                    return;
-                
-                _isValidated = value;
-            }
-        }
-        public override void EnterState(BuildingSystem buildingSystem)
-        {
-            _buildingSystem = buildingSystem;
-            _validateMaterial = buildingSystem.ValidateObjectMaterial;
+        private bool _isValidated;
 
-            _buildingShape = CreateBuildingShape(_buildingSystem.currentBuilding.BuildingPrefab);
+        public BuildingActiveState(StateType stateType ,BuildingStateMachine buildingStateMachine, BaseInput input)
+        {
+            StateType = stateType;
+            
+            _buildingStateMachine = buildingStateMachine;
+            _validateMaterial = buildingStateMachine.ShapeMaterial;
+            
+            _input = input;
+        }
+        public override void Enter()
+        {
+            _buildingShape = CreateBuildingShape(_currentBuilding.BuildingPrefab);
             
             if (_buildingShape.TryGetComponent(out MeshRenderer shapeMeshRenderer))
             {
@@ -50,12 +51,10 @@ namespace Building.BuildingSystemStates
             {
                 Debug.LogError("No mesh renderer found");
             }
-
-            
             if (_buildingShape.TryGetComponent(out BoxCollider collider))
             {
-                var validateSizeX = collider.bounds.extents.x + buildingSystem.currentBuilding.InteractionWithObjectsOffset;
-                var validateSizeZ = collider.bounds.extents.z + buildingSystem.currentBuilding.InteractionWithObjectsOffset;
+                var validateSizeX = collider.bounds.extents.x + _currentBuilding.InteractionWithObjectsOffset;
+                var validateSizeZ = collider.bounds.extents.z + _currentBuilding.InteractionWithObjectsOffset;
                 collider.isTrigger = true;
                 collider.size = new Vector3(validateSizeX * 2, collider.size.y, validateSizeZ * 2);
                 _validateBuildingComponent = _buildingShape.AddComponent<ValidateBuilding>();
@@ -71,31 +70,28 @@ namespace Building.BuildingSystemStates
             _validateBuildingComponent.OnToggleValidity += ValidateBuildingPosition;
         }
 
-        public override void UpdateState()
+        public override void Update()
         {
             if (_buildingShape != null)
             {
                 var cursorPos = SetBuildingPositionToCursor();
 
-                if (IsValidated)
+                if (_isValidated)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        var building = GameObject.Instantiate(_buildingSystem.currentBuilding.BuildingPrefab);
+                        var building = GameObject.Instantiate(_currentBuilding.BuildingPrefab);
                         building.transform.position = cursorPos;
-                        
-                        _buildingSystem.SwitchState(_buildingSystem.IdleState);
                     }
                 }
                 
             }
         }
 
-        public override void ExitState(BuildingSystem buildingSystem)
+        public override void Exit()
         {
             _validateBuildingComponent.OnToggleValidity -= ValidateBuildingPosition;
             _validateBuildingComponent = null;
-            _buildingSystem = null;
             
             GameObject.Destroy(_buildingShape);
             _buildingShape = null;
@@ -115,9 +111,9 @@ namespace Building.BuildingSystemStates
             if (_buildingShape == null)
                 return Vector3.zero;
             
-            Ray ray = _buildingSystem.mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _buildingSystem.LayerMaskForBuilding))
+            if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _buildingStateMachine.TerrainMask))
             {
                 _buildingShape.transform.position = hit.point;
                 return hit.point;
@@ -129,7 +125,7 @@ namespace Building.BuildingSystemStates
         private void ValidateBuildingPosition(bool isToggled)
         {
             ValidateColor = isToggled ? Color.green : Color.red;
-            IsValidated = isToggled; 
+            _isValidated = isToggled; 
         }
 
         private void ReplaceMeshRendererMaterial(MeshRenderer renderer, Material material)

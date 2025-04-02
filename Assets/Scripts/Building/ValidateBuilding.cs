@@ -9,15 +9,22 @@ namespace Building
     {
         public event Action<bool> OnToggleValidity;
         private List<Collider> _colliders;
+        public int terrainLayer;
         
         private void Start()
         {
             _colliders = new List<Collider>();
+            terrainLayer = LayerMask.NameToLayer("Terrain");
+
+            if (_colliders.Count == 0)
+            {
+                OnToggleValidity?.Invoke(true);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+            if (other.gameObject.layer == terrainLayer)
                 return;
             
             AddCollider(other);
@@ -25,7 +32,7 @@ namespace Building
 
         private void OnTriggerExit(Collider other)
         { 
-            if (other.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+            if (other.gameObject.layer == terrainLayer)
                 return;
             
             RemoveCollider(other);
@@ -36,13 +43,11 @@ namespace Building
             if (_colliders.Count == 0)
                 OnToggleValidity?.Invoke(false);
             _colliders.Add(collider);
-            Debug.Log($"Adding collider {_colliders.Count}");
         }
 
         private void RemoveCollider(Collider collider)
         {
             _colliders.Remove(collider);
-            Debug.Log($"Removing collider {_colliders.Count}");
             if (_colliders.Count == 0)
             {
                 OnToggleValidity?.Invoke(true);

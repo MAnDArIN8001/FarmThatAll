@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using Building.BuildingSystemStates;
+using DG.Tweening;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Serialization;
+using Utiles.FSM;
+using State = Utiles.FSM.State;
+
+namespace Building
+{
+    public class BuildingStateMachine : IDisposable
+    {
+        public LayerMask TerrainMask {get; private set;}
+        public Material ShapeMaterial { get; set; }
+        
+        public Building currentBuilding;
+        
+        private State _currentState;
+        
+        private IDictionary<StateType, State> _states;
+        private List<Transition> _transitions;
+
+        public BuildingStateMachine(IDictionary<StateType, State> states,List<Transition> transitions)
+        {
+            _states = states;
+            _transitions = transitions;
+            
+            SwitchState(StateType.Idle);
+        }
+        private void Update()
+        {
+            _currentState?.Update();
+
+            foreach (Transition transition in _transitions)
+            {
+                if (_currentState.StateType == transition.From && transition.Condition())
+                {
+                    SwitchState(transition.To);
+                }
+            }
+        }
+
+        public void SwitchState(StateType state)
+        {
+            if (!_states.TryGetValue(state, out State newState))
+            {
+                Debug.LogError($"Unknown building state: {state}");
+                
+                return;
+            }
+            
+            _currentState?.Exit();
+            _currentState = newState;
+            _currentState?.Enter();
+        }
+
+        public void Dispose()
+        {
+            _states = null;
+            _transitions = null;
+        }
+    }
+}
