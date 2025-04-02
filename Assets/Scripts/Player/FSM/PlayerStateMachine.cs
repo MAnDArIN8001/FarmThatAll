@@ -18,14 +18,17 @@ namespace Player.FSM
         {
             _states = states;
             _transitions = transitions;
-            
+
             SetState(StateType.Idle);
         }
 
         public void Update()
         {
             _currentState?.Update();
+        }
 
+        public void LateUpdate()
+        {
             for (int i = 0; i < _transitions.Count; i++)
             {
                 var transition = _transitions[i];
