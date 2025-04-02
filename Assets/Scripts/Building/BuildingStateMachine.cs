@@ -27,22 +27,24 @@ namespace Building
             _states = states;
             _transitions = transitions;
             
-            SwitchState(StateType.Idle);
+            ChangeState(StateType.Idle);
         }
-        private void Update()
+        public void Update()
         {
             _currentState?.Update();
 
-            foreach (Transition transition in _transitions)
+            for (int i = 0; i < _transitions.Count; i++)
             {
+                var transition = _transitions[i];
+                
                 if (_currentState.StateType == transition.From && transition.Condition())
                 {
-                    SwitchState(transition.To);
+                    ChangeState(transition.To);
                 }
             }
         }
 
-        public void SwitchState(StateType state)
+        private void ChangeState(StateType state)
         {
             if (!_states.TryGetValue(state, out State newState))
             {

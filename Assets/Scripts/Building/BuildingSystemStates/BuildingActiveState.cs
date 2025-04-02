@@ -30,12 +30,11 @@ namespace Building.BuildingSystemStates
         }
         private bool _isValidated;
 
-        public BuildingActiveState(StateType stateType ,BuildingStateMachine buildingStateMachine, BaseInput input)
+        public BuildingActiveState(StateType stateType, Material shapeMaterial ,BaseInput input)
         {
             StateType = stateType;
             
-            _buildingStateMachine = buildingStateMachine;
-            _validateMaterial = buildingStateMachine.ShapeMaterial;
+            _validateMaterial = shapeMaterial;
             
             _input = input;
         }
@@ -78,7 +77,7 @@ namespace Building.BuildingSystemStates
 
                 if (_isValidated)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (_input.Mouse.Click.WasPerformedThisFrame())
                     {
                         var building = GameObject.Instantiate(_currentBuilding.BuildingPrefab);
                         building.transform.position = cursorPos;
