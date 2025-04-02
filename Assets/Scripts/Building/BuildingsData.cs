@@ -12,6 +12,6 @@ namespace Building
         [field:SerializeField] public GameObject BuildingPrefab {get; private set;}
         
         [field:SerializeField] public float InteractionWithObjectsOffset { get; private set; } = 1f;
-        
+        [field:SerializeField] public LayerMask TerrainLayerMask { get; private set; }
     }
 }

@@ -7,9 +7,8 @@ namespace Building.BuildingSystemStates
     public class BuildingActiveState : State
     {
         private Building _currentBuilding;
-        private BaseInput _input;
         
-        private readonly BuildingStateMachine _buildingStateMachine;
+        private readonly BaseInput _input;
         private readonly Material _validateMaterial;
         
         private GameObject _buildingShape;
@@ -30,13 +29,14 @@ namespace Building.BuildingSystemStates
         }
         private bool _isValidated;
 
-        public BuildingActiveState(StateType stateType, Material shapeMaterial ,BaseInput input)
+        public BuildingActiveState(StateType stateType, Building building ,Material shapeMaterial ,BaseInput input)
         {
             StateType = stateType;
+            _input = input;
             
             _validateMaterial = shapeMaterial;
             
-            _input = input;
+            _currentBuilding = building;
         }
         public override void Enter()
         {
@@ -50,12 +50,15 @@ namespace Building.BuildingSystemStates
             {
                 Debug.LogError("No mesh renderer found");
             }
+            
             if (_buildingShape.TryGetComponent(out BoxCollider collider))
             {
                 var validateSizeX = collider.bounds.extents.x + _currentBuilding.InteractionWithObjectsOffset;
                 var validateSizeZ = collider.bounds.extents.z + _currentBuilding.InteractionWithObjectsOffset;
+                
                 collider.isTrigger = true;
                 collider.size = new Vector3(validateSizeX * 2, collider.size.y, validateSizeZ * 2);
+                
                 _validateBuildingComponent = _buildingShape.AddComponent<ValidateBuilding>();
                 
                 var rigidbody = _buildingShape.AddComponent<Rigidbody>();
@@ -73,17 +76,16 @@ namespace Building.BuildingSystemStates
         {
             if (_buildingShape != null)
             {
-                var cursorPos = SetBuildingPositionToCursor();
+                SetBuildingPositionToCursor();
 
                 if (_isValidated)
                 {
                     if (_input.Mouse.Click.WasPerformedThisFrame())
                     {
                         var building = GameObject.Instantiate(_currentBuilding.BuildingPrefab);
-                        building.transform.position = cursorPos;
+                        building.transform.position = _buildingShape.transform.position;
                     }
                 }
-                
             }
         }
 
@@ -105,20 +107,17 @@ namespace Building.BuildingSystemStates
             return instance;
         }
 
-        private Vector3 SetBuildingPositionToCursor()
+        private void SetBuildingPositionToCursor()
         {
             if (_buildingShape == null)
-                return Vector3.zero;
+                return;
             
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _buildingStateMachine.TerrainMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _currentBuilding.TerrainLayerMask))
             {
                 _buildingShape.transform.position = hit.point;
-                return hit.point;
             }
-            
-            return Vector3.zero;
         }
         
         private void ValidateBuildingPosition(bool isToggled)

@@ -13,9 +13,9 @@ namespace Building
     public class BuildingStateMachine : IDisposable
     {
         public LayerMask TerrainMask {get; private set;}
-        public Material ShapeMaterial { get; set; }
+        private Material _shapeMaterial;
         
-        public Building currentBuilding;
+        private Building _currentBuilding;
         
         private State _currentState;
         
