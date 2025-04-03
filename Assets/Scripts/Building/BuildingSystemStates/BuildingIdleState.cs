@@ -1,18 +1,17 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Utiles.FSM;
 
-namespace Player.FSM.States
+namespace Building.BuildingSystemStates
 {
-    public class PlayerIdleState : State
+    public class BuildingIdleState : State
     {
-        public PlayerIdleState(StateType stateType)
+        public BuildingIdleState(StateType stateType)
         {
             StateType = stateType;
         }
-        
         public override void Enter()
         {
-
+            
         }
 
         public override void Update()
