@@ -5,13 +5,16 @@ using Player.FSM;
 using Player.FSM.States;
 using UnityEngine;
 using Utiles.FSM;
-using VContainer;
+using Zenject;
 
 namespace Player
 {
     public class Player : MonoBehaviour
     {
+        [Header("Systems")]
         [field: SerializeField, Space] public MovementSystem MovementSystem { get; private set; }
+
+        [field: SerializeField] public PointerSystem PointerSystem { get; private set; }
 
         private BaseInput _baseInput;
 
@@ -31,7 +34,7 @@ namespace Player
             var states = new Dictionary<StateType, State>()
             {
                 { StateType.Idle, new PlayerIdleState(StateType.Idle) },
-                { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, _baseInput) }
+                { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, PointerSystem, _baseInput) }
             };
 
             _playerStateMachine = new PlayerStateMachine(states, transitions);
