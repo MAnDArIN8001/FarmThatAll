@@ -1,20 +1,19 @@
-using System;
-using DI.Utiles;
-using VContainer;
-using VContainer.Unity;
+
+
+using Zenject;
 
 namespace DI.Installers
 {
     public class InputInstaller : MonoInstaller
     {
         private BaseInput _baseInput;
-        
-        public override void Install(IContainerBuilder builder)
+
+        public override void InstallBindings()
         {
             _baseInput = new BaseInput();
             _baseInput.Enable();
 
-            builder.RegisterInstance(_baseInput);
+            Container.Bind<BaseInput>().FromInstance(_baseInput);
         }
 
         public void OnDestroy()
