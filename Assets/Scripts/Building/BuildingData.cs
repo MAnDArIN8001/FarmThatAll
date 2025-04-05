@@ -3,7 +3,7 @@
 namespace Building
 {
     [CreateAssetMenu(menuName = "Game/BuildingsData")]
-    public class Building : ScriptableObject
+    public class BuildingData : ScriptableObject
     {
         [field:SerializeField] public string Name {get; private set;}
         [field:SerializeField] public string Description {get; private set;}

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Building.BuildingSystemStates;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utiles.EventSystem;
 using Utiles.FSM;
 using Zenject;
 
@@ -10,21 +12,24 @@ namespace Building
     {
         [SerializeField] private Material buildingShapeMaterial;
         
-        [SerializeField] private Building buildingToPlace;
+        [SerializeField] private BuildingData buildingShape;
         
         private BuildingStateMachine _buildingStateMachine;
         private BuildingActiveState _buildingActiveState;
+        
         private BaseInput _input;
-
+        private EventBus _eventBus;
+        
         [Inject]
-        private void Initialize(BaseInput input)
+        private void Initialize(BaseInput input, EventBus eventBus)
         {
             _input = input;
-
+            _eventBus = eventBus;
+            
             if (_buildingActiveState == null)
             {
                 _buildingActiveState =
-                    new BuildingActiveState(StateType.Active, buildingToPlace, buildingShapeMaterial, _input);
+                    new BuildingActiveState(StateType.Active, _eventBus, buildingShape, buildingShapeMaterial, _input);
             }
             
             var states = new Dictionary<StateType, State>()
@@ -47,6 +52,12 @@ namespace Building
         private void Update()
         {
             _buildingStateMachine?.Update();
+        }
+
+        private bool BuildingCalled(BuildingData buildingData)
+        {
+            
+            return true;
         }
     }
 }
