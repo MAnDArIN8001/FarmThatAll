@@ -8,15 +8,18 @@ namespace Player.FSM.States
     public class PlayerMovementState : State
     {
         private readonly MovementSystem _movementSystem;
+        private readonly PointerSystem _pointerSystem;
 
         private readonly BaseInput _input;
 
         private readonly Camera _mainCamera;
         
-        public PlayerMovementState(StateType stateType, MovementSystem movementSystem, BaseInput input)
+        public PlayerMovementState(StateType stateType, MovementSystem movementSystem, PointerSystem pointerSystem, BaseInput input)
         {
             StateType = stateType;
+            
             _movementSystem = movementSystem;
+            _pointerSystem = pointerSystem;
             _input = input;
             _mainCamera = Camera.main;
         }
@@ -33,6 +36,8 @@ namespace Player.FSM.States
         public override void Exit()
         {
             _input.Mouse.Click.performed -= HandleClick;
+            
+            _movementSystem.BreakMovement();
         }
 
         private void HandleClick(InputAction.CallbackContext context)
