@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Building
 {
     [CreateAssetMenu(menuName = "Game/BuildingsData")]
-    public class Building : ScriptableObject
+    public class BuildingData : ScriptableObject
     {
         [field:SerializeField] public string Name {get; private set;}
         [field:SerializeField] public string Description {get; private set;}
-        [field:SerializeField] public GameObject BuildingPrefab {get; private set;}
+        
+        [field:SerializeField] public int Price {get; private set;}
         
         [field:SerializeField] public float InteractionWithObjectsOffset { get; private set; } = 1f;
+        
+        [field:SerializeField] public Sprite Sprite {get; private set;}
+        
+        [field:SerializeField] public GameObject BuildingPrefab {get; private set;}
+        
         [field:SerializeField] public LayerMask TerrainLayerMask { get; private set; }
     }
 }

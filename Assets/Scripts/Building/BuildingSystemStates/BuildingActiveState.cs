@@ -1,18 +1,38 @@
-﻿using UnityEngine;
-using UnityEngine.Rendering;
+﻿using System;
+using UnityEngine;
+using Utiles.EventSystem;
 using Utiles.FSM;
+using State = Utiles.FSM.State;
 
 namespace Building.BuildingSystemStates
 {
     public class BuildingActiveState : State
     {
-        private Building _currentBuilding;
+        private bool _isValidated;
         
         private readonly BaseInput _input;
+        
+        private readonly EventBus _eventBus;
+        
         private readonly Material _validateMaterial;
         
         private GameObject _buildingShape;
+        
         private ValidateBuilding _validateBuildingComponent;
+        
+        private BuildingData _currentBuildingData;
+        public BuildingData CurrentBuildingData
+        {
+            get => _currentBuildingData;
+            set
+            {
+                if (_currentBuildingData == value)
+                    return;
+                
+                _currentBuildingData = value;
+                _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab);
+            }
+        }
         
         private Color _validateColor;
         private Color ValidateColor
@@ -22,25 +42,29 @@ namespace Building.BuildingSystemStates
             {
                 if (_validateColor == value)
                     return;
+               
                 _validateColor = value;
-                _validateMaterial.color = _validateColor;
                 
+                _validateMaterial.color = _validateColor;
             }
         }
-        private bool _isValidated;
-
-        public BuildingActiveState(StateType stateType, Building building ,Material shapeMaterial ,BaseInput input)
+        
+        public BuildingActiveState(StateType stateType, EventBus eventBus, Material shapeMaterial ,BaseInput input)
         {
             StateType = stateType;
+            
             _input = input;
             
-            _validateMaterial = shapeMaterial;
+            _eventBus = eventBus;
             
-            _currentBuilding = building;
+            _eventBus.Subscribe<BuildingData>(HandleBuildingChanging);
+            
+            _validateMaterial = shapeMaterial;
         }
+        
         public override void Enter()
         {
-            _buildingShape = CreateBuildingShape(_currentBuilding.BuildingPrefab);
+            _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab);
             
             if (_buildingShape.TryGetComponent(out MeshRenderer shapeMeshRenderer))
             {
@@ -53,15 +77,18 @@ namespace Building.BuildingSystemStates
             
             if (_buildingShape.TryGetComponent(out BoxCollider collider))
             {
-                var validateSizeX = collider.bounds.extents.x + _currentBuilding.InteractionWithObjectsOffset;
-                var validateSizeZ = collider.bounds.extents.z + _currentBuilding.InteractionWithObjectsOffset;
+                var validateSizeX = collider.bounds.extents.x + _currentBuildingData.InteractionWithObjectsOffset;
+                
+                var validateSizeZ = collider.bounds.extents.z + _currentBuildingData.InteractionWithObjectsOffset;
                 
                 collider.isTrigger = true;
+                
                 collider.size = new Vector3(validateSizeX * 2, collider.size.y, validateSizeZ * 2);
                 
                 _validateBuildingComponent = _buildingShape.AddComponent<ValidateBuilding>();
                 
                 var rigidbody = _buildingShape.AddComponent<Rigidbody>();
+                
                 rigidbody.isKinematic = true;
             }
             else
@@ -82,7 +109,7 @@ namespace Building.BuildingSystemStates
                 {
                     if (_input.Mouse.Click.WasPerformedThisFrame())
                     {
-                        var building = GameObject.Instantiate(_currentBuilding.BuildingPrefab);
+                        var building = GameObject.Instantiate(_currentBuildingData.BuildingPrefab);
                         building.transform.position = _buildingShape.transform.position;
                     }
                 }
@@ -92,9 +119,11 @@ namespace Building.BuildingSystemStates
         public override void Exit()
         {
             _validateBuildingComponent.OnToggleValidity -= ValidateBuildingPosition;
+            
             _validateBuildingComponent = null;
             
             GameObject.Destroy(_buildingShape);
+            
             _buildingShape = null;
         }
 
@@ -103,8 +132,58 @@ namespace Building.BuildingSystemStates
             if (prefab == null)
                 return null;
             
-            var instance = GameObject.Instantiate(prefab);
-            return instance;
+            var buildingShape = new GameObject("BuildingShape");
+            
+            if (prefab.TryGetComponent<MeshFilter>(out var prefabMeshFilter))
+            {
+                if (prefabMeshFilter.sharedMesh != null)
+                {
+                    var shapeMeshFilter = buildingShape.AddComponent<MeshFilter>();
+                    shapeMeshFilter.sharedMesh = prefabMeshFilter.sharedMesh;
+                }
+                else
+                {
+                    Debug.LogWarning(prefab.name + " has no Mesh in MeshFilter!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning(prefab.name + " has no MeshFilter!");
+            }
+            
+            if (prefab.TryGetComponent<MeshRenderer>(out var prefabMeshRenderer))
+            {
+                if (prefabMeshFilter.sharedMesh != null)
+                {
+                    var shapeMeshRenderer = buildingShape.AddComponent<MeshRenderer>();
+                    shapeMeshRenderer.sharedMaterials = new Material[prefabMeshRenderer.sharedMaterials.Length];
+                }
+                else
+                {
+                    Debug.LogWarning(prefab.name + " has no MeshRenderer!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning(prefab.name + " has no MeshFilter!");
+            }
+            
+            if (prefab.TryGetComponent<BoxCollider>(out var prefabCollider))
+            {
+                var shapeCollider = buildingShape.AddComponent<BoxCollider>();
+                
+                shapeCollider.center = prefabCollider.center;
+                shapeCollider.size = prefabCollider.size;
+                shapeCollider.isTrigger = prefabCollider.isTrigger;
+            }
+            else
+            {
+                Debug.LogWarning(prefab.name + " has no BoxCollider!");
+            }
+            
+            buildingShape.transform.localScale = prefab.transform.localScale;
+            
+            return buildingShape;
         }
 
         private void SetBuildingPositionToCursor()
@@ -112,9 +191,9 @@ namespace Building.BuildingSystemStates
             if (_buildingShape == null)
                 return;
             
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(_input.Mouse.Position.ReadValue<Vector2>());
 
-            if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _currentBuilding.TerrainLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _currentBuildingData.TerrainLayerMask))
             {
                 _buildingShape.transform.position = hit.point;
             }
@@ -123,6 +202,7 @@ namespace Building.BuildingSystemStates
         private void ValidateBuildingPosition(bool isToggled)
         {
             ValidateColor = isToggled ? Color.green : Color.red;
+            
             _isValidated = isToggled; 
         }
 
@@ -138,5 +218,11 @@ namespace Building.BuildingSystemStates
             renderer.materials = materials;
         }
         
+        private void HandleBuildingChanging(BuildingData buildingData)
+        {
+            _currentBuildingData = buildingData;
+            
+            Debug.Log($"BuildingChanged: {buildingData.Name}");
+        }
     }
 }
