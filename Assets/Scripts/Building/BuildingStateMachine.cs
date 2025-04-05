@@ -11,6 +11,7 @@ namespace Building
         private State _currentState;
         
         private IDictionary<StateType, State> _states;
+        
         private List<Transition> _transitions;
 
         public BuildingStateMachine(IDictionary<StateType, State> states,List<Transition> transitions)

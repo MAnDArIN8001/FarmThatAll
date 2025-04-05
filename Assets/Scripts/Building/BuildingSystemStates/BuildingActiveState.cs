@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utiles.EventSystem;
 using Utiles.FSM;
 using State = Utiles.FSM.State;
@@ -7,8 +8,19 @@ namespace Building.BuildingSystemStates
 {
     public class BuildingActiveState : State
     {
+        private bool _isValidated;
+        
+        private readonly BaseInput _input;
+        
+        private readonly EventBus _eventBus;
+        
+        private readonly Material _validateMaterial;
+        
+        private GameObject _buildingShape;
+        
+        private ValidateBuilding _validateBuildingComponent;
+        
         private BuildingData _currentBuildingData;
-
         public BuildingData CurrentBuildingData
         {
             get => _currentBuildingData;
@@ -22,13 +34,6 @@ namespace Building.BuildingSystemStates
             }
         }
         
-        private readonly BaseInput _input;
-        private readonly EventBus _eventBus;
-        private readonly Material _validateMaterial;
-        
-        private GameObject _buildingShape;
-        private ValidateBuilding _validateBuildingComponent;
-        
         private Color _validateColor;
         private Color ValidateColor
         {
@@ -37,23 +42,26 @@ namespace Building.BuildingSystemStates
             {
                 if (_validateColor == value)
                     return;
+               
                 _validateColor = value;
-                _validateMaterial.color = _validateColor;
                 
+                _validateMaterial.color = _validateColor;
             }
         }
-        private bool _isValidated;
-
-        public BuildingActiveState(StateType stateType, EventBus eventBus, BuildingData tempBuildingData,Material shapeMaterial ,BaseInput input)
+        
+        public BuildingActiveState(StateType stateType, EventBus eventBus, Material shapeMaterial ,BaseInput input)
         {
             StateType = stateType;
             
             _input = input;
             
             _eventBus = eventBus;
-            _currentBuildingData = tempBuildingData;
+            
+            _eventBus.Subscribe<BuildingData>(HandleBuildingChanging);
+            
             _validateMaterial = shapeMaterial;
         }
+        
         public override void Enter()
         {
             _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab);
@@ -70,14 +78,17 @@ namespace Building.BuildingSystemStates
             if (_buildingShape.TryGetComponent(out BoxCollider collider))
             {
                 var validateSizeX = collider.bounds.extents.x + _currentBuildingData.InteractionWithObjectsOffset;
+                
                 var validateSizeZ = collider.bounds.extents.z + _currentBuildingData.InteractionWithObjectsOffset;
                 
                 collider.isTrigger = true;
+                
                 collider.size = new Vector3(validateSizeX * 2, collider.size.y, validateSizeZ * 2);
                 
                 _validateBuildingComponent = _buildingShape.AddComponent<ValidateBuilding>();
                 
                 var rigidbody = _buildingShape.AddComponent<Rigidbody>();
+                
                 rigidbody.isKinematic = true;
             }
             else
@@ -108,9 +119,11 @@ namespace Building.BuildingSystemStates
         public override void Exit()
         {
             _validateBuildingComponent.OnToggleValidity -= ValidateBuildingPosition;
+            
             _validateBuildingComponent = null;
             
             GameObject.Destroy(_buildingShape);
+            
             _buildingShape = null;
         }
 
@@ -120,7 +133,7 @@ namespace Building.BuildingSystemStates
                 return null;
             
             var buildingShape = new GameObject("BuildingShape");
-
+            
             if (prefab.TryGetComponent<MeshFilter>(out var prefabMeshFilter))
             {
                 if (prefabMeshFilter.sharedMesh != null)
@@ -158,6 +171,7 @@ namespace Building.BuildingSystemStates
             if (prefab.TryGetComponent<BoxCollider>(out var prefabCollider))
             {
                 var shapeCollider = buildingShape.AddComponent<BoxCollider>();
+                
                 shapeCollider.center = prefabCollider.center;
                 shapeCollider.size = prefabCollider.size;
                 shapeCollider.isTrigger = prefabCollider.isTrigger;
@@ -167,6 +181,7 @@ namespace Building.BuildingSystemStates
                 Debug.LogWarning(prefab.name + " has no BoxCollider!");
             }
             
+            buildingShape.transform.localScale = prefab.transform.localScale;
             
             return buildingShape;
         }
@@ -187,6 +202,7 @@ namespace Building.BuildingSystemStates
         private void ValidateBuildingPosition(bool isToggled)
         {
             ValidateColor = isToggled ? Color.green : Color.red;
+            
             _isValidated = isToggled; 
         }
 
@@ -202,5 +218,11 @@ namespace Building.BuildingSystemStates
             renderer.materials = materials;
         }
         
+        private void HandleBuildingChanging(BuildingData buildingData)
+        {
+            _currentBuildingData = buildingData;
+            
+            Debug.Log($"BuildingChanged: {buildingData.Name}");
+        }
     }
 }

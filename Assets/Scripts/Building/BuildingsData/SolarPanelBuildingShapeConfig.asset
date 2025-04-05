@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2121850401e4eac84d2b5f48626a733, type: 3}
   m_Name: SolarPanelBuildingShapeConfig
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Ambar
-  <Description>k__BackingField: The best ambar on place
-  <BuildingPrefab>k__BackingField: {fileID: 919132149155446097, guid: 5017c2e84df3bc94fa5d16e9ebc446ad, type: 3}
-  <InteractionWithObjectsOffset>k__BackingField: 0.2
+  <Name>k__BackingField: SolarPanel
+  <Description>k__BackingField: SolarPanel is here dumbass
+  <Price>k__BackingField: 30
+  <Sprite>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  <BuildingPrefab>k__BackingField: {fileID: 7464201847490462487, guid: a7a0da6bdb03f634393f0c3522f00328, type: 3}
+  <InteractionWithObjectsOffset>k__BackingField: 0
   <TerrainLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
