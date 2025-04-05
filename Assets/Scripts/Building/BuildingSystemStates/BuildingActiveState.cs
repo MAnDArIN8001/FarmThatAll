@@ -107,7 +107,7 @@ namespace Building.BuildingSystemStates
 
                 if (_isValidated)
                 {
-                    if (_input.Mouse.Click.WasPerformedThisFrame())
+                    if (_input.Mouse.LeftClick.WasPerformedThisFrame())
                     {
                         var building = GameObject.Instantiate(_currentBuildingData.BuildingPrefab);
                         building.transform.position = _buildingShape.transform.position;

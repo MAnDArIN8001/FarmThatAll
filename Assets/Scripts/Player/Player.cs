@@ -27,7 +27,7 @@ namespace Player
 
             var transitions = new List<Transition>()
             {
-                new Transition(StateType.Idle, StateType.Movement,() => _baseInput.Mouse.Click.WasPerformedThisFrame() &&
+                new Transition(StateType.Idle, StateType.Movement,() => _baseInput.Mouse.LeftClick.WasPerformedThisFrame() &&
                                                                         PointerSystem.CheckIsPointReachable(_baseInput.Mouse.Position.ReadValue<Vector2>())),
                 new Transition(StateType.Movement, StateType.Communication, () => MovementSystem.IsMovementDone 
                     && PointerSystem.PointedCommunicable is not null),

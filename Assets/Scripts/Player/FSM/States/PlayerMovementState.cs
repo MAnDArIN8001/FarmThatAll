@@ -28,14 +28,14 @@ namespace Player.FSM.States
         {
             ComputeDestination();
 
-            _input.Mouse.Click.performed += HandleClick;
+            _input.Mouse.LeftClick.performed += HandleClick;
         }
 
         public override void Update() { }
 
         public override void Exit()
         {
-            _input.Mouse.Click.performed -= HandleClick;
+            _input.Mouse.LeftClick.performed -= HandleClick;
             
             _movementSystem.BreakMovement();
         }

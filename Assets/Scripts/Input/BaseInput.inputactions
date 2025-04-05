@@ -6,7 +6,7 @@
             "id": "d5ddcac3-0389-4609-9e20-ae0781536142",
             "actions": [
                 {
-                    "name": "Click",
+                    "name": "LeftClick",
                     "type": "Button",
                     "id": "09916e9d-24a0-4435-ad46-67301bddda82",
                     "expectedControlType": "",
@@ -41,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Click",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

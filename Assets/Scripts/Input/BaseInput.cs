@@ -28,7 +28,7 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
             ""id"": ""d5ddcac3-0389-4609-9e20-ae0781536142"",
             ""actions"": [
                 {
-                    ""name"": ""Click"",
+                    ""name"": ""LeftClick"",
                     ""type"": ""Button"",
                     ""id"": ""09916e9d-24a0-4435-ad46-67301bddda82"",
                     ""expectedControlType"": """",
@@ -63,7 +63,7 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Click"",
+                    ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -96,7 +96,7 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
 }");
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
-        m_Mouse_Click = m_Mouse.FindAction("Click", throwIfNotFound: true);
+        m_Mouse_LeftClick = m_Mouse.FindAction("LeftClick", throwIfNotFound: true);
         m_Mouse_Position = m_Mouse.FindAction("Position", throwIfNotFound: true);
         m_Mouse_RightClick = m_Mouse.FindAction("RightClick", throwIfNotFound: true);
     }
@@ -165,14 +165,14 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
     // Mouse
     private readonly InputActionMap m_Mouse;
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
-    private readonly InputAction m_Mouse_Click;
+    private readonly InputAction m_Mouse_LeftClick;
     private readonly InputAction m_Mouse_Position;
     private readonly InputAction m_Mouse_RightClick;
     public struct MouseActions
     {
         private @BaseInput m_Wrapper;
         public MouseActions(@BaseInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Click => m_Wrapper.m_Mouse_Click;
+        public InputAction @LeftClick => m_Wrapper.m_Mouse_LeftClick;
         public InputAction @Position => m_Wrapper.m_Mouse_Position;
         public InputAction @RightClick => m_Wrapper.m_Mouse_RightClick;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
@@ -184,9 +184,9 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MouseActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MouseActionsCallbackInterfaces.Add(instance);
-            @Click.started += instance.OnClick;
-            @Click.performed += instance.OnClick;
-            @Click.canceled += instance.OnClick;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
             @Position.started += instance.OnPosition;
             @Position.performed += instance.OnPosition;
             @Position.canceled += instance.OnPosition;
@@ -197,9 +197,9 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IMouseActions instance)
         {
-            @Click.started -= instance.OnClick;
-            @Click.performed -= instance.OnClick;
-            @Click.canceled -= instance.OnClick;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
             @Position.started -= instance.OnPosition;
             @Position.performed -= instance.OnPosition;
             @Position.canceled -= instance.OnPosition;
@@ -225,7 +225,7 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
     public MouseActions @Mouse => new MouseActions(this);
     public interface IMouseActions
     {
-        void OnClick(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
     }
