@@ -27,14 +27,18 @@ namespace Player
 
             var transitions = new List<Transition>()
             {
-                new Transition(StateType.Idle, StateType.Movement,() => _baseInput.Mouse.Click.WasPerformedThisFrame()),
+                new Transition(StateType.Idle, StateType.Movement,() => _baseInput.Mouse.Click.WasPerformedThisFrame() &&
+                                                                        PointerSystem.CheckIsPointReachable(_baseInput.Mouse.Position.ReadValue<Vector2>())),
+                new Transition(StateType.Movement, StateType.Communication, () => MovementSystem.IsMovementDone 
+                    && PointerSystem.PointedCommunicable is not null),
                 new Transition(StateType.Movement, StateType.Idle, () => MovementSystem.IsMovementDone)
             };
 
             var states = new Dictionary<StateType, State>()
             {
                 { StateType.Idle, new PlayerIdleState(StateType.Idle) },
-                { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, PointerSystem, _baseInput) }
+                { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, PointerSystem, _baseInput) },
+                { StateType.Communication, new PlayerCommunicationState(StateType.Movement, PointerSystem) },
             };
 
             _playerStateMachine = new PlayerStateMachine(states, transitions);

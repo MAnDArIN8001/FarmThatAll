@@ -47,13 +47,9 @@ namespace Player.FSM.States
 
         private void ComputeDestination()
         {
-            var mousePosition = _input.Mouse.Position.ReadValue<Vector2>();
-
-            var ray = _mainCamera.ScreenPointToRay(mousePosition);
-
-            if (Physics.Raycast(ray, out var hitInfo))
+            if (_pointerSystem.CheckIsPointReachable(_input.Mouse.Position.ReadValue<Vector2>()))
             {
-                _movementSystem.SetDestination(hitInfo.point);
+                _movementSystem.SetDestination(_pointerSystem.LastValidPoint);
             }
         }
     }
