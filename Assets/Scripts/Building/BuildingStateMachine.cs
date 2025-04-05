@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Building.BuildingSystemStates;
-using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utiles.FSM;
 using State = Utiles.FSM.State;
 
@@ -12,11 +8,6 @@ namespace Building
 {
     public class BuildingStateMachine : IDisposable
     {
-        public LayerMask TerrainMask {get; private set;}
-        private Material _shapeMaterial;
-        
-        private Building _currentBuilding;
-        
         private State _currentState;
         
         private IDictionary<StateType, State> _states;

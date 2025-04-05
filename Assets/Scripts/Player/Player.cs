@@ -14,8 +14,6 @@ namespace Player
         [Header("Systems")]
         [field: SerializeField, Space] public MovementSystem MovementSystem { get; private set; }
 
-        [field: SerializeField] public PointerSystem PointerSystem { get; private set; }
-
         private BaseInput _baseInput;
 
         private PlayerStateMachine _playerStateMachine;
@@ -34,7 +32,7 @@ namespace Player
             var states = new Dictionary<StateType, State>()
             {
                 { StateType.Idle, new PlayerIdleState(StateType.Idle) },
-                { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, PointerSystem, _baseInput) }
+                { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, _baseInput) }
             };
 
             _playerStateMachine = new PlayerStateMachine(states, transitions);

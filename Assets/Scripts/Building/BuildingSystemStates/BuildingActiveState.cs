@@ -112,7 +112,7 @@ namespace Building.BuildingSystemStates
             if (_buildingShape == null)
                 return;
             
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(_input.Mouse.Position.ReadValue<Vector2>());
 
             if (Physics.Raycast(ray, out RaycastHit hit, int.MaxValue, _currentBuilding.TerrainLayerMask))
             {
