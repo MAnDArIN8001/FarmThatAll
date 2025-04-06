@@ -1,6 +1,8 @@
 using Communication;
+using DG.Tweening;
 using Player.CameraControls;
 using Player.Controls;
+using Player.Setups;
 using UnityEngine;
 using Utiles.FSM;
 using CameraType = Player.CameraControls.CameraType;
@@ -13,15 +15,19 @@ namespace Player.FSM.States
         private readonly CameraSystem _cameraSystem;
 
         private readonly Transform _contextTransform;
+        
+        private readonly AnimationSetup _rotationAnimationSetup;
 
         private ICommunicable _communicable;
         
-        public PlayerCommunicationState(StateType stateType, PointerSystem pointerSystem, CameraSystem cameraSystem, Transform context)
+        public PlayerCommunicationState(StateType stateType, PointerSystem pointerSystem, 
+            CameraSystem cameraSystem, Transform context, AnimationSetup rotationAnimationSetup)
         {
             StateType = stateType;
             _pointerSystem = pointerSystem;
             _cameraSystem = cameraSystem;
             _contextTransform = context;
+            _rotationAnimationSetup = rotationAnimationSetup;
         }
         
         public override void Enter()
@@ -35,10 +41,7 @@ namespace Player.FSM.States
             _cameraSystem.SetCamera(CameraType.FirstPerson);
         }
 
-        public override void Update()
-        {
-            
-        }
+        public override void Update() { }
 
         public override void Exit()
         {
@@ -55,7 +58,8 @@ namespace Player.FSM.States
             directionalRotation.x = 0;
             directionalRotation.z = 0;
 
-            _contextTransform.rotation = directionalRotation;
+            _contextTransform.DORotate(directionalRotation.eulerAngles, _rotationAnimationSetup.AnimationTime)
+                .SetEase(_rotationAnimationSetup.AnimationEase);
         }
     }
 }

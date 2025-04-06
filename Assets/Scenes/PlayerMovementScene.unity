@@ -1331,9 +1331,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 262ace164b5d42a5b42d5effcd3e2781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MovementSystem>k__BackingField: {fileID: 619245491}
-  <PointerSystem>k__BackingField: {fileID: 1367774666}
-  <CameraSystem>k__BackingField: {fileID: 1997928880}
+  _rotationAnimationSetup:
+    <AnimationTime>k__BackingField: 0.3
+    <AnimationEase>k__BackingField: 1
+  _movementSystem: {fileID: 619245491}
+  _pointerSystem: {fileID: 1367774666}
+  _cameraSystem: {fileID: 1997928880}
 --- !u!1 &851033643
 GameObject:
   m_ObjectHideFlags: 0
