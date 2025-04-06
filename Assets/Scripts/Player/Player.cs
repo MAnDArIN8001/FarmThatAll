@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Player.Controls;
 using Player.FSM;
 using Player.FSM.States;
+using Player.CameraControls;
 using UnityEngine;
 using Utiles.FSM;
 using Zenject;
@@ -13,8 +13,8 @@ namespace Player
     {
         [Header("Systems")]
         [field: SerializeField, Space] public MovementSystem MovementSystem { get; private set; }
-
         [field: SerializeField] public PointerSystem PointerSystem { get; private set; }
+        [field: SerializeField] public CameraSystem CameraSystem { get; private set; }
 
         private BaseInput _baseInput;
 
@@ -31,6 +31,7 @@ namespace Player
                                                                         PointerSystem.CheckIsPointReachable(_baseInput.Mouse.Position.ReadValue<Vector2>())),
                 new Transition(StateType.Movement, StateType.Communication, () => MovementSystem.IsMovementDone 
                     && PointerSystem.PointedCommunicable is not null),
+                new Transition(StateType.Communication, StateType.Idle, () => _baseInput.Controls.StopAction.WasPerformedThisFrame()),
                 new Transition(StateType.Movement, StateType.Idle, () => MovementSystem.IsMovementDone)
             };
 
@@ -38,7 +39,7 @@ namespace Player
             {
                 { StateType.Idle, new PlayerIdleState(StateType.Idle) },
                 { StateType.Movement, new PlayerMovementState(StateType.Movement, MovementSystem, PointerSystem, _baseInput) },
-                { StateType.Communication, new PlayerCommunicationState(StateType.Movement, PointerSystem) },
+                { StateType.Communication, new PlayerCommunicationState(StateType.Communication, PointerSystem, CameraSystem, transform) },
             };
 
             _playerStateMachine = new PlayerStateMachine(states, transitions);

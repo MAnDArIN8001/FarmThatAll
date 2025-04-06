@@ -90,6 +90,34 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Controls"",
+            ""id"": ""303dd63d-a6de-4f9a-8227-6f96d79c1aed"",
+            ""actions"": [
+                {
+                    ""name"": ""StopAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""fb81c35b-52e7-4fd0-8047-1cee2efefb3d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4c353a92-2855-4a59-b559-6ab733f1215d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StopAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -99,11 +127,15 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
         m_Mouse_LeftClick = m_Mouse.FindAction("LeftClick", throwIfNotFound: true);
         m_Mouse_Position = m_Mouse.FindAction("Position", throwIfNotFound: true);
         m_Mouse_RightClick = m_Mouse.FindAction("RightClick", throwIfNotFound: true);
+        // Controls
+        m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
+        m_Controls_StopAction = m_Controls.FindAction("StopAction", throwIfNotFound: true);
     }
 
     ~@BaseInput()
     {
         UnityEngine.Debug.Assert(!m_Mouse.enabled, "This will cause a leak and performance issues, BaseInput.Mouse.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Controls.enabled, "This will cause a leak and performance issues, BaseInput.Controls.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -223,10 +255,60 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
+
+    // Controls
+    private readonly InputActionMap m_Controls;
+    private List<IControlsActions> m_ControlsActionsCallbackInterfaces = new List<IControlsActions>();
+    private readonly InputAction m_Controls_StopAction;
+    public struct ControlsActions
+    {
+        private @BaseInput m_Wrapper;
+        public ControlsActions(@BaseInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @StopAction => m_Wrapper.m_Controls_StopAction;
+        public InputActionMap Get() { return m_Wrapper.m_Controls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ControlsActions set) { return set.Get(); }
+        public void AddCallbacks(IControlsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ControlsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ControlsActionsCallbackInterfaces.Add(instance);
+            @StopAction.started += instance.OnStopAction;
+            @StopAction.performed += instance.OnStopAction;
+            @StopAction.canceled += instance.OnStopAction;
+        }
+
+        private void UnregisterCallbacks(IControlsActions instance)
+        {
+            @StopAction.started -= instance.OnStopAction;
+            @StopAction.performed -= instance.OnStopAction;
+            @StopAction.canceled -= instance.OnStopAction;
+        }
+
+        public void RemoveCallbacks(IControlsActions instance)
+        {
+            if (m_Wrapper.m_ControlsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IControlsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ControlsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ControlsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ControlsActions @Controls => new ControlsActions(this);
     public interface IMouseActions
     {
         void OnLeftClick(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
+    }
+    public interface IControlsActions
+    {
+        void OnStopAction(InputAction.CallbackContext context);
     }
 }
