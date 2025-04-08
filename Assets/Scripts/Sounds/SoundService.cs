@@ -7,10 +7,10 @@ namespace Sounds
 {
     public class SoundService : IDisposable
     {
-        private SoundDataConfig _musicSounds;
-        private SoundDataConfig _sfxSounds;
+        private readonly SoundDataConfig _musicSounds;
+        private readonly SoundDataConfig _sfxSounds;
         
-        private AbstractPool<AudioPlayer> _soundPlayersPool;
+        private readonly AbstractPool<AudioPlayer> _soundPlayersPool;
         
         public SoundService(AudioPlayer audioPlayer, SoundDataConfig sfxSounds, SoundDataConfig musicSounds,
             Transform parent ,int minPoolSize, int maxPoolSize)
@@ -21,28 +21,40 @@ namespace Sounds
             _soundPlayersPool = new AbstractPool<AudioPlayer>(audioPlayer, parent, minPoolSize, maxPoolSize);
         }
 
-        public void Play2DSfx(SoundType soundType, float volume)
-        {
-            var sfxClip = _sfxSounds.SoundDataList.Find(x => x.Type == soundType).Sound;
+        public void Play2DSfx(SoundType soundType, float volume) => 
+            Play2DSound(GetSoundClip(_sfxSounds, soundType), volume);
 
-            if (!sfxClip)
+        public void Play2DMusic(SoundType soundType, float volume) => 
+            Play2DSound(GetSoundClip(_musicSounds, soundType), volume);
+
+        public AudioPlayer Play2DSfxLooped(SoundType soundType, float volume) => 
+            Play2DSoundLooped(GetSoundClip(_sfxSounds, soundType), volume);
+
+        public AudioPlayer Play2DMusicLooped(SoundType soundType, float volume) => 
+            Play2DSoundLooped(GetSoundClip(_musicSounds, soundType), volume);
+
+        public void Play3DSfx(SoundType soundType, Transform soundSource, float radius, float volume) => 
+            Play3DSound(GetSoundClip(_sfxSounds, soundType), soundSource, radius, volume);
+
+        public void Play3DMusic(SoundType soundType, Transform soundSource, float radius, float volume) => 
+            Play3DSound(GetSoundClip(_musicSounds, soundType), soundSource, radius, volume);
+
+        public AudioPlayer Play3DSfxLooped(SoundType soundType, Transform soundSource, float radius, float volume) => 
+            Play3DSoundLooped(GetSoundClip(_sfxSounds, soundType), soundSource, radius, volume);
+
+        public AudioPlayer Play3DMusicLooped(SoundType soundType, Transform soundSource, float radius, float volume) => 
+            Play3DSoundLooped(GetSoundClip(_musicSounds, soundType), soundSource, radius, volume);
+
+        private AudioClip GetSoundClip(SoundDataConfig config, SoundType soundType)
+        {
+            var clip = config.SoundDataList.Find(x => x.Type == soundType)?.Sound;
+            
+            if (clip == null)
             {
                 Debug.LogError($"Sound type {soundType} not found in config file!");
             }
             
-            Play2DSound(sfxClip, volume);
-        }
-        
-        public void Play2DMusic(SoundType soundType, float volume)
-        {
-            var musicClip = _musicSounds.SoundDataList.Find(x => x.Type == soundType).Sound;
-
-            if (!musicClip)
-            {
-                Debug.LogError($"Sound type {soundType} not found in config file!");
-            }
-            
-            Play2DSound(musicClip, volume);
+            return clip;
         }
         
         private void Play2DSound(AudioClip clip, float volume)
@@ -54,7 +66,7 @@ namespace Sounds
             sound2DPlayer.OnReleased += ReleaseAudioPlayer;
         }
 
-        private void Play3DSound(Transform parent, AudioClip clip,
+        private void Play3DSound(AudioClip clip, Transform parent,
             float radius = 10f, float volume = 1f)
         {
             var sound3DPlayer = _soundPlayersPool.Get();
@@ -75,7 +87,7 @@ namespace Sounds
             return sound2DPlayer;
         }
         
-        private AudioPlayer Play3DSoundLooped(Transform parent, AudioClip clip,
+        private AudioPlayer Play3DSoundLooped(AudioClip clip, Transform parent,
             float radius = 10f, float volume = 1f)
         {
             var sound3DPlayer = _soundPlayersPool.Get();
