@@ -192,11 +192,11 @@ Transform:
   m_GameObject: {fileID: 82811980}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -9, z: 12.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 970792902}
+  m_Father: {fileID: 244212536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &97495224
 GameObject:
@@ -412,6 +412,7 @@ Transform:
   m_Children:
   - {fileID: 712484260}
   - {fileID: 1386349831}
+  - {fileID: 82811983}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &296779600
@@ -495,6 +496,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 960161272}
   - {fileID: 2002198087}
+  - {fileID: 1519034469}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1136,7 +1138,7 @@ Transform:
   - {fileID: 397265269}
   - {fileID: 2002198086}
   - {fileID: 960161271}
-  - {fileID: 82811983}
+  - {fileID: 1519034468}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1153235970
@@ -1623,6 +1625,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398082207}
   m_CullTransparentMesh: 1
+--- !u!1 &1519034467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1519034468}
+  - component: {fileID: 1519034469}
+  m_Layer: 0
+  m_Name: SoundInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1519034468
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519034467}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 970792902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1519034469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519034467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787755d9265d4f2b96d9f1dfefa439b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxDataSetup: {fileID: 11400000, guid: 5d671a6b83fd370459b0af2cd3530e34, type: 2}
+  musicDataSetup: {fileID: 11400000, guid: f95b441a4e1972c439e7b09f17b036ae, type: 2}
+  audioPlayer: {fileID: 3190760136695728583, guid: 5e7c7c0dea169b04181e8de746f940fe, type: 3}
+  minPoolSize: 1
+  maxPoolSize: 30
 --- !u!1 &1575791481
 GameObject:
   m_ObjectHideFlags: 0

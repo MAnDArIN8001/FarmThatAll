@@ -1,4 +1,5 @@
 ﻿using Building;
+using Sounds;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ namespace UI
     [RequireComponent(typeof(Button))]
     public class BuildingCard : MonoBehaviour
     {
+        public BuildingData buildingDataConfig;
+        
         [SerializeField] private TMP_Text buildingNameText;
         [SerializeField] private TMP_Text buildingDescriptionText;
         [SerializeField] private TMP_Text buildingPriceText;
@@ -16,9 +19,10 @@ namespace UI
         [SerializeField] private Image buildingSprite; 
         
         private Button _buildingCardButton;
+        
         private EventBus _eventBus;
         
-        public BuildingData buildingDataConfig;
+        private SoundService _soundService;
         
         private void OnEnable()
         {
@@ -44,9 +48,11 @@ namespace UI
             _buildingCardButton.onClick.RemoveListener(BuildingSelect);
         }
         
-        public void Initialize(EventBus eventBus)
+        public void Initialize(EventBus eventBus, SoundService soundService)
         {
             _eventBus = eventBus;
+            
+            _soundService = soundService;
         }
 
         private void BuildingSelect()
@@ -63,6 +69,7 @@ namespace UI
                 return;
             }
             
+            _soundService.Play2DSfx(SoundType.UIClick, 1f);
             _eventBus.Publish(buildingDataConfig);
         }
 
