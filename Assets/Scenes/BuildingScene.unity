@@ -782,11 +782,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c8a5c0d22d4d768c160ce131e9dc0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingDataConfig: {fileID: 11400000, guid: 9819b55a390abde4bb98c766b58c4cb7, type: 2}
   buildingNameText: {fileID: 0}
   buildingDescriptionText: {fileID: 0}
   buildingPriceText: {fileID: 0}
   buildingSprite: {fileID: 0}
+  buildingDataConfig: {fileID: 11400000, guid: 9819b55a390abde4bb98c766b58c4cb7, type: 2}
 --- !u!1 &630800756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,11 +1757,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c8a5c0d22d4d768c160ce131e9dc0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingDataConfig: {fileID: 11400000, guid: 94717fd68c4c87b42ba8e9733ca3b567, type: 2}
   buildingNameText: {fileID: 0}
   buildingDescriptionText: {fileID: 0}
   buildingPriceText: {fileID: 0}
   buildingSprite: {fileID: 0}
+  buildingDataConfig: {fileID: 11400000, guid: 94717fd68c4c87b42ba8e9733ca3b567, type: 2}
 --- !u!1 &1604117426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,11 +1896,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c8a5c0d22d4d768c160ce131e9dc0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingDataConfig: {fileID: 11400000, guid: 0d20586a26c2ad644ac86b3aa3e48f0c, type: 2}
   buildingNameText: {fileID: 0}
   buildingDescriptionText: {fileID: 0}
   buildingPriceText: {fileID: 0}
   buildingSprite: {fileID: 0}
+  buildingDataConfig: {fileID: 11400000, guid: 0d20586a26c2ad644ac86b3aa3e48f0c, type: 2}
 --- !u!1 &1737702234
 GameObject:
   m_ObjectHideFlags: 0
