@@ -1,5 +1,6 @@
 using Sounds;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace DI.Installers
@@ -8,15 +9,15 @@ namespace DI.Installers
     {
         private SoundService _soundService;
         
-        [SerializeField] private SoundDataConfig sfxDataConfig;
-        [SerializeField] private SoundDataConfig musicDataConfig;
+        [SerializeField] private SoundDataSetup sfxDataSetup;
+        [SerializeField] private SoundDataSetup musicDataSetup;
         [SerializeField] private AudioPlayer audioPlayer;
         [SerializeField] private int minPoolSize = 1;
         [SerializeField] private int maxPoolSize = 30;
 
         public override void InstallBindings()
         {
-            _soundService = new SoundService(audioPlayer, sfxDataConfig, musicDataConfig,
+            _soundService = new SoundService(audioPlayer, sfxDataSetup, musicDataSetup,
                 transform, minPoolSize, maxPoolSize);
             
             Container.Bind<SoundService>().FromInstance(_soundService).AsSingle().NonLazy();

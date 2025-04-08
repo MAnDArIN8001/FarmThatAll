@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Building;
+using Sounds;
 using UnityEngine;
 using UnityEngine.UI;
 using Utiles.EventSystem;
@@ -15,6 +16,10 @@ namespace UI
     {
         private bool _shopOpenState;
         
+        [Inject] private EventBus _eventBus;
+        
+        [Inject] private SoundService _soundService;
+        
         [SerializeField] private Button shopToggleButton;
         
         [SerializeField] private GameObject cardPrefab;
@@ -24,8 +29,6 @@ namespace UI
         private CanvasGroup _canvasGroup;
         
         private List<GameObject> _buildingsCards = new List<GameObject>();
-        
-        [Inject] private EventBus _eventBus;
         
         private void OnEnable()
         {
@@ -49,7 +52,7 @@ namespace UI
             
             if (shopToggleButton)
             {
-                shopToggleButton.onClick.AddListener(ToggleShop);
+                shopToggleButton.onClick.AddListener(OnButtonClicked);
             }
         }
 
@@ -57,7 +60,7 @@ namespace UI
         {
             if (shopToggleButton)
             {
-                shopToggleButton.onClick.RemoveListener(ToggleShop);
+                shopToggleButton.onClick.RemoveListener(OnButtonClicked);
             }
         }
 
@@ -65,6 +68,11 @@ namespace UI
         {
             _shopOpenState = !_shopOpenState;
 
+            if (_shopOpenState)
+            {
+               
+            }
+            
             if (_shopOpenState)
             {
                 foreach (var buildingData in buildingDataList)
@@ -95,7 +103,7 @@ namespace UI
             
             if (_eventBus != null)
             {
-                cardComponent.Initialize(_eventBus);
+                cardComponent.Initialize(_eventBus, _soundService);
             }
             
             card.name = $"{buildingData.Name.ToLower()}_card";
@@ -103,9 +111,15 @@ namespace UI
             return card;
         }
 
-
         private void BuildingSelectedHandler(BuildingData buildingData)
         {
+            ToggleShop();
+        }
+
+        private void OnButtonClicked()
+        {
+            _soundService.Play2DSfx(SoundType.UIClick, 1f);
+            
             ToggleShop();
         }
     }

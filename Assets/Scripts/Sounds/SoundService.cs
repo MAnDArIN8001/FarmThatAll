@@ -7,12 +7,12 @@ namespace Sounds
 {
     public class SoundService : IDisposable
     {
-        private readonly SoundDataConfig _musicSounds;
-        private readonly SoundDataConfig _sfxSounds;
+        private readonly SoundDataSetup _musicSounds;
+        private readonly SoundDataSetup _sfxSounds;
         
         private readonly AbstractPool<AudioPlayer> _soundPlayersPool;
         
-        public SoundService(AudioPlayer audioPlayer, SoundDataConfig sfxSounds, SoundDataConfig musicSounds,
+        public SoundService(AudioPlayer audioPlayer, SoundDataSetup sfxSounds, SoundDataSetup musicSounds,
             Transform parent ,int minPoolSize, int maxPoolSize)
         {
             _sfxSounds = sfxSounds;
@@ -45,9 +45,9 @@ namespace Sounds
         public AudioPlayer Play3DMusicLooped(SoundType soundType, Transform soundSource, float radius, float volume) => 
             Play3DSoundLooped(GetSoundClip(_musicSounds, soundType), soundSource, radius, volume);
 
-        private AudioClip GetSoundClip(SoundDataConfig config, SoundType soundType)
+        private AudioClip GetSoundClip(SoundDataSetup setup, SoundType soundType)
         {
-            var clip = config.SoundDataList.Find(x => x.Type == soundType)?.Sound;
+            var clip = setup.SoundDataList.Find(x => x.Type == soundType)?.Sound;
             
             if (clip == null)
             {
