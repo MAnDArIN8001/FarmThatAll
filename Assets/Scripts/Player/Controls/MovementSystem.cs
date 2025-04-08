@@ -23,6 +23,8 @@ namespace Player.Controls
 
         public void SetDestination(Vector3 point)
         {
+            _agent.isStopped = false;
+            
             if (_agent is null)
             {
                 Debug.LogError($"Agent for {this} system doesnt initialized");
@@ -33,6 +35,12 @@ namespace Player.Controls
             _agent.SetDestination(point);
 
             IsMovementDone = false;
+        }
+
+        public void BreakMovement()
+        {
+            IsMovementDone = true;
+            _agent.isStopped = true;
         }
     }
 }

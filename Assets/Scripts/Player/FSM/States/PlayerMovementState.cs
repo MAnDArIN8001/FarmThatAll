@@ -8,15 +8,18 @@ namespace Player.FSM.States
     public class PlayerMovementState : State
     {
         private readonly MovementSystem _movementSystem;
+        private readonly PointerSystem _pointerSystem;
 
         private readonly BaseInput _input;
 
         private readonly Camera _mainCamera;
         
-        public PlayerMovementState(StateType stateType, MovementSystem movementSystem, BaseInput input)
+        public PlayerMovementState(StateType stateType, MovementSystem movementSystem, PointerSystem pointerSystem, BaseInput input)
         {
             StateType = stateType;
+            
             _movementSystem = movementSystem;
+            _pointerSystem = pointerSystem;
             _input = input;
             _mainCamera = Camera.main;
         }
@@ -25,14 +28,16 @@ namespace Player.FSM.States
         {
             ComputeDestination();
 
-            _input.Mouse.Click.performed += HandleClick;
+            _input.Mouse.LeftClick.performed += HandleClick;
         }
 
         public override void Update() { }
 
         public override void Exit()
         {
-            _input.Mouse.Click.performed -= HandleClick;
+            _input.Mouse.LeftClick.performed -= HandleClick;
+            
+            _movementSystem.BreakMovement();
         }
 
         private void HandleClick(InputAction.CallbackContext context)
@@ -42,13 +47,9 @@ namespace Player.FSM.States
 
         private void ComputeDestination()
         {
-            var mousePosition = _input.Mouse.Position.ReadValue<Vector2>();
-
-            var ray = _mainCamera.ScreenPointToRay(mousePosition);
-
-            if (Physics.Raycast(ray, out var hitInfo))
+            if (_pointerSystem.CheckIsPointReachable(_input.Mouse.Position.ReadValue<Vector2>()))
             {
-                _movementSystem.SetDestination(hitInfo.point);
+                _movementSystem.SetDestination(_pointerSystem.LastValidPoint);
             }
         }
     }

@@ -4,6 +4,7 @@ namespace Utiles.FSM
     {
         Idle,
         Movement,
-        Active
+        Active,
+        Communication
     }
 }

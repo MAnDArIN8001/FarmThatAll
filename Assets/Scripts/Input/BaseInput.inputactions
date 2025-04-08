@@ -6,7 +6,7 @@
             "id": "d5ddcac3-0389-4609-9e20-ae0781536142",
             "actions": [
                 {
-                    "name": "Click",
+                    "name": "LeftClick",
                     "type": "Button",
                     "id": "09916e9d-24a0-4435-ad46-67301bddda82",
                     "expectedControlType": "",
@@ -41,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Click",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -64,6 +64,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Controls",
+            "id": "303dd63d-a6de-4f9a-8227-6f96d79c1aed",
+            "actions": [
+                {
+                    "name": "StopAction",
+                    "type": "Button",
+                    "id": "fb81c35b-52e7-4fd0-8047-1cee2efefb3d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4c353a92-2855-4a59-b559-6ab733f1215d",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StopAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

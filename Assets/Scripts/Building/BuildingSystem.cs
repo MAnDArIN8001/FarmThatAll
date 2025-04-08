@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Building.BuildingSystemStates;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Utiles.EventSystem;
 using Utiles.FSM;
 using Zenject;
 
@@ -9,23 +9,29 @@ namespace Building
 {
     public class BuildingSystem : MonoBehaviour
     {
-        [SerializeField] private Material buildingShapeMaterial;
+        private bool _isBuildingSelected;
         
-        [SerializeField] private Building buildingToPlace;
+        [SerializeField] private Material buildingShapeMaterial;
         
         private BuildingStateMachine _buildingStateMachine;
         private BuildingActiveState _buildingActiveState;
+        
         private BaseInput _input;
-
+        
+        private EventBus _eventBus;
+        
         [Inject]
-        private void Initialize(BaseInput input)
+        private void Initialize(BaseInput input, EventBus eventBus)
         {
             _input = input;
-
+            _eventBus = eventBus;
+            
+            _eventBus.Subscribe<BuildingData>(BuildingSelectedHandler);
+            
             if (_buildingActiveState == null)
             {
                 _buildingActiveState =
-                    new BuildingActiveState(StateType.Active, buildingToPlace, buildingShapeMaterial, _input);
+                    new BuildingActiveState(StateType.Active, _eventBus, buildingShapeMaterial, _input);
             }
             
             var states = new Dictionary<StateType, State>()
@@ -37,7 +43,7 @@ namespace Building
             var transitions = new List<Transition>()
             {
                 new Transition(StateType.Idle, StateType.Active,
-                    () => _input.Mouse.Click.WasPerformedThisFrame()),
+                    () => _isBuildingSelected),
                 new Transition(StateType.Active, StateType.Idle,
                     () => _input.Mouse.RightClick.WasPerformedThisFrame())
             };
@@ -48,6 +54,16 @@ namespace Building
         private void Update()
         {
             _buildingStateMachine?.Update();
+
+            if (_isBuildingSelected)
+            {
+                _isBuildingSelected = false;
+            }
+        }
+
+        private void BuildingSelectedHandler(BuildingData buildingData)
+        {
+            _isBuildingSelected = true;
         }
     }
 }

@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2121850401e4eac84d2b5f48626a733, type: 3}
-  m_Name: Test building
+  m_Name: EnergyStorageBuildingShapeConfig
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Name
-  <Description>k__BackingField: 
-  <BuildingPrefab>k__BackingField: {fileID: 0}
-  <InteractionWithObjectsOffset>k__BackingField: 1
+  <Name>k__BackingField: EnergyStorage
+  <Description>k__BackingField: ES is bullshit
+  <Price>k__BackingField: 12
+  <Sprite>k__BackingField: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  <BuildingPrefab>k__BackingField: {fileID: 967583889592381688, guid: b4fc4a0ca0e75b448b3a2a8b4675adeb, type: 3}
+  <InteractionWithObjectsOffset>k__BackingField: 0.1
   <TerrainLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
