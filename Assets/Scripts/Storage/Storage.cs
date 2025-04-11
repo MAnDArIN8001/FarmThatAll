@@ -49,6 +49,13 @@ namespace Storage
 
         public void IncreaseItem(ItemType itemType, int increaseCount)
         {
+            if (increaseCount < 0)
+            {
+                Debug.LogError($"Increase value cant be less than zero");
+
+                return;
+            }
+            
             if (!_storage.TryGetValue(itemType, out var item))
             {
                 _storage.Add(itemType, new StorageItem(GetItemOfType(itemType)));
@@ -61,6 +68,13 @@ namespace Storage
 
         public void DecreaseItem(ItemType itemType, int decreaseCount)
         {
+            if (decreaseCount < 0)
+            {
+                Debug.LogError($"Decrease value can't be less than zero");
+
+                return;
+            }
+            
             if (!_storage.TryGetValue(itemType, out var item))
             {
                 Debug.LogError($"The storage {this} doesn't contain any item with type {itemType}");
