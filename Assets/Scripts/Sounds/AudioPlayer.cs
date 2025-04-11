@@ -10,8 +10,6 @@ namespace Sounds
     public class AudioPlayer : MonoBehaviour, IPoolable
     {
         private AudioSource _audioSource;
-
-        private AudioClip _currentAudioClip;
         
         private Coroutine _waitCoroutine;
         
@@ -27,14 +25,19 @@ namespace Sounds
             transform.position = Vector3.zero;
         }
 
-        public void PlayEffect(AudioClip clip, Transform parent, float volume, float radius, bool isLooped)
+        public void Play(AudioClip clip, Transform parent, float volume, float radius, bool isLooped)
         {
             _audioSource.transform.SetParent(parent);
+            _audioSource.transform.localPosition = Vector3.zero;
+            
+            _audioSource.spatialize = true;
+            _audioSource.spatialBlend = 1;
             
             _audioSource.clip = clip;
             _audioSource.volume = volume;
             _audioSource.loop = isLooped;
-            
+
+            _audioSource.minDistance = radius / 2;
             _audioSource.maxDistance = radius;
             
             _audioSource.Play();
@@ -45,8 +48,14 @@ namespace Sounds
             }
         }
         
-        public void PlayEffect(AudioClip clip, float volume, bool isLooped)
+        public void Play(AudioClip clip, float volume, bool isLooped)
         {
+            _audioSource.transform.SetParent(null);
+            _audioSource.transform.localPosition = Vector3.zero;
+            
+            _audioSource.spatialize = false;
+            _audioSource.spatialBlend = 0;
+            
             _audioSource.clip = clip;
             _audioSource.volume = volume;
             _audioSource.loop = isLooped;
