@@ -4,6 +4,5 @@ namespace Sounds
     {
         BuildingPlace,
         UIClick,
-        VineBoom
     }
 }

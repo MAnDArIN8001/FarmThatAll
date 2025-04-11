@@ -52,16 +52,20 @@ namespace Sounds
             if (clip == null)
             {
                 Debug.LogError($"Sound type {soundType} not found in config file!");
+
+                return null;
             }
-            
+
             return clip;
         }
         
         private void Play2DSound(AudioClip clip, float volume)
         {
+            if (clip == null) return;
+            
             var sound2DPlayer = _soundPlayersPool.Get();
             
-            sound2DPlayer.PlayEffect(clip, volume, false);
+            sound2DPlayer.Play(clip, volume, false);
                 
             sound2DPlayer.OnReleased += ReleaseAudioPlayer;
         }
@@ -69,18 +73,22 @@ namespace Sounds
         private void Play3DSound(AudioClip clip, Transform parent,
             float radius = 10f, float volume = 1f)
         {
+            if (clip == null) return;
+            
             var sound3DPlayer = _soundPlayersPool.Get();
 
-            sound3DPlayer.PlayEffect(clip, parent, volume, radius, false);
+            sound3DPlayer.Play(clip, parent, volume, radius, false);
 
             sound3DPlayer.OnReleased += ReleaseAudioPlayer;
         }
 
         private AudioPlayer Play2DSoundLooped(AudioClip clip, float volume)
         {
+            if (clip == null) return null;
+            
             var sound2DPlayer = _soundPlayersPool.Get();
             
-            sound2DPlayer.PlayEffect(clip, volume, true);
+            sound2DPlayer.Play(clip, volume, true);
                 
             sound2DPlayer.OnReleased += ReleaseAudioPlayer;
 
@@ -90,9 +98,11 @@ namespace Sounds
         private AudioPlayer Play3DSoundLooped(AudioClip clip, Transform parent,
             float radius = 10f, float volume = 1f)
         {
+            if (clip == null) return null;
+            
             var sound3DPlayer = _soundPlayersPool.Get();
             
-            sound3DPlayer.PlayEffect(clip, parent, volume, radius, true);
+            sound3DPlayer.Play(clip, parent, volume, radius, true);
 
             sound3DPlayer.OnReleased += ReleaseAudioPlayer;
             
