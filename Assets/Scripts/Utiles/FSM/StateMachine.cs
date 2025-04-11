@@ -1,33 +1,33 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Utiles.FSM;
 
-namespace Player.FSM
+namespace Utiles.FSM
 {
-    public class PlayerStateMachine : IDisposable
+    public class StateMachine : IDisposable
     {
-        private Dictionary<StateType, State> _states;
+        public virtual event Action<StateType> OnStateChanged;
+        
+        private readonly Dictionary<StateType, State> _states;
 
-        private List<Transition> _transitions;
+        private readonly List<Transition> _transitions;
 
         private State _currentState;
 
-        public PlayerStateMachine(Dictionary<StateType, State> states, List<Transition> transitions)
+        public StateMachine(Dictionary<StateType, State> states, List<Transition> transitions, StateType initialState)
         {
             _states = states;
             _transitions = transitions;
-
-            SetState(StateType.Idle);
+            
+            SetState(initialState);
         }
 
-        public void Update()
+        public virtual void Update()
         {
             _currentState?.Update();
         }
 
-        public void LateUpdate()
+        public virtual void LateUpdate()
         {
             for (int i = 0; i < _transitions.Count; i++)
             {
@@ -40,7 +40,7 @@ namespace Player.FSM
             }
         }
 
-        private void SetState(StateType stateType)
+        protected virtual void SetState(StateType stateType)
         {
             if (!_states.TryGetValue(stateType, out var state))
             {
@@ -54,7 +54,7 @@ namespace Player.FSM
             _currentState.Enter();
         }
 
-        private void AddTransition(Transition newTransition)
+        protected virtual void AddTransition(Transition newTransition)
         {
             if (_transitions.Contains(newTransition))
             {
@@ -66,7 +66,7 @@ namespace Player.FSM
             _transitions.Add(newTransition);
         }
 
-        private void AddState(StateType stateType, State state)
+        protected virtual void AddState(StateType stateType, State state)
         {
             if (_states.ContainsKey(stateType))
             {
