@@ -23,7 +23,7 @@ namespace Player
 
         private BaseInput _baseInput;
 
-        private PlayerStateMachine _playerStateMachine;
+        private StateMachine _stateMachine;
 
         [Inject]
         private void Initialize(BaseInput input)
@@ -54,17 +54,17 @@ namespace Player
                 { StateType.Communication, new PlayerCommunicationState(StateType.Communication, _pointerSystem, _cameraSystem, transform, _rotationAnimationSetup) },
             };
 
-            _playerStateMachine = new PlayerStateMachine(states, transitions);
+            _stateMachine = new StateMachine(states, transitions, StateType.Idle);
         }
 
         private void Update()
         {
-            _playerStateMachine?.Update();
+            _stateMachine?.Update();
         }
 
         private void LateUpdate()
         {
-            _playerStateMachine?.LateUpdate();
+            _stateMachine?.LateUpdate();
         }
     }
 }
