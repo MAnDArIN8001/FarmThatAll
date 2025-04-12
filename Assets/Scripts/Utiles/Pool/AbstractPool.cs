@@ -48,6 +48,7 @@ namespace Utiles.Pool
         public T Get() => _objectPool.Get();
         
         public void Release(T objectToRelease) => _objectPool.Release(objectToRelease);
+        
         public void Dispose() => _objectPool.Clear();
     }
 }
