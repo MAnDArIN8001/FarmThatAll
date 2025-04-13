@@ -8,7 +8,12 @@ namespace Player
         [field: SerializeField] public Transform CommunicationTransform { get; private set; }
         [field: SerializeField] public Transform CommunicationViewpointTransform { get; private set; }
 
-        public void Communicate()
+        public void StartCommunication()
+        {
+            
+        }
+
+        public void StopCommunication()
         {
 
         }
