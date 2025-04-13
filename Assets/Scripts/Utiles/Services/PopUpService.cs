@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UI.PopUp;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Utiles.Services
 {
@@ -41,7 +42,7 @@ namespace Utiles.Services
 
             if (_cachedPopUps.TryGetValue(typeOfPopUp, out var cachedPopUp))
             {
-               popUp = (T)GameObject.Instantiate(cachedPopUp, _globalCanvas.transform);;
+               popUp = (T)GameObject.Instantiate(cachedPopUp, _globalCanvas.transform);
                
                return true;
             }
@@ -104,6 +105,8 @@ namespace Utiles.Services
             if (_activePopUps.TryGetValue(typeOfPopUp, out var activePopUp))
             {
                 activePopUp.Close();
+                
+                Debug.Log($"Close {typeOfPopUp}");
             }
         }
 
@@ -115,7 +118,7 @@ namespace Utiles.Services
             {
                 _inactivePopUps.Remove(typeOfPopUp);
             }
-            
+
             _activePopUps.Add(typeOfPopUp, popUp);
 
             popUp.OnPopUpOpened -= HandlePopUpOpened;
@@ -132,12 +135,10 @@ namespace Utiles.Services
             if (!popUp.MustBeDestroyed)
             {
                 _inactivePopUps.Add(typeOfPopUp, popUp);
-                
-                popUp.OnPopUpOpened += HandlePopUpOpened;
             }
             else
             {
-                GameObject.Destroy(popUp);
+                Object.Destroy(popUp.gameObject);
             }
         }
 
