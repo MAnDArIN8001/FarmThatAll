@@ -115,6 +115,8 @@ namespace Utiles.Services
             {
                 _inactivePopUps.Remove(typeOfPopUp);
             }
+            
+            _activePopUps.Add(typeOfPopUp, popUp);
 
             _activePopUps.Add(typeOfPopUp, popUp);
             
@@ -137,7 +139,7 @@ namespace Utiles.Services
         }
 
         public void Dispose()
-        {
+        {   
             foreach (var popUp in _activePopUps.Values)
             {
                 popUp.OnPopUpClosed -= HandlePopUpClosed;

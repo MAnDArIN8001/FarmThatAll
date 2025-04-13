@@ -36,7 +36,7 @@ namespace Player.FSM.States
             
             _communicable = _pointerSystem.PointedCommunicable;
             
-            _communicable.Communicate();
+            _communicable.StartCommunication();
             
             _cameraSystem.SetCamera(CameraType.FirstPerson);
         }
