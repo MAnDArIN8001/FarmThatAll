@@ -125,15 +125,20 @@ namespace Utiles.Services
         {
             var typeOfPopUp = popUp.GetType();
             
+            _activePopUps.Remove(typeOfPopUp);
+            
+            popUp.OnPopUpClosed -= HandlePopUpClosed;
+
             if (!popUp.MustBeDestroyed)
             {
-                _activePopUps.Remove(typeOfPopUp);
                 _inactivePopUps.Add(typeOfPopUp, popUp);
                 
                 popUp.OnPopUpOpened += HandlePopUpOpened;
             }
-            
-            popUp.OnPopUpClosed -= HandlePopUpClosed;
+            else
+            {
+                GameObject.Destroy(popUp);
+            }
         }
 
         public void Dispose()
