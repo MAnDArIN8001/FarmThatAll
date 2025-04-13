@@ -22,8 +22,8 @@ namespace Building.Factory
         {
             SteelFactory = GetComponent<FactoryBuilding>();
         }
-
-        public void Communicate()
+        
+        public void StartCommunication()
         {
             _popUpService.OpenPopUp(Vector3.zero, out _popUp);
             
@@ -32,7 +32,7 @@ namespace Building.Factory
             _popUp.steelFactory = SteelFactory; 
         }
 
-        public void CloseCommunication()
+        public void StopCommunication()
         {
             _popUpService.ClosePopUp<SteelFactoryPopUp>();
         }
