@@ -114,9 +114,10 @@ namespace Utiles.Services
             if (_inactivePopUps.ContainsValue(popUp))
             {
                 _inactivePopUps.Remove(typeOfPopUp);
-                _activePopUps.Add(typeOfPopUp, popUp);
             }
 
+            _activePopUps.Add(typeOfPopUp, popUp);
+            
             popUp.OnPopUpOpened -= HandlePopUpOpened;
         }
 

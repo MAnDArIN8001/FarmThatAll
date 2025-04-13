@@ -8,5 +8,7 @@ namespace Communication
         public Transform CommunicationViewpointTransform { get; }
 
         public void Communicate();
+        
+        public void CloseCommunication();
     }
 }

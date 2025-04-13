@@ -12,5 +12,10 @@ namespace Player
         {
 
         }
+
+        public void CloseCommunication()
+        {
+            
+        }
     }
 }

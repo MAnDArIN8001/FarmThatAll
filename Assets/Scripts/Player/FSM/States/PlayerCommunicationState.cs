@@ -45,6 +45,8 @@ namespace Player.FSM.States
 
         public override void Exit()
         {
+            _communicable.CloseCommunication();
+            
             _cameraSystem.SetCamera(CameraType.ThirdPerson);
         }
 
