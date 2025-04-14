@@ -35,6 +35,12 @@ namespace Building.Factory
         public void StopCommunication()
         {
             _popUpService.ClosePopUp<SteelFactoryPopUp>();
+            
+            Debug.Log($"{_popUp} stopped");
+            
+            _popUp = null;
+            
+            Debug.Log($"{_popUp}");
         }
     }
 }

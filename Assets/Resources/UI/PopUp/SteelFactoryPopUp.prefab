@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MustBeCached>k__BackingField: 0
-  <MustBeDestroyed>k__BackingField: 0
+  <MustBeDestroyed>k__BackingField: 1
   collectButton: {fileID: 7681152072743136704}
   titleText: {fileID: 7337960017513410112}
   itemCount: {fileID: 7264516104756861631}
