@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Utiles;
 using Utiles.Pool;
@@ -21,33 +22,33 @@ namespace Sounds
             _soundPlayersPool = new AbstractPool<AudioPlayer>(audioPlayer, parent, minPoolSize, maxPoolSize);
         }
 
-        public void Play2DSfx(SoundType soundType, float volume) => 
+        public void Play2DSfx(string soundType, float volume) => 
             Play2DSound(GetSoundClip(_sfxSounds, soundType), volume);
 
-        public void Play2DMusic(SoundType soundType, float volume) => 
+        public void Play2DMusic(string soundType, float volume) => 
             Play2DSound(GetSoundClip(_musicSounds, soundType), volume);
 
-        public AudioPlayer Play2DSfxLooped(SoundType soundType, float volume) => 
+        public AudioPlayer Play2DSfxLooped(string soundType, float volume) => 
             Play2DSoundLooped(GetSoundClip(_sfxSounds, soundType), volume);
 
-        public AudioPlayer Play2DMusicLooped(SoundType soundType, float volume) => 
+        public AudioPlayer Play2DMusicLooped(string soundType, float volume) => 
             Play2DSoundLooped(GetSoundClip(_musicSounds, soundType), volume);
 
-        public void Play3DSfx(SoundType soundType, Transform soundSource, float radius, float volume) => 
+        public void Play3DSfx(string soundType, Transform soundSource, float radius, float volume) => 
             Play3DSound(GetSoundClip(_sfxSounds, soundType), soundSource, radius, volume);
 
-        public void Play3DMusic(SoundType soundType, Transform soundSource, float radius, float volume) => 
+        public void Play3DMusic(string soundType, Transform soundSource, float radius, float volume) => 
             Play3DSound(GetSoundClip(_musicSounds, soundType), soundSource, radius, volume);
 
-        public AudioPlayer Play3DSfxLooped(SoundType soundType, Transform soundSource, float radius, float volume) => 
+        public AudioPlayer Play3DSfxLooped(string soundType, Transform soundSource, float radius, float volume) => 
             Play3DSoundLooped(GetSoundClip(_sfxSounds, soundType), soundSource, radius, volume);
 
-        public AudioPlayer Play3DMusicLooped(SoundType soundType, Transform soundSource, float radius, float volume) => 
+        public AudioPlayer Play3DMusicLooped(string soundType, Transform soundSource, float radius, float volume) => 
             Play3DSoundLooped(GetSoundClip(_musicSounds, soundType), soundSource, radius, volume);
 
-        private AudioClip GetSoundClip(SoundDataSetup setup, SoundType soundType)
+        private AudioClip GetSoundClip(SoundDataSetup setup, string soundType)
         {
-            var clip = setup.SoundDataList.Find(x => x.Type == soundType)?.Sound;
+            var clip = setup.SoundDataList.ToList().Find(x => x.SoundId == soundType)?.Sound;
             
             if (clip == null)
             {
