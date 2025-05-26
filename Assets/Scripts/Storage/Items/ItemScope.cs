@@ -5,6 +5,7 @@ namespace Storage.Items
         Seed,
         Module,
         Resource,
-        Food
+        Food,
+        Default
     }
 }

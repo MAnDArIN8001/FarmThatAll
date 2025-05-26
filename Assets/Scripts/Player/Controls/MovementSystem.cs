@@ -13,11 +13,11 @@ namespace Player.Controls
 
         private void LateUpdate()
         {
-            if (IsMovementDone)
+            if (IsMovementDone || _agent.pathPending)
             {
                 return;
             }
-
+            
             IsMovementDone = _agent.remainingDistance <= _agent.stoppingDistance;
         }
 
@@ -27,8 +27,6 @@ namespace Player.Controls
             
             if (_agent is null)
             {
-                Debug.LogError($"Agent for {this} system doesnt initialized");
-
                 return;
             }
 

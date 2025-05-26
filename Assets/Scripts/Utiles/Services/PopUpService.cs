@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using UI.PopUp;
 using UnityEngine;
 using Utiles.Factory;
+using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 namespace Utiles.Services
@@ -53,7 +54,12 @@ namespace Utiles.Services
             
             var pathToPopUp = _popUpDirectoryPath + typeOfPopUp.Name;
 
+            var stopWatch = Stopwatch.StartNew();
+
             var popUpFromResources = Resources.Load<T>(pathToPopUp);
+            
+            stopWatch.Stop();
+            Debug.Log(stopWatch.ElapsedMilliseconds);
 
             if (popUpFromResources is not null)
             {

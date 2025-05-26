@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c950ae83a8443f81a2d6917c5ad823, type: 3}
   m_Name: MusicSoundSetup
   m_EditorClassIdentifier: 
-  <SoundDataList>k__BackingField: []
+  _soundDataList:
+  - <SoundId>k__BackingField: test
+    <Sound>k__BackingField: {fileID: 0}
+  - <SoundId>k__BackingField: testSound
+    <Sound>k__BackingField: {fileID: 0}
+  - <SoundId>k__BackingField: testMusic
+    <Sound>k__BackingField: {fileID: 0}

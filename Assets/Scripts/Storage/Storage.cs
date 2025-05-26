@@ -37,15 +37,19 @@ namespace Storage
                 .ToList();
         }
 
-        public int GetItemsCount(ItemType itemType)
+        public StorageItem GetItemOfType(ItemType itemType)
         {
-            if (_storage.TryGetValue(itemType, out var item))
+            if (!_storage.TryGetValue(itemType, out var item))
             {
-                return item.Count;
+                Debug.LogError($"The storage {this} doesnt contains any item of type {itemType}");
+
+                return null;
             }
-            
-            return 0;
+
+            return item;
         }
+
+        public int GetItemsCount(ItemType itemType) => _storage.TryGetValue(itemType, out var item) ? item.Count : 0;
 
         public void IncreaseItem(ItemType itemType, int increaseCount)
         {
@@ -58,7 +62,7 @@ namespace Storage
             
             if (!_storage.TryGetValue(itemType, out var item))
             {
-                _storage.Add(itemType, new StorageItem(GetItemOfType(itemType)));
+                _storage.Add(itemType, new StorageItem(GetItemOfTypeFromSetup(itemType), GetScopeOfItem(itemType)));
             }
             
             _storage[itemType].Count += increaseCount;
@@ -77,7 +81,7 @@ namespace Storage
             
             if (!_storage.TryGetValue(itemType, out var item))
             {
-                Debug.LogError($"The storage {this} doesn't contain any item with type {itemType}");
+                Debug.LogError($"The storage doesn't contain any item with type {itemType}");
 
                 return;
             }
@@ -90,11 +94,16 @@ namespace Storage
             }
             
             item.Count -= decreaseCount;
+
+            if (item.Count == 0)
+            {
+                _storage.Remove(itemType);
+            }
             
             OnStorageItemChanged?.Invoke(itemType);
         }
 
-        private Item GetItemOfType(ItemType itemType)
+        private Item GetItemOfTypeFromSetup(ItemType itemType)
         {
             var item = _setup.ItemBindings
                 .SelectMany(binding => binding.Items)
@@ -108,6 +117,21 @@ namespace Storage
             }
             
             return item;
+        }
+
+        private ItemScope GetScopeOfItem(ItemType itemType)
+        {
+            var itemBinding = _setup.ItemBindings.FirstOrDefault(itemBinding =>
+                itemBinding.Items.Any(item => item.ItemType == itemType));
+
+            if (itemBinding is null)
+            {
+                Debug.LogError($"Setup doesn't contains any item for with type {itemType}");
+
+                return ItemScope.Default;
+            }
+
+            return itemBinding.ItemScope;
         }
         
         public void Dispose()
