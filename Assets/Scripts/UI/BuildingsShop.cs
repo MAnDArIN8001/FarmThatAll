@@ -118,7 +118,7 @@ namespace UI
 
         private void OnButtonClicked()
         {
-            _soundService.Play2DSfx(SoundType.UIClick, 1f);
+            _soundService.Play2DSfx("UI click", 1f);
             
             ToggleShop();
         }
