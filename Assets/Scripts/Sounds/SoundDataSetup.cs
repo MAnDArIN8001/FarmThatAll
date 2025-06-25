@@ -1,28 +1,22 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utiles.CodGenerator;
+using UnityEngine.Audio;
 
 namespace Sounds
 {
-    [CreateAssetMenu(fileName = "New SoundConfig", menuName = "Sounds/SoundConfig")]
+    [CreateAssetMenu(menuName = "Setup/SoundDataSetup", fileName = "NewSoundDataSetup", order = 1)]
     public class SoundDataSetup : ScriptableObject
     {
-        [field: SerializeField] private List<SoundData> _soundDataList;
-
-        public IReadOnlyList<SoundData> SoundDataList => _soundDataList;
-        
-        [ContextMenu("Generate SoundIds")]
-        public void GenerateSoundIds()
-        {
-            SoundIDsGenerator.GenerateFromConfig(this);
-        }
+        [SerializeField] private List<SoundData> soundDataList;
+        public IReadOnlyList<SoundData> SoundDataList => soundDataList;
     }
     
     [Serializable]
     public class SoundData
     {
-        [field: SerializeField] public string SoundId { get; private set; }
-        [field: SerializeField] public AudioClip Sound { get; private set; }
+        [field: SerializeField] public string Type { get; private set; }
+        
+        [field: SerializeField] public List<AudioClip> Sound { get; private set; }
     }
 }
