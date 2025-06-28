@@ -30,16 +30,21 @@ namespace Sounds
 
         private AudioClip GetSoundClip(SoundDataSetup setup, string soundType)
         {
-            var clips = setup.SoundDataList.First(x => x.Type == soundType)?.Sound;
-            
-            if (clips.Count == 0)
+            if (!setup.TryGetSoundData(soundType, out var soundData))
             {
-                Debug.LogError($"Sound type {soundType} not found in config file!");
+                Debug.LogWarning($"Sound type {soundType} not found in config file!");
+                
+                return null;
+            }
+            
+            if (soundData.Sound.Count == 0)
+            {
+                Debug.LogWarning($"Sound type {soundType} has 0 audio clips");
 
                 return null;
             }
             
-            var clip = clips[Random.Range(0, clips.Count)];
+            var clip = soundData.Sound[Random.Range(0, soundData.Sound.Count)];
 
             return clip;
         }
@@ -52,6 +57,11 @@ namespace Sounds
                 return null;
 
             var audioPlayer = _audioPlayersPool.Get();
+            
+            if (_mixersSetup.TryGetMixer(soundType, out var mixer))
+            {
+                audioPlayer.SetMixerGroup(mixer);
+            }
             
             audioPlayer.Play(clip, isLooped);
             audioPlayer.OnReleased += ReleaseAudioPlayer;

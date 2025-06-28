@@ -10,6 +10,29 @@ namespace Sounds
     {
         [SerializeField] private List<SoundData> soundDataList;
         public IReadOnlyList<SoundData> SoundDataList => soundDataList;
+
+        public bool TryGetSoundData(string soundType, out SoundData soundData)
+        {
+            if (SoundDataList.Count <= 0)
+            {
+                soundData = null;
+                return false;
+            }
+
+            for (int i = 0; i < soundDataList.Count; i++)
+            {
+                if (soundDataList[i].Type != soundType)
+                {
+                    continue;
+                }
+                
+                soundData = SoundDataList[i];
+                return true;
+            }
+            
+            soundData = null;
+            return false;
+        }
     }
     
     [Serializable]

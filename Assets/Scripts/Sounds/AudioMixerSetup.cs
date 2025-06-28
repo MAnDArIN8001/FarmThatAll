@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 
 namespace Sounds
 {
-    [CreateAssetMenu(menuName = "Setup/NewAudioMixerSetup", fileName = "NewAudioMixerSetup", order = 1)]
+    [CreateAssetMenu(menuName = "Setup/AudioMixerSetup", fileName = "NewAudioMixerSetup", order = 1)]
     public class AudioMixerSetup : ScriptableObject
     {
        [SerializeField] private List<AudioMixerData> audioMixers;
