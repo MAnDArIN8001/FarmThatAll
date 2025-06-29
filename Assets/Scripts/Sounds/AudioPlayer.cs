@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Audio;
 using Utiles.Pool;
 
 namespace Sounds
@@ -12,6 +13,8 @@ namespace Sounds
         private AudioSource _audioSource;
         
         private Coroutine _waitCoroutine;
+
+        private YieldInstruction _waitDuration;
         
         public event Action<AudioPlayer> OnReleased;
         
@@ -25,7 +28,12 @@ namespace Sounds
             transform.position = Vector3.zero;
         }
 
-        public void Play(AudioClip clip, Transform parent, float volume, float radius, bool isLooped)
+        public void SetMixerGroup(AudioMixerGroup mixerGroup)
+        {
+            _audioSource.outputAudioMixerGroup = mixerGroup;
+        }
+        
+        public void Play(AudioClip clip, Transform parent, float radius, bool isLooped)
         {
             _audioSource.transform.SetParent(parent);
             _audioSource.transform.localPosition = Vector3.zero;
@@ -34,10 +42,8 @@ namespace Sounds
             _audioSource.spatialBlend = 1;
             
             _audioSource.clip = clip;
-            _audioSource.volume = volume;
             _audioSource.loop = isLooped;
-
-            _audioSource.minDistance = radius / 2;
+            
             _audioSource.maxDistance = radius;
             
             _audioSource.Play();
@@ -48,7 +54,7 @@ namespace Sounds
             }
         }
         
-        public void Play(AudioClip clip, float volume, bool isLooped)
+        public void Play(AudioClip clip, bool isLooped)
         {
             _audioSource.transform.SetParent(null);
             _audioSource.transform.localPosition = Vector3.zero;
@@ -57,7 +63,6 @@ namespace Sounds
             _audioSource.spatialBlend = 0;
             
             _audioSource.clip = clip;
-            _audioSource.volume = volume;
             _audioSource.loop = isLooped;
             
             _audioSource.Play();
@@ -70,32 +75,36 @@ namespace Sounds
 
         public void StopSound()
         {
-            if (_waitCoroutine != null)
-            {
-                StopCoroutine(_waitCoroutine);
-            }
-            
             OnReleased?.Invoke(this);
         }
         
         public void Release()
         {
             _audioSource.Stop();
+
+            if (_waitCoroutine != null)
+            {
+                StopCoroutine(_waitCoroutine);
+                
+                _waitCoroutine = null;
+            }
             
-            StopCoroutine(_waitCoroutine);
-            _waitCoroutine = null;
+            SetMixerGroup(null);
             
             _audioSource.transform.localPosition = Vector3.zero;
             
             _audioSource.clip = null;
             _audioSource.loop = false;
+            
             _audioSource.spatialize = false;
             _audioSource.spatialBlend = 0f;
         }
 
         private IEnumerator WaitingCoroutine(float duration)
         {
-            yield return new WaitForSeconds(duration);
+            _waitDuration ??= new WaitForSeconds(duration);
+            
+            yield return _waitDuration;
             
             OnReleased?.Invoke(this);
         }

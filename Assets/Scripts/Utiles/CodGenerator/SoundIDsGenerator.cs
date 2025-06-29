@@ -30,14 +30,14 @@ namespace Utiles.CodGenerator
 
             foreach (var soundPair in setup.SoundDataList)
             {
-                if (string.IsNullOrWhiteSpace(soundPair.SoundId))
+                if (string.IsNullOrWhiteSpace(soundPair.Type))
                 {
                     continue;
                 }
                 
-                string safeName = MakeSafe(soundPair.SoundId);
+                string safeName = MakeSafe(soundPair.Type);
                 
-                sb.AppendLine($"    public const string {safeName} = \"{soundPair.SoundId}\";");
+                sb.AppendLine($"    public const string {safeName} = \"{soundPair.Type}\";");
             }
             
             sb.AppendLine("}");

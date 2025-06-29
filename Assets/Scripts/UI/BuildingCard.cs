@@ -69,7 +69,7 @@ namespace UI
                 return;
             }
             
-            _soundService.Play2DSfx("UI", 1f);
+            _soundService.Play(SoundType.Sound,"click");
             _eventBus.Publish(buildingDataConfig);
         }
 
