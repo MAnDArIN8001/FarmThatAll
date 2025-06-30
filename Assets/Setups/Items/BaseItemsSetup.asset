@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a14371b90644c3f8021848bfa2a85ec, type: 3}
+  m_Name: BaseItemsSetup
+  m_EditorClassIdentifier: 
+  _itemBindings:
+  - <ItemScope>k__BackingField: 0
+    _items:
+    - <ItemName>k__BackingField: Blueberry seeds
+      <ItemType>k__BackingField: 1
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Wheat seeds
+      <ItemType>k__BackingField: 3
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Cabbage seeds
+      <ItemType>k__BackingField: 5
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Tomato seeds
+      <ItemType>k__BackingField: 7
+      <ItemSprite>k__BackingField: {fileID: 0}
+  - <ItemScope>k__BackingField: 1
+    _items: []
+  - <ItemScope>k__BackingField: 2
+    _items:
+    - <ItemName>k__BackingField: Stone
+      <ItemType>k__BackingField: 10
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Steel
+      <ItemType>k__BackingField: 11
+      <ItemSprite>k__BackingField: {fileID: 0}
+  - <ItemScope>k__BackingField: 3
+    _items:
+    - <ItemName>k__BackingField: Blueberry
+      <ItemType>k__BackingField: 0
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Wheat
+      <ItemType>k__BackingField: 2
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Cabbage
+      <ItemType>k__BackingField: 4
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Tomato
+      <ItemType>k__BackingField: 6
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Bread
+      <ItemType>k__BackingField: 8
+      <ItemSprite>k__BackingField: {fileID: 0}
+    - <ItemName>k__BackingField: Bluberry Juice
+      <ItemType>k__BackingField: 9
+      <ItemSprite>k__BackingField: {fileID: 0}

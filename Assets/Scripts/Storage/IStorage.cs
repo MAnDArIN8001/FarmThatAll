@@ -11,6 +11,8 @@ namespace Storage
         public event Action<ItemType> OnStorageItemChanged;
         
         public List<StorageItem> GetItemsWithScope(ItemScope scope);
+
+        public StorageItem GetItemOfType(ItemType itemType);
         
         public int GetItemsCount(ItemType itemType);
 
@@ -18,9 +20,10 @@ namespace Storage
         public void DecreaseItem(ItemType itemType, int count);
     }
     
-    [Serializable]
     public class StorageItem
     {
+        public event Action OnDataChanged;
+        
         private int _count = 0;
 
         public int Count
@@ -36,14 +39,19 @@ namespace Storage
                 }
                 
                 _count = value;  
+                
+                OnDataChanged?.Invoke();
             } 
         }
 
+        public ItemScope ItemScope { get; private set; }
+
         public Item Item { get; private set; }
 
-        public StorageItem(Item item)
+        public StorageItem(Item item, ItemScope itemScope)
         {
             Item = item;
+            ItemScope = itemScope;
             _count = 0;
         }
 

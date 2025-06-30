@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Utiles.EventSystem
 {
@@ -7,9 +8,13 @@ namespace Utiles.EventSystem
     {
         private Dictionary<Type, List<Delegate>> _events;
 
+        private Dictionary<Type, int> _lastInvokeDictionary;
+        
         public EventBus()
         {
             _events = new Dictionary<Type, List<Delegate>>();
+            
+            _lastInvokeDictionary = new Dictionary<Type, int>();
         }
 
         public void Subscribe<T>(Action<T> action)
@@ -38,6 +43,15 @@ namespace Utiles.EventSystem
 
         public void Publish<T>(T eventData)
         {
+            if (_lastInvokeDictionary.TryGetValue(typeof(T), out var lastInvokeFrame))
+            {
+                _lastInvokeDictionary[typeof(T)] = Time.frameCount;
+            }
+            else
+            {
+                _lastInvokeDictionary.Add(typeof(T), Time.frameCount);
+            }
+            
             if (_events.TryGetValue(typeof(T), out var list))
             {
                 var listeners = new List<Delegate>(list);
@@ -56,6 +70,21 @@ namespace Utiles.EventSystem
             }
         }
 
+        public bool WasInvokedThisFrame<T>()
+        {
+            if (!_lastInvokeDictionary.TryGetValue(typeof(T), out var lastInvokeFrame))
+            {
+                return false;
+            }
+
+            if (lastInvokeFrame != Time.frameCount)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
         public void Dispose()
         {
             _events.Clear();

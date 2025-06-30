@@ -2,7 +2,7 @@ namespace Sounds
 {
     public enum SoundType
     {
-        BuildingPlace,
-        UIClick,
+        Sound = 0,
+        Music = 1,
     }
 }

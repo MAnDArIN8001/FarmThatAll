@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c950ae83a8443f81a2d6917c5ad823, type: 3}
   m_Name: SFXSoundSetup
   m_EditorClassIdentifier: 
-  <SoundDataList>k__BackingField:
-  - <Type>k__BackingField: 1
-    <Sound>k__BackingField: {fileID: 8300000, guid: 542bda41344e97549a3d4f0db806bd8d, type: 3}
+  soundDataList:
+  - <Type>k__BackingField: click
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: 542bda41344e97549a3d4f0db806bd8d, type: 3}

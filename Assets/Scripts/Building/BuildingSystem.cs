@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Building.BuildingSystemStates;
 using UnityEngine;
@@ -9,11 +10,9 @@ namespace Building
 {
     public class BuildingSystem : MonoBehaviour
     {
-        private bool _isBuildingSelected;
-        
         [SerializeField] private Material buildingShapeMaterial;
         
-        private BuildingStateMachine _buildingStateMachine;
+        private StateMachine _buildingStateMachine;
         private BuildingActiveState _buildingActiveState;
         
         private BaseInput _input;
@@ -25,8 +24,6 @@ namespace Building
         {
             _input = input;
             _eventBus = eventBus;
-            
-            _eventBus.Subscribe<BuildingData>(BuildingSelectedHandler);
             
             if (_buildingActiveState == null)
             {
@@ -43,27 +40,22 @@ namespace Building
             var transitions = new List<Transition>()
             {
                 new Transition(StateType.Idle, StateType.Active,
-                    () => _isBuildingSelected),
+                    () => _eventBus.WasInvokedThisFrame<BuildingData>()),
                 new Transition(StateType.Active, StateType.Idle,
                     () => _input.Mouse.RightClick.WasPerformedThisFrame())
             };
             
-            _buildingStateMachine = new BuildingStateMachine(states, transitions);
+            _buildingStateMachine = new StateMachine(states, transitions, StateType.Idle);
         }
 
         private void Update()
         {
             _buildingStateMachine?.Update();
-
-            if (_isBuildingSelected)
-            {
-                _isBuildingSelected = false;
-            }
         }
 
-        private void BuildingSelectedHandler(BuildingData buildingData)
+        private void LateUpdate()
         {
-            _isBuildingSelected = true;
+            _buildingStateMachine?.LateUpdate();
         }
     }
 }

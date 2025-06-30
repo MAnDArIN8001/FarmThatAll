@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using UI.PopUp;
 using UnityEngine;
+using Utiles.Factory;
+using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 namespace Utiles.Services
@@ -17,12 +19,15 @@ namespace Utiles.Services
         private readonly Dictionary<Type, AbstractPopUp> _activePopUps = new();
         private readonly Dictionary<Type, AbstractPopUp> _inactivePopUps = new();
 
-        public PopUpService(Canvas globalCanvas)
+        private readonly MonoAbstractFactory _abstractFactory;
+
+        public PopUpService(Canvas globalCanvas, MonoAbstractFactory abstractFactory)
         {
             _globalCanvas = globalCanvas;
+            _abstractFactory = abstractFactory;
         }
 
-        public bool TryGetPopUp<T>(out T popUp) where T : AbstractPopUp
+        private bool TryGetPopUp<T>(out T popUp) where T : AbstractPopUp
         { 
             var typeOfPopUp = typeof(T);
 
@@ -42,14 +47,19 @@ namespace Utiles.Services
 
             if (_cachedPopUps.TryGetValue(typeOfPopUp, out var cachedPopUp))
             {
-               popUp = (T)GameObject.Instantiate(cachedPopUp, _globalCanvas.transform);
+               popUp = _abstractFactory.Create<T>((T)cachedPopUp, _globalCanvas.transform);
                
                return true;
             }
             
             var pathToPopUp = _popUpDirectoryPath + typeOfPopUp.Name;
 
+            var stopWatch = Stopwatch.StartNew();
+
             var popUpFromResources = Resources.Load<T>(pathToPopUp);
+            
+            stopWatch.Stop();
+            Debug.Log(stopWatch.ElapsedMilliseconds);
 
             if (popUpFromResources is not null)
             {
@@ -58,7 +68,7 @@ namespace Utiles.Services
                     _cachedPopUps.Add(typeOfPopUp, popUpFromResources);    
                 }   
                 
-                popUp = GameObject.Instantiate(popUpFromResources, _globalCanvas.transform);
+                popUp = _abstractFactory.Create(popUpFromResources, _globalCanvas.transform);
 
                 return true;
             }
@@ -105,8 +115,6 @@ namespace Utiles.Services
             if (_activePopUps.TryGetValue(typeOfPopUp, out var activePopUp))
             {
                 activePopUp.Close();
-                
-                Debug.Log($"Close {typeOfPopUp}");
             }
         }
 

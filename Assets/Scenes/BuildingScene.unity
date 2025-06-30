@@ -1666,11 +1666,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519034467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787755d9265d4f2b96d9f1dfefa439b1, type: 3}
+  m_Script: {fileID: 11500000, guid: ed42ddc9e96c4abbb04032aa5eb4b001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sfxDataSetup: {fileID: 11400000, guid: 5d671a6b83fd370459b0af2cd3530e34, type: 2}
   musicDataSetup: {fileID: 11400000, guid: f95b441a4e1972c439e7b09f17b036ae, type: 2}
+  mixerSetup: {fileID: 11400000, guid: 9961c330658ebb64aa40882445412b52, type: 2}
   audioPlayer: {fileID: 3190760136695728583, guid: 5e7c7c0dea169b04181e8de746f940fe, type: 3}
   minPoolSize: 1
   maxPoolSize: 30
