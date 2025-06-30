@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Building.Factory
 {
-    public class FactoryBuilding : AbstractFactoryBuilding
+    public class SteelFactoryBuilding : AbstractFactoryBuilding
     {
         public float GenerationPercentage { get; protected set; }
 

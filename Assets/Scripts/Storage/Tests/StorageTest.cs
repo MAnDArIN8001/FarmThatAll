@@ -3,7 +3,6 @@ using NUnit.Framework;
 using Storage.Items;
 using Storage.Setup;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Zenject;
 
 namespace Storage.Tests

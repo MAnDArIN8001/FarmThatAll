@@ -1,5 +1,6 @@
 ﻿using System;
 using Communication;
+using Cysharp.Threading.Tasks;
 using UI.PopUp;
 using UnityEngine;
 using Utiles.Services;
@@ -7,20 +8,25 @@ using Zenject;
 
 namespace Building.Factory
 {
-    [RequireComponent(typeof(FactoryBuilding))]
+    [RequireComponent(typeof(SteelFactoryBuilding))]
     public class SteelFactoryCommunicableBuilding : MonoBehaviour, ICommunicable
     {
         [Inject] private PopUpService _popUpService;
         
-        [field: SerializeField] public FactoryBuilding SteelFactory { get; private set; }
+        [field: SerializeField] public SteelFactoryBuilding SteelSteelFactory { get; private set; }
         [field: SerializeField] public Transform CommunicationTransform { get; private set; }
         [field: SerializeField] public Transform CommunicationViewpointTransform { get; private set; }
 
         private SteelFactoryPopUp _popUp;
 
-        public void Awake()
+        private void Awake()
         {
-            SteelFactory = GetComponent<FactoryBuilding>();
+            SteelSteelFactory = GetComponent<SteelFactoryBuilding>();
+        }
+
+        private void Start()
+        {
+            Debug.Log("Test");
         }
         
         public void StartCommunication()
@@ -29,18 +35,14 @@ namespace Building.Factory
             
             _popUp.transform.name = $"{nameof(SteelFactoryPopUp)}";
             _popUp.transform.localPosition = Vector3.zero;
-            _popUp.steelFactory = SteelFactory; 
+            _popUp.steelSteelFactory = SteelSteelFactory; 
         }
 
         public void StopCommunication()
         {
             _popUpService.ClosePopUp<SteelFactoryPopUp>();
-            
-            Debug.Log($"{_popUp} stopped");
-            
+
             _popUp = null;
-            
-            Debug.Log($"{_popUp}");
         }
     }
 }

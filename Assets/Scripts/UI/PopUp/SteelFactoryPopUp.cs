@@ -2,6 +2,7 @@
 using Building.Factory;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -19,7 +20,7 @@ namespace UI.PopUp
         [SerializeField] private Image itemImage;
         [SerializeField] private Image progressBarImage;
 
-        public FactoryBuilding steelFactory;
+        [FormerlySerializedAs("steelFactory")] public SteelFactoryBuilding steelSteelFactory;
 
         private int _localStorageCount;
 
@@ -62,9 +63,9 @@ namespace UI.PopUp
 
         private void Update()
         {
-            progressBarImage.fillAmount = steelFactory.GenerationPercentage;
+            progressBarImage.fillAmount = steelSteelFactory.GenerationPercentage;
 
-            LocalStorageCount = steelFactory.LocalStorage;
+            LocalStorageCount = steelSteelFactory.LocalStorage;
         }
 
         private void CollectSteel()
