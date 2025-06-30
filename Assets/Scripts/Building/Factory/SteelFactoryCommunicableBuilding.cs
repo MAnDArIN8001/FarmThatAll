@@ -35,7 +35,7 @@ namespace Building.Factory
             
             _popUp.transform.name = $"{nameof(SteelFactoryPopUp)}";
             _popUp.transform.localPosition = Vector3.zero;
-            _popUp.steelSteelFactory = SteelSteelFactory; 
+            _popUp.steelFactory = SteelSteelFactory; 
         }
 
         public void StopCommunication()
