@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2074922546984820942}
   - component: {fileID: 7018321830554827909}
   m_Layer: 0
-  m_Name: SteelFactoryPopUp
+  m_Name: FactoryPopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

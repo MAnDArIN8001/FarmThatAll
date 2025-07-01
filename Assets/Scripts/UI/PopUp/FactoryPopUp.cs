@@ -9,7 +9,7 @@ using Zenject;
 
 namespace UI.PopUp
 {
-    public class SteelFactoryPopUp : AbstractPopUp
+    public class FactoryPopUp : AbstractPopUp
     {
         [Inject] private Storage.Storage _playerStorage;
         
@@ -21,7 +21,7 @@ namespace UI.PopUp
         [SerializeField] private Image itemImage;
         [SerializeField] private Image progressBarImage;
 
-        public SteelFactoryBuilding steelFactory;
+        public FactoryBuilding factory;
 
         private int _localStorageCount;
 
@@ -64,16 +64,14 @@ namespace UI.PopUp
 
         private void Update()
         {
-            progressBarImage.fillAmount = steelFactory.GenerationPercentage;
+            progressBarImage.fillAmount = factory.GenerationPercentage;
 
-            LocalStorageCount = steelFactory.LocalStorage;
+            LocalStorageCount = factory.LocalStorage;
         }
 
         private void CollectSteel()
         {
-            _playerStorage.IncreaseItem(ItemType.Steel, _localStorageCount);
-
-            steelFactory.GetSteel();
+            _playerStorage.IncreaseItem(factory.GeneratedItemType, factory.Get());
         }
     }
 }
