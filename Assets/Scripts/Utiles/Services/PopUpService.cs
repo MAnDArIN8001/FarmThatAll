@@ -128,7 +128,7 @@ namespace Utiles.Services
             }
 
             _activePopUps.Add(typeOfPopUp, popUp);
-
+            
             popUp.OnPopUpOpened -= HandlePopUpOpened;
         }
 

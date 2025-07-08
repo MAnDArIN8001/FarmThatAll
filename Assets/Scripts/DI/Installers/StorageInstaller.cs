@@ -15,10 +15,6 @@ namespace DI.Installers
             Container.BindInstance(_itemsSetup);
             
             Container.BindInterfacesAndSelfTo<Storage.Storage>().AsSingle();
-
-            var storage = Container.Resolve<Storage.Storage>();
-            
-            storage.IncreaseItem(ItemType.BlueberrySeed, 1);
         }
     }
 }
