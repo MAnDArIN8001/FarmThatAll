@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
 using UnityEngine;
+using UnityEngine.Audio;
 using Utiles;
 using Utiles.Pool;
 using Random = UnityEngine.Random;
@@ -16,6 +18,8 @@ namespace Sounds
         private readonly AudioMixerSetup _mixersSetup;
         
         private readonly AbstractPool<AudioPlayer> _audioPlayersPool;
+        
+        private Dictionary<SoundType, AudioMixerGroup> _audioMixerDictionary;
         
         public SoundService(AudioPlayer soundPlayer, SoundDataSetup sfxSounds, SoundDataSetup musicSounds, 
             AudioMixerSetup mixerSetupSetup, Transform parent ,int minPoolSize, int maxPoolSize)
@@ -57,8 +61,15 @@ namespace Sounds
                 return null;
 
             var audioPlayer = _audioPlayersPool.Get();
-            
-            if (_mixersSetup.TryGetMixer(soundType, out var mixer))
+
+            if (!_audioMixerDictionary.TryGetValue(soundType, out var mixer))
+            {
+                _mixersSetup.TryGetMixer(soundType, out mixer);
+                
+                _audioMixerDictionary.Add(soundType, mixer);
+            }
+
+            if (mixer != null)
             {
                 audioPlayer.SetMixerGroup(mixer);
             }
