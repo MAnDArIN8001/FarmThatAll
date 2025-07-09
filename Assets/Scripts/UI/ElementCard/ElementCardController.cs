@@ -25,6 +25,8 @@ namespace UI.ElementCard
             _itemData = item;
             _storage = storage;
             
+            Debug.Log(_itemData.Item.ItemType);
+            
             _cardView.Initialize(_itemData.Item.ItemName, _itemData.Count.ToString(), item.Item.ItemSprite);
             
             _itemData.OnDataChanged += HandleDataChanged;
@@ -51,6 +53,11 @@ namespace UI.ElementCard
         public void DecreaseCount(int decreaseValue = 1)
         {
             _storage.DecreaseItem(ItemType, decreaseValue);
+        }
+
+        public void SetCountView(int countView)
+        {
+            _cardView.UpdateCounter(countView.ToString());
         }
 
         public void Close()

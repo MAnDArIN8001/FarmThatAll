@@ -1,5 +1,3 @@
-using Storage;
-using Storage.Items;
 using Storage.Setup;
 using UnityEngine;
 using Zenject;
@@ -15,10 +13,6 @@ namespace DI.Installers
             Container.BindInstance(_itemsSetup);
             
             Container.BindInterfacesAndSelfTo<Storage.Storage>().AsSingle();
-
-            var storage = Container.Resolve<Storage.Storage>();
-            
-            storage.IncreaseItem(ItemType.BlueberrySeed, 1);
         }
     }
 }

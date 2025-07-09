@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Storage;
 using Storage.Items;
 using UI.ElementCard;
@@ -20,35 +21,25 @@ namespace UI.ToolBar
         
         private List<ElementCardController> _cardsList = new();
         
-        [Inject] private IStorage _storage;
+        private IStorage _storage;
+
+        public void Initialize(IStorage storage)
+        {
+            _storage = storage;
+        }
 
         private void OnEnable()
         {
-            if (_storage is not null)
-            {
-                _storage.OnStorageItemChanged += HandleStorageUpdate;
-            }
-            
             _storage.IncreaseItem(ItemType.WheatSeed, 5);
             
             LoadCards();
         }
 
-        private void OnDestroy()
-        {
-            if (_storage is not null)
-            {
-                _storage.OnStorageItemChanged -= HandleStorageUpdate;
-            }
-        }
-
         private void LoadCards()
         {
-            _cardsList.Clear();
+            ClearCardsList();
             
             var cardsWithScope = _storage.GetItemsWithScope(_itemScope);
-            
-            Debug.Log(cardsWithScope.Count);
 
             foreach (var card in cardsWithScope)
             {
@@ -63,16 +54,21 @@ namespace UI.ToolBar
             }
         }
 
+        private void ClearCardsList()
+        {
+            foreach (var card in _cardsList)
+            {
+                Destroy(card.gameObject);
+            }
+            
+            _cardsList.Clear();
+        }
+        
         private void HandleCardClosing(ElementCardController elementCardController)
         {
             elementCardController.OnCardClosed -= HandleCardClosing;
 
             _cardsList.Remove(elementCardController);
-        }
-
-        private void HandleStorageUpdate(ItemType itemType)
-        {
-            
         }
     }
 }

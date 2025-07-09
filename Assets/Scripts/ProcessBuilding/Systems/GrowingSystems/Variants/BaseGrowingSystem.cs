@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
 using Cultures;
+using Cultures.Coniguration;
+using Storage.Items;
 using UnityEngine;
 using Utiles.Factory;
 using Zenject;
@@ -11,9 +14,13 @@ namespace ProcessBuilding.Systems.GrowingSystems.Variants
         public override event Action<float> OnCultureCollect;
         public override event Action<Culture> OnCultureChanged;
 
-        [SerializeField] private Transform _cultureGrowingPoint;
+        [SerializeField] private CultureMappingSetup _mappingSetup;
+
+        [Space, SerializeField] private Transform _cultureGrowingPoint;
 
         [Inject] private MonoAbstractFactory _abstractFactory;
+
+        [Inject] private Storage.Storage _storage;
 
         public void Update()
         {
@@ -23,30 +30,41 @@ namespace ProcessBuilding.Systems.GrowingSystems.Variants
             }
         }
         
-        public override void SetCulture(Culture culturePrefab)
+        public override void SetCulture(ItemType culture)
         {
             if (Culture is not null && !Culture.IsGrown)
             {
                 return;
             }
+            
+            var cultureMap = _mappingSetup.Cultures.FirstOrDefault(item => item.SeedType == culture);
 
-            Culture = _abstractFactory.Create(culturePrefab, _cultureGrowingPoint, _cultureGrowingPoint.position, Quaternion.identity);
+            if (cultureMap is null)
+            {
+                return;
+            }
 
-            Culture.OnCultureGrown += HandleCultureGrown;
+            Culture = _abstractFactory.Create(cultureMap.Culture, _cultureGrowingPoint, _cultureGrowingPoint.position, Quaternion.identity);
+            
+            Debug.Log("Growing Start");
             
             OnCultureChanged?.Invoke(Culture);
         }
 
-        public override float Collect()
+        public override int Collect()
         {
-            OnCultureCollect?.Invoke(Culture.CultureSetup.CultureReward);
+            var collected = Culture.CultureSetup.CultureReward;
+            
+            OnCultureCollect?.Invoke(collected);
+            
+            _storage.IncreaseItem(Culture.CultureType, collected);
+            
+            Debug.Log($"{Culture.CultureType} : {collected}");
+            
+            Culture.Hide();
+            Culture = null;
 
-            return Culture.CultureSetup.CultureReward;
-        }
-
-        private void HandleCultureGrown()
-        {
-            Culture.OnCultureGrown -= HandleCultureGrown;
+            return collected;
         }
     }
 }
