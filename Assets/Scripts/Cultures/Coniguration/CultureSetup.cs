@@ -7,6 +7,6 @@ namespace Cultures.Coniguration
     {
         [field: SerializeField] public float GrowingTime { get; private set; }
 
-        [field: SerializeField, Space] public float CultureReward { get; private set; }
+        [field: SerializeField, Space] public int CultureReward { get; private set; }
     }
 }

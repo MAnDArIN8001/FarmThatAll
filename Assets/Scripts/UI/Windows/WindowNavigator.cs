@@ -17,7 +17,7 @@ namespace UI.Windows
             NavigateTo(_defaultWindow);
         }
 
-        public void NavigateTo<T>(T abstractWindow) where T : AbstractWindow
+        public void NavigateTo(AbstractWindow abstractWindow)
         {
             if (_currentWindow == abstractWindow)
             {
@@ -39,6 +39,14 @@ namespace UI.Windows
             }
             
             OnWindowChanged?.Invoke(_currentWindow);
+        }
+
+        public void SwapWindows(AbstractWindow from, AbstractWindow to)
+        {
+            from.Close(() =>
+            {
+                to.Open();
+            });
         }
     }
 }

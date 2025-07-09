@@ -1,5 +1,3 @@
-using Storage;
-using Storage.Items;
 using Storage.Setup;
 using UnityEngine;
 using Zenject;
