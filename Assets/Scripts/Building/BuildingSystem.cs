@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Building.BuildingSystemStates;
 using UnityEngine;
 using Utiles.EventSystem;
+using Utiles.Factory;
 using Utiles.FSM;
 using Zenject;
 
@@ -20,7 +21,7 @@ namespace Building
         private EventBus _eventBus;
         
         [Inject]
-        private void Initialize(BaseInput input, EventBus eventBus)
+        private void Initialize(BaseInput input, EventBus eventBus, MonoAbstractFactory factory)
         {
             _input = input;
             _eventBus = eventBus;
@@ -28,7 +29,7 @@ namespace Building
             if (_buildingActiveState == null)
             {
                 _buildingActiveState =
-                    new BuildingActiveState(StateType.Active, _eventBus, buildingShapeMaterial, _input);
+                    new BuildingActiveState(StateType.Active, _eventBus, buildingShapeMaterial, _input, factory);
             }
             
             var states = new Dictionary<StateType, State>()

@@ -111,12 +111,6 @@ namespace UI
         private void SetupBuildingCard(BuildingData buildingData)
         {
             _buildingCardButton.onClick.AddListener(BuildingSelect);
-            
-            buildingNameText.text = buildingData.Name;
-            buildingDescriptionText.text = buildingData.Description;
-            buildingPriceText.text = buildingData.Price.ToString();
-            
-            buildingSprite.sprite = buildingData.Sprite;
         }
     }
 }

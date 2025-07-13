@@ -14,10 +14,14 @@ namespace Storage
         private readonly ItemsSetup _setup;
         
         private readonly Dictionary<ItemType, StorageItem> _storage = new();
+        
+        public static Storage Instance { get; private set; }
 
         public Storage(ItemsSetup setup)
         {
             _setup = setup;
+            
+            Instance = this;
         }
         
         public List<StorageItem> GetItemsWithScope(ItemScope scope)

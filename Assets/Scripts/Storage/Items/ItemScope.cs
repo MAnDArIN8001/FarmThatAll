@@ -6,6 +6,7 @@ namespace Storage.Items
         Module,
         Resource,
         Food,
+        Building,
         Default
     }
 }

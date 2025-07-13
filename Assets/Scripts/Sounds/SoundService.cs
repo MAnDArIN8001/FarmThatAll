@@ -19,7 +19,7 @@ namespace Sounds
         
         private readonly AbstractPool<AudioPlayer> _audioPlayersPool;
         
-        private Dictionary<SoundType, AudioMixerGroup> _audioMixerDictionary;
+        private Dictionary<SoundType, AudioMixerGroup> _audioMixerDictionary = new ();
         
         public SoundService(AudioPlayer soundPlayer, SoundDataSetup sfxSounds, SoundDataSetup musicSounds, 
             AudioMixerSetup mixerSetupSetup, Transform parent ,int minPoolSize, int maxPoolSize)
@@ -60,8 +60,8 @@ namespace Sounds
             if (clip == null)
                 return null;
 
-            var audioPlayer = _audioPlayersPool.Get();
-
+            var audioPlayer = _audioPlayersPool.Get(); 
+            
             if (!_audioMixerDictionary.TryGetValue(soundType, out var mixer))
             {
                 _mixersSetup.TryGetMixer(soundType, out mixer);

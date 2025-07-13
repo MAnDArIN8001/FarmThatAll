@@ -1,6 +1,7 @@
 ﻿using System;
 using Communication;
 using Cysharp.Threading.Tasks;
+using UI;
 using UI.PopUp;
 using UnityEngine;
 using Utiles.Services;
@@ -11,22 +12,26 @@ namespace Building.Factory
     [RequireComponent(typeof(FactoryBuilding))]
     public class FactoryCommunicableBuilding : MonoBehaviour, ICommunicable
     {
-        [Inject] private PopUpService _popUpService;
+        private PopUpService _popUpService = PopUpService.Instance;
         
         [field: SerializeField] public FactoryBuilding Factory { get; private set; }
         [field: SerializeField] public Transform CommunicationTransform { get; private set; }
         [field: SerializeField] public Transform CommunicationViewpointTransform { get; private set; }
 
+        [Space, SerializeField] private Transform _popUpRoot;
+        
         private FactoryPopUp _popUp;
 
         private void Awake()
         {
             Factory = GetComponent<FactoryBuilding>();
+            
+            _popUpRoot = GameObject.FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
         }
 
         public void StartCommunication()
         {
-            _popUpService.OpenPopUp(Vector3.zero, out _popUp);
+            _popUpService.OpenPopUp(_popUpRoot.position, out _popUp);
 
             if (_popUp == null)
             {

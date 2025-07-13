@@ -14,6 +14,11 @@ namespace Storage.Items
         BlueberryJuice,
         Stone,
         Steel,
-        
+        Garden,
+        SteelFactory,
+        StoneFactory,
+        BreadFactory,
+        JuiceFactory,
+        Money
     }
 }

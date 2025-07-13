@@ -20,11 +20,15 @@ namespace Utiles.Services
         private readonly Dictionary<Type, AbstractPopUp> _inactivePopUps = new();
 
         private readonly MonoAbstractFactory _abstractFactory;
+        
+        public static PopUpService Instance { get; private set; }
 
         public PopUpService(Canvas globalCanvas, MonoAbstractFactory abstractFactory)
         {
             _globalCanvas = globalCanvas;
             _abstractFactory = abstractFactory;
+            
+            Instance = this;
         }
 
         private bool TryGetPopUp<T>(out T popUp) where T : AbstractPopUp

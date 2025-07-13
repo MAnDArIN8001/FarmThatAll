@@ -18,9 +18,15 @@ namespace ProcessBuilding.Systems.GrowingSystems.Variants
 
         [Space, SerializeField] private Transform _cultureGrowingPoint;
 
-        [Inject] private MonoAbstractFactory _abstractFactory;
+        private MonoAbstractFactory _abstractFactory = MonoAbstractFactory.Instance;
 
-        [Inject] private Storage.Storage _storage;
+        private Storage.Storage _storage = Storage.Storage.Instance;
+
+        public void Initialize(MonoAbstractFactory factory, Storage.Storage storage)
+        {
+            _abstractFactory = factory;
+            _storage = storage;
+        }
 
         public void Update()
         {
