@@ -28,30 +28,24 @@ namespace UI.PopUp.Variants.Garden
 
         [Header("Buttons")] 
         [SerializeField] private Button _closeButton;
-        [SerializeField] private Button _destroyButton;
         [SerializeField] private Button _openDestroyWindowButton;
         [SerializeField] private Button _closeDestroyWindowButton;
-        [SerializeField] private Button _cancelBatton;
 
         #endregion
 
         [Header("Windows")] 
         [SerializeField] private SeedsWindow _seedsWindow;
-        [SerializeField] private AbstractWindow _destroyWindow;
+        [SerializeField] private DestroyWindow _destroyWindow;
 
         [Header("Elements")] 
         [SerializeField] private CardsBar _cards;
         [SerializeField] private GameObject _tab;
-
-        [Header("Effects")]
-        [SerializeField] private VisualEffect _destroyEffect;
         
         [Space, SerializeField] private DropSlot _slot;
 
         private Storage.Storage _storage;
 
         private GrowingSystem _growingSystem;
-        private ProcessBuilding.Garden.Garden _garden;
 
         [Inject]
         private void InitializeByDI(Storage.Storage storage)
@@ -63,7 +57,6 @@ namespace UI.PopUp.Variants.Garden
         
         public void Initialize(GrowingSystem growingSystem, ProcessBuilding.Garden.Garden garden)
         {
-            _garden = garden;
             _growingSystem = growingSystem;
             _growingSystem.OnCultureCollect += HandleResourceTake;
 
@@ -73,6 +66,8 @@ namespace UI.PopUp.Variants.Garden
             }
 
             _seedsWindow.Initialize(growingSystem);
+            _destroyWindow.Initialize(garden, this);
+            
         }
 
         private void Awake()
@@ -87,11 +82,6 @@ namespace UI.PopUp.Variants.Garden
                 _closeButton.onClick.AddListener(Close);
             }
 
-            if(_destroyButton is not null)
-            {
-                _destroyButton.onClick.AddListener(DestroyGarden);
-            }
-
             if(_openDestroyWindowButton is not null)
             {
                 _openDestroyWindowButton.onClick.AddListener(OpenDestroyWindow);
@@ -101,11 +91,7 @@ namespace UI.PopUp.Variants.Garden
             {
                 _closeDestroyWindowButton.onClick.AddListener(CloseDestroyWindow);
             }
-
-            if(_cancelBatton is not null)
-            {
-                _cancelBatton.onClick.AddListener(CloseDestroyWindow);
-            }
+           
         }
 
         private void OnDisable()
@@ -143,25 +129,17 @@ namespace UI.PopUp.Variants.Garden
             _slot.Clear();
         }
 
-        private void DestroyGarden()
-        {
-            CloseDestroyWindow();
-            Close();
-            Instantiate(_destroyEffect, _garden.transform.position, Quaternion.identity).Play();
-            Destroy(_garden.gameObject);
-        }
-
         private void OpenDestroyWindow()
         {
-            _destroyWindow?.gameObject.SetActive(true);
+            _destroyWindow.Open();
             
             Vector3 targetPosition = _openDestroyWindowButton.transform.position;
             StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
         }
 
-        private void CloseDestroyWindow()
+        public void CloseDestroyWindow()
         {
-            _destroyWindow?.gameObject.SetActive(false);
+            _destroyWindow.Close();
 
             Vector3 targetPosition = _closeDestroyWindowButton.transform.position;
             StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
