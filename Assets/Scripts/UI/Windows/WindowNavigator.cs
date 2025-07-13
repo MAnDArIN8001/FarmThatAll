@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace UI.Windows
@@ -10,7 +8,7 @@ namespace UI.Windows
         public event Action<AbstractWindow> OnWindowChanged;
 
         [SerializeField] private AbstractWindow _defaultWindow;
-        private AbstractWindow _currentWindow;
+        [SerializeField] private AbstractWindow _currentWindow;
 
         private void Awake()
         {

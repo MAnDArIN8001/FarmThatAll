@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Utiles.EventSystem;
+using Utiles.Factory;
 using Utiles.FSM;
 using State = Utiles.FSM.State;
 
@@ -16,6 +17,8 @@ namespace Building.BuildingSystemStates
         
         private readonly Material _validateMaterial;
         
+        private readonly MonoAbstractFactory _factory;
+        
         private GameObject _buildingShape;
         
         private ValidateBuilding _validateBuildingComponent;
@@ -30,7 +33,7 @@ namespace Building.BuildingSystemStates
                     return;
                 
                 _currentBuildingData = value;
-                _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab);
+                _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab, _currentBuildingData.ViewOfBuilding);
             }
         }
         
@@ -49,12 +52,12 @@ namespace Building.BuildingSystemStates
             }
         }
         
-        public BuildingActiveState(StateType stateType, EventBus eventBus, Material shapeMaterial ,BaseInput input)
+        public BuildingActiveState(StateType stateType, EventBus eventBus, Material shapeMaterial ,BaseInput input, MonoAbstractFactory factory)
         {
             StateType = stateType;
             
             _input = input;
-            
+            _factory = factory;
             _eventBus = eventBus;
             
             _eventBus.Subscribe<BuildingData>(HandleBuildingChanging);
@@ -64,7 +67,7 @@ namespace Building.BuildingSystemStates
         
         public override void Enter()
         {
-            _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab);
+            _buildingShape = CreateBuildingShape(_currentBuildingData.BuildingPrefab, _currentBuildingData.ViewOfBuilding);
             
             if (_buildingShape.TryGetComponent(out MeshRenderer shapeMeshRenderer))
             {
@@ -107,7 +110,7 @@ namespace Building.BuildingSystemStates
 
                 if (_isValidated)
                 {
-                    if (_input.Mouse.LeftClick.WasPerformedThisFrame())
+                    if (_input.Mouse.RightClick.WasPerformedThisFrame())
                     {
                         var building = GameObject.Instantiate(_currentBuildingData.BuildingPrefab);
                         building.transform.position = _buildingShape.transform.position;
@@ -127,14 +130,14 @@ namespace Building.BuildingSystemStates
             _buildingShape = null;
         }
 
-        private GameObject CreateBuildingShape(GameObject prefab)
+        private GameObject CreateBuildingShape(GameObject prefab, GameObject view)
         {
             if (prefab == null)
                 return null;
             
             var buildingShape = new GameObject("BuildingShape");
             
-            if (prefab.TryGetComponent<MeshFilter>(out var prefabMeshFilter))
+            if (view.TryGetComponent<MeshFilter>(out var prefabMeshFilter))
             {
                 if (prefabMeshFilter.sharedMesh != null)
                 {
@@ -151,7 +154,7 @@ namespace Building.BuildingSystemStates
                 Debug.LogWarning(prefab.name + " has no MeshFilter!");
             }
             
-            if (prefab.TryGetComponent<MeshRenderer>(out var prefabMeshRenderer))
+            if (view.TryGetComponent<MeshRenderer>(out var prefabMeshRenderer))
             {
                 if (prefabMeshFilter.sharedMesh != null)
                 {
@@ -221,8 +224,6 @@ namespace Building.BuildingSystemStates
         private void HandleBuildingChanging(BuildingData buildingData)
         {
             _currentBuildingData = buildingData;
-            
-            Debug.Log($"BuildingChanged: {buildingData.Name}");
         }
     }
 }

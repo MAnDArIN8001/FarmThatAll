@@ -1,6 +1,9 @@
+using System;
 using Communication;
 using ProcessBuilding.Systems.GrowingSystems;
+using ProcessBuilding.Systems.GrowingSystems.Variants;
 using ProcessBuilding.Systems.ModuleSystems;
+using UI;
 using UI.PopUp.Variants.Garden;
 using UnityEngine;
 using Utiles.Services;
@@ -18,16 +21,20 @@ namespace ProcessBuilding.Garden
 
         #region Systems
         [Header("Systems")]
-        [SerializeField] private GrowingSystem _growingSystem;
-        [SerializeField] private ModuleSystem _moduleSystem;
+        [SerializeField] private BaseGrowingSystem _growingSystem;
         #endregion
 
         [Space, SerializeField] private Transform _popUpRoot;
         
-        [Inject] private PopUpService _popUpService;
+        private PopUpService _popUpService = PopUpService.Instance;
 
         private GardenPopUp _gardenPopUp;
-        
+
+        private void Awake()
+        {
+            _popUpRoot = GameObject.FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
+        }
+
         public void StartCommunication()
         {
             _popUpService.OpenPopUp<GardenPopUp>(_popUpRoot.position, out _gardenPopUp);

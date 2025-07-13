@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using DG.Tweening;
+using Building;
 using Player.Controls;
-using Player.FSM;
 using Player.FSM.States;
 using Player.CameraControls;
 using Player.Setups;
 using UnityEngine;
+using Utiles.EventSystem;
 using Utiles.FSM;
 using Zenject;
 
@@ -26,7 +26,7 @@ namespace Player
         private StateMachine _stateMachine;
 
         [Inject]
-        private void Initialize(BaseInput input)
+        private void Initialize(BaseInput input, EventBus eventBus)
         {
             _baseInput = input;
 
@@ -41,7 +41,8 @@ namespace Player
                           && _pointerSystem.PointedCommunicable is not null),
                 
                 new Transition(StateType.Communication, StateType.Idle, 
-                    () => _baseInput.Controls.StopAction.WasPerformedThisFrame()),
+                    () => _baseInput.Controls.StopAction.WasPerformedThisFrame() 
+                || eventBus.WasInvokedThisFrame<BuildingData>()),
                 
                 new Transition(StateType.Movement, StateType.Idle, 
                     () => _movementSystem.IsMovementDone)
@@ -51,12 +52,12 @@ namespace Player
             {
                 { StateType.Idle, new PlayerIdleState(StateType.Idle) },
                 { StateType.Movement, new PlayerMovementState(StateType.Movement, _movementSystem, _pointerSystem, _baseInput) },
-                { StateType.Communication, new PlayerCommunicationState(StateType.Communication, _pointerSystem, _cameraSystem, transform, _rotationAnimationSetup) },
+                { StateType.Communication, new PlayerCommunicationState(StateType.Communication, _pointerSystem, _cameraSystem, transform, _rotationAnimationSetup, eventBus) },
             };
 
             _stateMachine = new StateMachine(states, transitions, StateType.Idle);
         }
-
+        
         private void Update()
         {
             _stateMachine?.Update();

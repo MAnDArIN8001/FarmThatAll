@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2121850401e4eac84d2b5f48626a733, type: 3}
   m_Name: SteelFactoryBuilding
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Steel factory
-  <Description>k__BackingField: blablabla
-  <Price>k__BackingField: 0
   <InteractionWithObjectsOffset>k__BackingField: 1
-  <Sprite>k__BackingField: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   <BuildingPrefab>k__BackingField: {fileID: 3060219713996277913, guid: de10b662ac32e834d9f4b4e7cf529d79, type: 3}
+  <ViewOfBuilding>k__BackingField: {fileID: 352159930187981182, guid: b33de2a814cb85b40b9560551b265612, type: 3}
   <TerrainLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 64

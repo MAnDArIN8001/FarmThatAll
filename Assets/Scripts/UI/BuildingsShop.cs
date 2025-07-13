@@ -106,8 +106,6 @@ namespace UI
                 cardComponent.Initialize(_eventBus, _soundService);
             }
             
-            card.name = $"{buildingData.Name.ToLower()}_card";
-            
             return card;
         }
 

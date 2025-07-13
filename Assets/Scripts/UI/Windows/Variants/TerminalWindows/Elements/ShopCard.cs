@@ -1,0 +1,123 @@
+using System.Linq;
+using Building;
+using Storage;
+using Storage.Setup;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using Utiles.EventSystem;
+
+namespace UI.Windows.Variants.TerminalWindows.Elements
+{
+    public class ShopCard : MonoBehaviour
+    {
+        private bool _isBuilding;
+        
+        [Header("UI Elements")]
+        [SerializeField] private Image _icon;
+
+        [Space, SerializeField] private TMP_Text _name;
+
+        [Space, SerializeField] private Button _byuButton;
+        
+        [Space, SerializeField] private GameObject _locker;
+
+        [Space, SerializeField] private Transform _priceRoot;
+
+        [Header("Configuration")] 
+        [SerializeField] private PriceView _priceViewPrefab;
+        
+        [Space, SerializeField] private ItemsSetup _itemsSetup;
+
+        private Item _itemData;
+        
+        private IStorage _storage;
+        
+        private EventBus _eventBus;
+
+        public void Initialize(Item itemData, IStorage storage, EventBus eventBus, bool isLocked, bool isBuilding = false)
+        {
+            _itemData = itemData;
+            _storage = storage;
+            _eventBus = eventBus;
+            _isBuilding = isBuilding;
+            
+            _icon.sprite = itemData?.ItemSprite;
+            _name.text = itemData.ItemName;
+            
+            _locker.SetActive(isLocked);
+
+            foreach (var priceData in itemData.BuyPrice)
+            {
+                var priceView =  Instantiate(_priceViewPrefab, _priceRoot);
+                
+                var priceItemData = _itemsSetup.ItemBindings
+                    .SelectMany(binding => binding.Items)
+                    .FirstOrDefault(item => item.ItemType == priceData.ItemType);
+                
+                priceView.Initialize(priceData.Price.ToString(), priceItemData?.ItemSprite);
+            }
+
+            _byuButton.interactable = CheckPrice();
+        }
+
+        private void OnEnable()
+        {
+            if (_storage is not null)
+            {
+                _byuButton.interactable = CheckPrice();
+            }
+            
+            if (_byuButton is not null)
+            {
+                _byuButton.onClick.AddListener(HandleBuy);
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_byuButton is not null)
+            {
+                _byuButton.onClick.RemoveListener(HandleBuy);
+            }
+        }
+
+        private bool CheckPrice()
+        {
+            bool isEnoughResources = true;
+
+            foreach (var priceData in _itemData.BuyPrice)
+            {
+                var countInStorage = _storage.GetItemsCount(priceData.ItemType);
+
+                isEnoughResources = countInStorage >= priceData.Price;
+
+                if (!isEnoughResources)
+                {
+                    break;
+                }
+            }
+            
+            return isEnoughResources;
+        }
+
+        private void HandleBuy()
+        {
+            foreach (var priceData in _itemData.BuyPrice)
+            {
+                _storage.DecreaseItem(priceData.ItemType, priceData.Price);
+            }
+
+            if (_isBuilding)
+            {
+                _eventBus.Publish(_itemData.BuildingData);
+            }
+            else
+            {
+                _storage.IncreaseItem(_itemData.ItemType, 1);
+            }
+            
+            _byuButton.interactable = CheckPrice();   
+        }
+    }
+}

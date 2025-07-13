@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using System.Linq;
 using Storage.Items;
 using UnityEngine;
+using Building;
 
 namespace Storage.Setup
 {
@@ -12,6 +13,21 @@ namespace Storage.Setup
         [SerializeField] protected List<ItemBinding> _itemBindings;
         
         public IReadOnlyList<ItemBinding> ItemBindings => _itemBindings;
+
+        public ItemScope GetScopeOfItem(ItemType itemType)
+        {
+            foreach (var itemBinding in _itemBindings)
+            {
+                var containsItem = itemBinding.Items.Any(item => item.ItemType == itemType);
+
+                if (containsItem)
+                {
+                    return itemBinding.ItemScope;
+                }
+            }
+
+            return ItemScope.Default;
+        }
     }
 
     [Serializable]
@@ -42,6 +58,15 @@ namespace Storage.Setup
         [field: SerializeField] public ItemType ItemType { get; private set; }
         
         [field: SerializeField, Space] public Sprite ItemSprite { get; private set; }
+        
+        [Header("Selling Data")]
+        [field: SerializeField, Space] public PriceData  SellPrice { get; private set; }
+        
+        [Header("Buying Data")]
+        [field: SerializeField] public List<PriceData> BuyPrice { get; private set; }
+        
+        [Header("Building Data")]
+        [field: SerializeField, Space] public BuildingData BuildingData { get; private set; }
 
         public Item(string itemName, ItemType itemType)
         {
@@ -50,5 +75,13 @@ namespace Storage.Setup
         }
         
         public Item() {}
+    }
+
+    [Serializable]
+    public class PriceData
+    {
+        [field: SerializeField] public int Price { get; private set; }
+        
+        [field: SerializeField, Space] public ItemType ItemType { get; private set; }
     }
 }

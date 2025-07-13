@@ -1,9 +1,11 @@
+using Building;
 using Communication;
 using DG.Tweening;
 using Player.CameraControls;
 using Player.Controls;
 using Player.Setups;
 using UnityEngine;
+using Utiles.EventSystem;
 using Utiles.FSM;
 using CameraType = Player.CameraControls.CameraType;
 
@@ -11,6 +13,8 @@ namespace Player.FSM.States
 {
     public class PlayerCommunicationState : State
     {
+        private readonly EventBus _eventBus;
+        
         private readonly PointerSystem _pointerSystem;
         private readonly CameraSystem _cameraSystem;
 
@@ -21,13 +25,14 @@ namespace Player.FSM.States
         private ICommunicable _communicable;
         
         public PlayerCommunicationState(StateType stateType, PointerSystem pointerSystem, 
-            CameraSystem cameraSystem, Transform context, AnimationSetup rotationAnimationSetup)
+            CameraSystem cameraSystem, Transform context, AnimationSetup rotationAnimationSetup, EventBus eventBus)
         {
             StateType = stateType;
             _pointerSystem = pointerSystem;
             _cameraSystem = cameraSystem;
             _contextTransform = context;
             _rotationAnimationSetup = rotationAnimationSetup;
+            _eventBus = eventBus;
         }
         
         public override void Enter()
@@ -35,7 +40,6 @@ namespace Player.FSM.States
             RotateTowardsCommunicable();
             
             _communicable = _pointerSystem.PointedCommunicable;
-            
             _communicable.StartCommunication();
             
             _cameraSystem.SetCamera(CameraType.FirstPerson);
