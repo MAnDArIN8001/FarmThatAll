@@ -29,6 +29,9 @@ namespace UI.PopUp.Variants.Garden
         [Header("Buttons")] 
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _destroyButton;
+        [SerializeField] private Button _openDestroyWindowButton;
+        [SerializeField] private Button _closeDestroyWindowButton;
+        [SerializeField] private Button _cancelBatton;
 
         #endregion
 
@@ -38,6 +41,7 @@ namespace UI.PopUp.Variants.Garden
 
         [Header("Elements")] 
         [SerializeField] private CardsBar _cards;
+        [SerializeField] private GameObject _tab;
 
         [Header("Effects")]
         [SerializeField] private VisualEffect _destroyEffect;
@@ -87,6 +91,21 @@ namespace UI.PopUp.Variants.Garden
             {
                 _destroyButton.onClick.AddListener(DestroyGarden);
             }
+
+            if(_openDestroyWindowButton is not null)
+            {
+                _openDestroyWindowButton.onClick.AddListener(OpenDestroyWindow);
+            }
+
+            if(_closeDestroyWindowButton is not null)
+            {
+                _closeDestroyWindowButton.onClick.AddListener(CloseDestroyWindow);
+            }
+
+            if(_cancelBatton is not null)
+            {
+                _cancelBatton.onClick.AddListener(CloseDestroyWindow);
+            }
         }
 
         private void OnDisable()
@@ -126,9 +145,41 @@ namespace UI.PopUp.Variants.Garden
 
         private void DestroyGarden()
         {
+            CloseDestroyWindow();
             Close();
             Instantiate(_destroyEffect, _garden.transform.position, Quaternion.identity).Play();
             Destroy(_garden.gameObject);
+        }
+
+        private void OpenDestroyWindow()
+        {
+            _destroyWindow?.gameObject.SetActive(true);
+            
+            Vector3 targetPosition = _openDestroyWindowButton.transform.position;
+            StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
+        }
+
+        private void CloseDestroyWindow()
+        {
+            _destroyWindow?.gameObject.SetActive(false);
+
+            Vector3 targetPosition = _closeDestroyWindowButton.transform.position;
+            StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
+        }
+
+        private System.Collections.IEnumerator MoveOverTime(Transform transform,Vector3 target, float time)
+        {
+            Vector3 start = transform.position;
+            float elapsed = 0f;
+
+            while (elapsed < time)
+            {
+                transform.position = Vector3.Lerp(start, target, elapsed / time);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = target;
         }
     }
 }
