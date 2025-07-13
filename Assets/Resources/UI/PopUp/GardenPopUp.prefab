@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3908250353549669466
 RectTransform:
   m_ObjectHideFlags: 0
@@ -933,9 +933,11 @@ MonoBehaviour:
     _scalingTime: 0.25
     _scalingEase: 1
   _closeButton: {fileID: 7139061424278485610}
+  _destroyButton: {fileID: 3651266083829886753}
   _seedsWindow: {fileID: 57441253066640029}
   _destroyWindow: {fileID: 4014266093708226132}
   _cards: {fileID: 8787328670163120845}
+  _destroyEffect: {fileID: 6226165539581104974, guid: 24efb91e65d324d44aa2cd4f00e9aa22, type: 3}
   _slot: {fileID: 8493690943087483406}
 --- !u!1 &1262613149714536942
 GameObject:
@@ -1651,6 +1653,7 @@ RectTransform:
   m_Children:
   - {fileID: 2186228736921320747}
   - {fileID: 743091758584971392}
+  - {fileID: 5064466624535931011}
   m_Father: {fileID: 4893278207639817552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -1976,11 +1979,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7942359593290371009}
+  m_Father: {fileID: 1530500998014618237}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 54}
   m_SizeDelta: {x: 110, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7738026752822335905
@@ -2253,8 +2256,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 71}
-  m_SizeDelta: {x: -20, y: 80}
+  m_AnchoredPosition: {x: 0, y: 54}
+  m_SizeDelta: {x: -80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1175013028945827041
 MonoBehaviour:
@@ -2598,7 +2601,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Seeds
+  m_text: 'Destroy
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2698,14 +2703,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5064466624535931011}
+  m_Children: []
   m_Father: {fileID: 2433746456353949702}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 46.1, y: 0}
-  m_SizeDelta: {x: 100, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2969671650551077404
 CanvasRenderer:

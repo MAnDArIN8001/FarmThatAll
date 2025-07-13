@@ -9,6 +9,9 @@ using UI.ToolBar;
 using UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
+using ProcessBuilding.Garden;
+using Cysharp.Threading.Tasks.Triggers;
+using UnityEngine.VFX;
 
 namespace UI.PopUp.Variants.Garden
 {
@@ -25,6 +28,7 @@ namespace UI.PopUp.Variants.Garden
 
         [Header("Buttons")] 
         [SerializeField] private Button _closeButton;
+        [SerializeField] private Button _destroyButton;
 
         #endregion
 
@@ -34,12 +38,16 @@ namespace UI.PopUp.Variants.Garden
 
         [Header("Elements")] 
         [SerializeField] private CardsBar _cards;
+
+        [Header("Effects")]
+        [SerializeField] private VisualEffect _destroyEffect;
         
         [Space, SerializeField] private DropSlot _slot;
 
         private Storage.Storage _storage;
 
         private GrowingSystem _growingSystem;
+        private ProcessBuilding.Garden.Garden _garden;
 
         [Inject]
         private void InitializeByDI(Storage.Storage storage)
@@ -49,8 +57,9 @@ namespace UI.PopUp.Variants.Garden
             _cards.Initialize(_storage);
         }
         
-        public void Initialize(GrowingSystem growingSystem)
+        public void Initialize(GrowingSystem growingSystem, ProcessBuilding.Garden.Garden garden)
         {
+            _garden = garden;
             _growingSystem = growingSystem;
             _growingSystem.OnCultureCollect += HandleResourceTake;
 
@@ -72,6 +81,11 @@ namespace UI.PopUp.Variants.Garden
             if (_closeButton is not null)
             {
                 _closeButton.onClick.AddListener(Close);
+            }
+
+            if(_destroyButton is not null)
+            {
+                _destroyButton.onClick.AddListener(DestroyGarden);
             }
         }
 
@@ -108,6 +122,13 @@ namespace UI.PopUp.Variants.Garden
             Debug.Log("Resource taken");
             
             _slot.Clear();
+        }
+
+        private void DestroyGarden()
+        {
+            Close();
+            Instantiate(_destroyEffect, _garden.transform.position, Quaternion.identity).Play();
+            Destroy(_garden.gameObject);
         }
     }
 }
