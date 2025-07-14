@@ -9,6 +9,9 @@ using UI.ToolBar;
 using UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
+using ProcessBuilding.Garden;
+using Cysharp.Threading.Tasks.Triggers;
+using UnityEngine.VFX;
 
 namespace UI.PopUp.Variants.Garden
 {
@@ -25,15 +28,18 @@ namespace UI.PopUp.Variants.Garden
 
         [Header("Buttons")] 
         [SerializeField] private Button _closeButton;
+        [SerializeField] private Button _openDestroyWindowButton;
+        [SerializeField] private Button _closeDestroyWindowButton;
 
         #endregion
 
         [Header("Windows")] 
         [SerializeField] private SeedsWindow _seedsWindow;
-        [SerializeField] private AbstractWindow _destroyWindow;
+        [SerializeField] private DestroyWindow _destroyWindow;
 
         [Header("Elements")] 
         [SerializeField] private CardsBar _cards;
+        [SerializeField] private GameObject _tab;
         
         [Space, SerializeField] private DropSlot _slot;
 
@@ -49,7 +55,7 @@ namespace UI.PopUp.Variants.Garden
             _cards.Initialize(_storage);
         }
         
-        public void Initialize(GrowingSystem growingSystem)
+        public void Initialize(GrowingSystem growingSystem, ProcessBuilding.Garden.Garden garden)
         {
             _growingSystem = growingSystem;
             _growingSystem.OnCultureCollect += HandleResourceTake;
@@ -60,6 +66,8 @@ namespace UI.PopUp.Variants.Garden
             }
 
             _seedsWindow.Initialize(growingSystem);
+            _destroyWindow.Initialize(garden, this);
+            
         }
 
         private void Awake()
@@ -73,6 +81,17 @@ namespace UI.PopUp.Variants.Garden
             {
                 _closeButton.onClick.AddListener(Close);
             }
+
+            if(_openDestroyWindowButton is not null)
+            {
+                _openDestroyWindowButton.onClick.AddListener(OpenDestroyWindow);
+            }
+
+            if(_closeDestroyWindowButton is not null)
+            {
+                _closeDestroyWindowButton.onClick.AddListener(CloseDestroyWindow);
+            }
+           
         }
 
         private void OnDisable()
@@ -108,6 +127,37 @@ namespace UI.PopUp.Variants.Garden
             Debug.Log("Resource taken");
             
             _slot.Clear();
+        }
+
+        private void OpenDestroyWindow()
+        {
+            _destroyWindow.Open();
+            
+            Vector3 targetPosition = _openDestroyWindowButton.transform.position;
+            StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
+        }
+
+        public void CloseDestroyWindow()
+        {
+            _destroyWindow.Close();
+
+            Vector3 targetPosition = _closeDestroyWindowButton.transform.position;
+            StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
+        }
+
+        private System.Collections.IEnumerator MoveOverTime(Transform transform,Vector3 target, float time)
+        {
+            Vector3 start = transform.position;
+            float elapsed = 0f;
+
+            while (elapsed < time)
+            {
+                transform.position = Vector3.Lerp(start, target, elapsed / time);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = target;
         }
     }
 }
