@@ -39,7 +39,7 @@ namespace ProcessBuilding.Garden
         {
             _popUpService.OpenPopUp<GardenPopUp>(_popUpRoot.position, out _gardenPopUp);
             
-            _gardenPopUp.Initialize(_growingSystem);
+            _gardenPopUp.Initialize(_growingSystem, this);
         }
 
         public void StopCommunication()
