@@ -15,9 +15,8 @@ namespace Building.Converter
         [field: SerializeField] public ItemType RecipeOutputType { get; private set; }
         [field: SerializeField] public int RecipeOutputAmount { get; private set; } = 1;
         
-        [SerializeField] private List<Ingredient> ingredients;
+        [field: SerializeField] public Ingredient Ingredient { get; private set; }
         
-        public IReadOnlyList<Ingredient> Ingredients => ingredients;
     }
 
     [Serializable]
