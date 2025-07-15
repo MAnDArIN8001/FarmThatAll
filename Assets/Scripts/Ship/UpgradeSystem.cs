@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Player.CameraControls;
 using UnityEngine;
 using Utiles;
 using Utiles.EventSystem;
+using Zenject;
 using CameraType = Player.CameraControls.CameraType;
 
 namespace Ship
@@ -16,8 +18,8 @@ namespace Ship
         [Space, SerializeField] private List<UpgradeData> _upgradeData;
         
         [Space, SerializeField] private CameraSystem _cameraSystem;
-        
-        private LevelManager _levelManager = LevelManager.Instance;
+
+        [Inject] private LevelManager _levelManager;
 
         private EventBus _eventBus = EventBus.Instance;
 
@@ -39,7 +41,11 @@ namespace Ship
 
         private void HandleLevelChanged(int newLevel)
         {
-            var upgradeData = _upgradeData[newLevel];
+            var upgradeData = _upgradeData[newLevel-1];
+            
+            Debug.Log(newLevel);
+            Debug.Log(upgradeData.Level);
+
 
             foreach (var itemToUpdate in upgradeData.ItemsToUpdate)
             {
@@ -55,7 +61,7 @@ namespace Ship
                 }
             }
 
-            if (newLevel == _upgradeData.Count-1)
+            if (newLevel == _upgradeData.Last().Level)
             {
                 _cameraSystem.SetCamera(CameraType.Ship);
                 

@@ -70,10 +70,12 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             _isLevel = true;
             _levelManager = levelManager;
 
-            if (_levelManager.CurrentLevel >= _itemData.TargetLevel)
+            if (_levelManager.CurrentLevel != _itemData.TargetLevel)
             {
-                _locker.SetActive(false);
+                _locker.SetActive(true);
             }
+
+            _levelManager.OnLevelChanged += UpdateLocker;
         }
 
         private void OnEnable()
@@ -95,6 +97,11 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             {
                 _byuButton.onClick.RemoveListener(HandleBuy);
             }
+        }
+
+        private void UpdateLocker(int newLevel)
+        {
+            _locker.SetActive(newLevel != _itemData.TargetLevel);
         }
 
         private bool CheckPrice()

@@ -864,6 +864,11 @@ Transform:
   - {fileID: 1922170741}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &310163513 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 514338282034502828, guid: 1b79398a6b18eea4eb4ace20ef1dd663, type: 3}
+  m_PrefabInstance: {fileID: 7860073169953111278}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &311199977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,10 +1386,8 @@ MonoBehaviour:
   - <Level>k__BackingField: 2
     _itemsToHide:
     - <UpgradeType>k__BackingField: 0
-      <Element>k__BackingField: {fileID: 5912439875664813928}
-    - <UpgradeType>k__BackingField: 0
-      <Element>k__BackingField: {fileID: 7860073169953111279}
-  - <Level>k__BackingField: 2
+      <Element>k__BackingField: {fileID: 310163513}
+  - <Level>k__BackingField: 3
     _itemsToHide:
     - <UpgradeType>k__BackingField: 0
       <Element>k__BackingField: {fileID: 5912439875664813928}
@@ -2707,7 +2710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee2903cbc414a79a8e141cd454a43ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countingResource: 17
+  _countingResource: 20
   _itemsSetup: {fileID: 11400000, guid: 71e555efea532ba40be2a083b954254d, type: 2}
   _icon: {fileID: 2085459599}
   _counterText: {fileID: 1411582906}
@@ -5032,7 +5035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1726847808
 MonoBehaviour:
   m_ObjectHideFlags: 0
