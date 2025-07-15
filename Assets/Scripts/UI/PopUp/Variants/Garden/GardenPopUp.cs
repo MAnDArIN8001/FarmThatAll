@@ -59,15 +59,16 @@ namespace UI.PopUp.Variants.Garden
         {
             _growingSystem = growingSystem;
             _growingSystem.OnCultureCollect += HandleResourceTake;
+            
+            Debug.Log("Follow");
 
-            if (_growingSystem.Culture is not null )
+            if (_growingSystem.Culture is not null)
             {
                 _slot.InsertCard(growingSystem.Culture.CultureType);
             }
 
             _seedsWindow.Initialize(growingSystem);
             _destroyWindow.Initialize(garden, this);
-            
         }
 
         private void Awake()
@@ -91,7 +92,19 @@ namespace UI.PopUp.Variants.Garden
             {
                 _closeDestroyWindowButton.onClick.AddListener(CloseDestroyWindow);
             }
+
+            /*
+            if (_growingSystem is not null)
+            {
+                _growingSystem.OnCultureCollect += HandleResourceTake;
+            }
+            */
            
+            if (_growingSystem?.Culture is not null
+                && _slot.IsFree)
+            {
+                _slot.InsertCard(_growingSystem.Culture.CultureType);
+            }
         }
 
         private void OnDisable()
@@ -100,10 +113,17 @@ namespace UI.PopUp.Variants.Garden
             {
                 _closeButton.onClick.RemoveListener(Close);
             }
-        }
+            
+            if(_openDestroyWindowButton is not null)
+            {
+                _openDestroyWindowButton.onClick.RemoveListener(OpenDestroyWindow);
+            }
 
-        private void OnDestroy()
-        {
+            if(_closeDestroyWindowButton is not null)
+            {
+                _closeDestroyWindowButton.onClick.RemoveListener(CloseDestroyWindow);
+            }
+
             if (_growingSystem is not null)
             {
                 _growingSystem.OnCultureCollect -= HandleResourceTake;
@@ -112,6 +132,8 @@ namespace UI.PopUp.Variants.Garden
 
         public override void Open()
         {
+            gameObject.SetActive(true);
+            
             _scalingEffect.Play(_defaultScale, transform);
             
             OnPopUpOpened?.Invoke(this);
@@ -119,14 +141,19 @@ namespace UI.PopUp.Variants.Garden
 
         public override void Close()
         {
-            _scalingEffect.Play(Vector3.zero, transform, () => OnPopUpClosed?.Invoke(this));
+            _scalingEffect.Play(Vector3.zero, transform, () =>
+            {
+                OnPopUpClosed?.Invoke(this);
+                
+                gameObject.SetActive(false);
+            });
         }
 
         private void HandleResourceTake(float count)
         {
-            Debug.Log("Resource taken");
-            
             _slot.Clear();
+            
+            Debug.Log("Clear");
         }
 
         private void OpenDestroyWindow()

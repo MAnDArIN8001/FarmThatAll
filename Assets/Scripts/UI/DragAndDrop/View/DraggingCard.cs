@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Storage.Items;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,11 @@ namespace UI.DragAndDrop.View
             ItemType = itemType;
             ItemScope = itemScope;
             Icon.sprite = icon;
+        }
+
+        public void Hide()
+        {
+            transform.DOScale(Vector3.zero, 0.25f).OnComplete(() => Destroy(gameObject));
         }
     }
 }

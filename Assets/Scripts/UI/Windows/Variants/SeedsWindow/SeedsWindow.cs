@@ -46,7 +46,6 @@ namespace UI.PopUp.Variants.Garden.Windows
 
         private void HandleCultureChanged(Culture culture)
         {
-            Debug.Log("swap");
             _navigator.SwapWindows(_choiseWindow, _progressWindow);
         }
 

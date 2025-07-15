@@ -50,9 +50,7 @@ namespace ProcessBuilding.Systems.GrowingSystems.Variants
                 return;
             }
 
-            Culture = _abstractFactory.Create(cultureMap.Culture, _cultureGrowingPoint, _cultureGrowingPoint.position, Quaternion.identity);
-            
-            Debug.Log("Growing Start");
+            Culture = _abstractFactory.Create(cultureMap.Culture, _cultureGrowingPoint, _cultureGrowingPoint.position, Quaternion.identity);    
             
             OnCultureChanged?.Invoke(Culture);
         }
@@ -64,8 +62,6 @@ namespace ProcessBuilding.Systems.GrowingSystems.Variants
             OnCultureCollect?.Invoke(collected);
             
             _storage.IncreaseItem(Culture.CultureType, collected);
-            
-            Debug.Log($"{Culture.CultureType} : {collected}");
             
             Culture.Hide();
             Culture = null;

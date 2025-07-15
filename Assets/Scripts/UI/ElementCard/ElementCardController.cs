@@ -25,8 +25,6 @@ namespace UI.ElementCard
             _itemData = item;
             _storage = storage;
             
-            Debug.Log(_itemData.Item.ItemType);
-            
             _cardView.Initialize(_itemData.Item.ItemName, _itemData.Count.ToString(), item.Item.ItemSprite);
             
             _itemData.OnDataChanged += HandleDataChanged;

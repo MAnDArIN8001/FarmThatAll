@@ -103,6 +103,15 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""type"": ""Value"",
+                    ""id"": ""b742edaa-644d-4a5c-9920-e7021c7f391e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -116,6 +125,61 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
                     ""action"": ""StopAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""df350e8e-a83c-4b5e-a012-8270252a933b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Arrows"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""04dd5fe6-c23e-4833-8917-46b58fc28246"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Arrows"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""7bd7c9b7-4810-4895-854a-4591571de29f"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Arrows"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""57e88632-20c0-48fa-9b73-d38fbf8d3209"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Arrows"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""fab8a98f-9431-452d-bebd-2a4c847df8b8"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Arrows"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -130,6 +194,7 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
         // Controls
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
         m_Controls_StopAction = m_Controls.FindAction("StopAction", throwIfNotFound: true);
+        m_Controls_Arrows = m_Controls.FindAction("Arrows", throwIfNotFound: true);
     }
 
     ~@BaseInput()
@@ -260,11 +325,13 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Controls;
     private List<IControlsActions> m_ControlsActionsCallbackInterfaces = new List<IControlsActions>();
     private readonly InputAction m_Controls_StopAction;
+    private readonly InputAction m_Controls_Arrows;
     public struct ControlsActions
     {
         private @BaseInput m_Wrapper;
         public ControlsActions(@BaseInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @StopAction => m_Wrapper.m_Controls_StopAction;
+        public InputAction @Arrows => m_Wrapper.m_Controls_Arrows;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -277,6 +344,9 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
             @StopAction.started += instance.OnStopAction;
             @StopAction.performed += instance.OnStopAction;
             @StopAction.canceled += instance.OnStopAction;
+            @Arrows.started += instance.OnArrows;
+            @Arrows.performed += instance.OnArrows;
+            @Arrows.canceled += instance.OnArrows;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -284,6 +354,9 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
             @StopAction.started -= instance.OnStopAction;
             @StopAction.performed -= instance.OnStopAction;
             @StopAction.canceled -= instance.OnStopAction;
+            @Arrows.started -= instance.OnArrows;
+            @Arrows.performed -= instance.OnArrows;
+            @Arrows.canceled -= instance.OnArrows;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -310,5 +383,6 @@ public partial class @BaseInput: IInputActionCollection2, IDisposable
     public interface IControlsActions
     {
         void OnStopAction(InputAction.CallbackContext context);
+        void OnArrows(InputAction.CallbackContext context);
     }
 }
