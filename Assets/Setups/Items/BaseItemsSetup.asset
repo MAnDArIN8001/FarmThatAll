@@ -15,42 +15,42 @@ MonoBehaviour:
   _itemBindings:
   - <ItemScope>k__BackingField: 0
     _items:
-    - <ItemName>k__BackingField: Blueberry seeds
+    - <ItemName>k__BackingField: Blueberry
       <ItemType>k__BackingField: 1
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: f33cc8449c0bbf548a845c285eab3326, type: 3}
       <SellPrice>k__BackingField:
-        <Price>k__BackingField: 0
-        <ItemType>k__BackingField: 0
+        <Price>k__BackingField: 10
+        <ItemType>k__BackingField: 17
       <BuyPrice>k__BackingField:
       - <Price>k__BackingField: 75
         <ItemType>k__BackingField: 17
       <BuildingData>k__BackingField: {fileID: 0}
-    - <ItemName>k__BackingField: Wheat seeds
+    - <ItemName>k__BackingField: Wheat
       <ItemType>k__BackingField: 3
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 8d22657b53ae44e4dae77e7e70935928, type: 3}
       <SellPrice>k__BackingField:
-        <Price>k__BackingField: 0
-        <ItemType>k__BackingField: 0
+        <Price>k__BackingField: 10
+        <ItemType>k__BackingField: 17
       <BuyPrice>k__BackingField:
       - <Price>k__BackingField: 100
         <ItemType>k__BackingField: 17
       <BuildingData>k__BackingField: {fileID: 0}
-    - <ItemName>k__BackingField: Cabbage seeds
+    - <ItemName>k__BackingField: Cabbage
       <ItemType>k__BackingField: 5
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 3a507ba7617c0bb4f8c742fb281ca76c, type: 3}
       <SellPrice>k__BackingField:
-        <Price>k__BackingField: 0
-        <ItemType>k__BackingField: 0
+        <Price>k__BackingField: 10
+        <ItemType>k__BackingField: 17
       <BuyPrice>k__BackingField:
       - <Price>k__BackingField: 25
         <ItemType>k__BackingField: 17
       <BuildingData>k__BackingField: {fileID: 0}
-    - <ItemName>k__BackingField: Tomato seeds
+    - <ItemName>k__BackingField: Tomato
       <ItemType>k__BackingField: 7
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 300e2bed3984e024f852757f1b90e799, type: 3}
       <SellPrice>k__BackingField:
-        <Price>k__BackingField: 0
-        <ItemType>k__BackingField: 0
+        <Price>k__BackingField: 10
+        <ItemType>k__BackingField: 17
       <BuyPrice>k__BackingField:
       - <Price>k__BackingField: 50
         <ItemType>k__BackingField: 17
