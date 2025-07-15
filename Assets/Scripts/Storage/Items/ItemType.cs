@@ -19,6 +19,9 @@ namespace Storage.Items
         StoneFactory,
         BreadFactory,
         JuiceFactory,
+        FirstUpgrade,
+        SecondUpgrade,
+        ThirdUpgrade,
         Money
     }
 }

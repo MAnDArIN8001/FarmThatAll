@@ -7,7 +7,7 @@ namespace DI.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<LevelManager>().FromNew().AsSingle();
+            Container.Bind<LevelManager>().FromNew().AsSingle().NonLazy();
         }
     }
 }
