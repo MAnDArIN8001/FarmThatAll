@@ -98,6 +98,11 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
 
         private void HandleStorageUpdate(ItemType itemType)
         {
+            if (itemType != _itemData.ItemType)
+            {
+                return;
+            }
+            
             var newCount = _storage.GetItemsCount(itemType);
 
             if (newCount == 0)
