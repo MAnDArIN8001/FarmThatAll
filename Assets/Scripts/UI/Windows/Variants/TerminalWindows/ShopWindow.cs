@@ -9,6 +9,7 @@ using UnityEngine;
 using UI.Windows.Variants.TerminalWindows.Elements;
 using Utiles;
 using Utiles.EventSystem;
+using Zenject;
 
 namespace UI.Windows.Variants.TerminalWindows
 {
@@ -34,6 +35,8 @@ namespace UI.Windows.Variants.TerminalWindows
         private LevelManager _levelManager;
         
         private EventBus _eventBus;
+
+        [Inject] private DiContainer _container;
 
         public void Initialize(IStorage storage, LevelManager levelManager, EventBus eventBus)
         {
@@ -80,10 +83,13 @@ namespace UI.Windows.Variants.TerminalWindows
                         .FirstOrDefault(item => item.ItemType == itemInStep);
                     
                     var shopItem = Instantiate(_shopCardPrefab, _cardsRoot);
-                    
+
+                    _container.Inject(shopItem);
+
                     _cards.Add(shopItem);
                 
                     shopItem.Initialize(itemData, _storage, _eventBus, isLocked, _filterManager.Filter == ItemScope.Building);
+
                 }
             }
         }

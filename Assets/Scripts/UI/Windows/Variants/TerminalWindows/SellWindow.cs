@@ -5,6 +5,7 @@ using Storage.Items;
 using Storage.Setup;
 using UI.Windows.Variants.TerminalWindows.Elements;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Windows.Variants.TerminalWindows
 {
@@ -23,6 +24,9 @@ namespace UI.Windows.Variants.TerminalWindows
         [Space, SerializeField] private List<ItemScope> _sellingItemsScope;
         
         private readonly IStorage _storage = Storage.Storage.Instance;
+
+        [Inject] private DiContainer _container;
+
 
         private void OnEnable()
         {
@@ -49,7 +53,9 @@ namespace UI.Windows.Variants.TerminalWindows
                             .FirstOrDefault(itemData => itemData.ItemType == item.Item.ItemType);
                         
                         var card =  Instantiate(_sellCardPrefab, _cardsRoot);
-                        
+                        _container.Inject(card);
+
+
                         card.Initialize(_storage,  itemData);
                     }
                 }

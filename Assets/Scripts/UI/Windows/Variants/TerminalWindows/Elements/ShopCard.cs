@@ -1,11 +1,13 @@
 using System.Linq;
 using Building;
+using Sounds;
 using Storage;
 using Storage.Setup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utiles.EventSystem;
+using Zenject;
 
 namespace UI.Windows.Variants.TerminalWindows.Elements
 {
@@ -28,6 +30,8 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
         [SerializeField] private PriceView _priceViewPrefab;
         
         [Space, SerializeField] private ItemsSetup _itemsSetup;
+
+        [Inject] private SoundService _soundService;
 
         private Item _itemData;
         
@@ -117,7 +121,8 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
                 _storage.IncreaseItem(_itemData.ItemType, 1);
             }
             
-            _byuButton.interactable = CheckPrice();   
+            _byuButton.interactable = CheckPrice();
+            _soundService.Play(SoundType.Music, "buy");
         }
     }
 }
