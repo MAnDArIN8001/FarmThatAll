@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Storage.Items;
 using UnityEngine;
@@ -35,46 +36,26 @@ namespace Building.Converter
         }
         
         public float CurrentPercentage { get; private set; }
-        
-        [field: SerializeField] private List<Recipe> availableRecipes { get; set; }
-        
-        public IReadOnlyList<Recipe> AvailableRecipes => availableRecipes;
-
-        private Queue<Recipe> _recipesInQueue;
-        
-        public IReadOnlyCollection<Recipe> RecipesInQueue => _recipesInQueue;
 
         private Recipe _currentRecipe;
         
         public Recipe CurrentRecipe => _currentRecipe;
-
-        private Dictionary<ItemType, int> _tempItemsToEnqueue;
+        
+        private bool _isRunning;
+        
+        private Ingredient _tempIngredient;
         
         private UniTask _convertTask;
         private CancellationToken _token;
         
+        public event Action<bool> OnChangeConvertingState;
+        
         private void Awake()
         {
             _token = this.GetCancellationTokenOnDestroy();
-            
-            _tempItemsToEnqueue = new Dictionary<ItemType, int>();
         }
 
-        private async void Start()
-        {
-            try
-            {
-                _convertTask = Convert(_token);
-
-                await _convertTask;
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.Log("Converting stopped");
-            }
-        }
-
-        public void EnqueueRecipe(Recipe recipe)
+        public async UniTask StartProduceRecipe(Recipe recipe)
         {
             if (recipe == null)
             {
@@ -83,57 +64,61 @@ namespace Building.Converter
                 return;
             }
 
-            _tempItemsToEnqueue.Clear();
-            
-            foreach (var recipeIngredient in recipe.Ingredients)
+            if (_isRunning || _convertTask.Status == UniTaskStatus.Pending)
             {
-                if (_storage.GetItemsCount(recipeIngredient.Type) < recipeIngredient.Amount)
-                {
-                    Debug.Log("Not enough ingredients to produce a recipe");
-                    
-                    _tempItemsToEnqueue.Clear();
-                    
-                    return;
-                }
+                Debug.Log("Already running");
                 
-                _tempItemsToEnqueue.Add(recipeIngredient.Type, recipeIngredient.Amount);
+                return;
             }
 
-            foreach (var tempItem in _tempItemsToEnqueue)
+            _tempIngredient = recipe.Ingredient;
+
+            _storage.DecreaseItem(_tempIngredient.Type, _tempIngredient.Amount);
+
+            try
             {
-                _storage.DecreaseItem(tempItem.Key, tempItem.Value);
+                _isRunning = true;
+                OnChangeConvertingState?.Invoke(true);
+                
+                _currentRecipe = recipe;
+                
+                _convertTask = Convert(_token);
+
+                await _convertTask;
             }
-            
-            _recipesInQueue.Enqueue(recipe);
+            catch (OperationCanceledException)
+            {
+                _storage.IncreaseItem(_tempIngredient.Type, _tempIngredient.Amount);
+                
+                Debug.Log("Converting stopped");
+            }
         }
         
         private async UniTask Convert(CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+            try
             {
-                if (_recipesInQueue.Count == 0 && _currentRecipe == null)
+                while (!token.IsCancellationRequested)
                 {
-                    await UniTask.Yield();
-                }
-                
-                await UniTask.Delay(progressBarStep, cancellationToken: token);
+                    await UniTask.Delay(progressBarStep, cancellationToken: token);
+                    Timer += progressBarStep;
 
-                if (_currentRecipe == null)
-                {
-                    _currentRecipe = _recipesInQueue.Dequeue();
-
-                    Timer = 0;
-                }
-
-                Timer += progressBarStep;
-
-                if (Timer >= _currentRecipe.RecipeDurationMilliseconds)
-                {
-                    _storage.IncreaseItem(_currentRecipe.RecipeOutputType, _currentRecipe.RecipeOutputAmount);
+                    CurrentPercentage = (float)Timer / _currentRecipe.RecipeDurationMilliseconds;
                     
-                    Timer -= _currentRecipe.RecipeDurationMilliseconds;
-                    _currentRecipe = null;
+                    if (Timer >= _currentRecipe.RecipeDurationMilliseconds)
+                    {
+                        _storage.IncreaseItem(_currentRecipe.RecipeOutputType, _currentRecipe.RecipeOutputAmount);
+                        break;
+                    }
                 }
+            }
+            finally
+            {
+                Timer = 0;
+                _currentRecipe = null;
+                _isRunning = false;
+                
+                OnChangeConvertingState?.Invoke(false);
             }
         }
     }

@@ -7,6 +7,7 @@ namespace Storage.Items
         Resource,
         Food,
         Building,
+        Upgrade,
         Default
     }
 }

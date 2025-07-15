@@ -26,7 +26,7 @@ namespace Building.Factory
         {
             Factory = GetComponent<FactoryBuilding>();
             
-            _popUpRoot = GameObject.FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
+            _popUpRoot ??= FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
         }
 
         public void StartCommunication()
@@ -36,6 +36,8 @@ namespace Building.Factory
             if (_popUp == null)
             {
                 Debug.LogWarning("No factory pop up found");
+                
+                return;
             }
             
             _popUp.transform.name = $"{nameof(FactoryPopUp)}";

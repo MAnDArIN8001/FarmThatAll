@@ -10,11 +10,15 @@ namespace Utiles.EventSystem
 
         private Dictionary<Type, int> _lastInvokeDictionary;
         
+        public static EventBus Instance { get; private set; }
+        
         public EventBus()
         {
             _events = new Dictionary<Type, List<Delegate>>();
             
             _lastInvokeDictionary = new Dictionary<Type, int>();
+            
+            Instance = this;
         }
 
         public void Subscribe<T>(Action<T> action)

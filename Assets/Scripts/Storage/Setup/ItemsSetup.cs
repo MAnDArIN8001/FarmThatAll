@@ -66,7 +66,10 @@ namespace Storage.Setup
         [field: SerializeField] public List<PriceData> BuyPrice { get; private set; }
         
         [Header("Building Data")]
-        [field: SerializeField, Space] public BuildingData BuildingData { get; private set; }
+        [field: SerializeField] public BuildingData BuildingData { get; private set; }
+        
+        [Header("Level Data")]
+        [field: SerializeField] public int TargetLevel { get; private set; }
 
         public Item(string itemName, ItemType itemType)
         {
