@@ -21,6 +21,8 @@ namespace Player
         [SerializeField] private PointerSystem _pointerSystem;
         [SerializeField] private CameraSystem _cameraSystem;
 
+        [Space, SerializeField] private ControllableAnimator _animator;
+
         private BaseInput _baseInput;
 
         private StateMachine _stateMachine;
@@ -51,8 +53,8 @@ namespace Player
             var states = new Dictionary<StateType, State>()
             {
                 { StateType.Idle, new PlayerIdleState(StateType.Idle) },
-                { StateType.Movement, new PlayerMovementState(StateType.Movement, _movementSystem, _pointerSystem, _baseInput) },
-                { StateType.Communication, new PlayerCommunicationState(StateType.Communication, _pointerSystem, _cameraSystem, transform, _rotationAnimationSetup, eventBus) },
+                { StateType.Movement, new PlayerMovementState(StateType.Movement, _movementSystem, _pointerSystem, _baseInput, _animator) },
+                { StateType.Communication, new PlayerCommunicationState(StateType.Communication, _pointerSystem, _cameraSystem, transform, _rotationAnimationSetup, eventBus, _animator) },
             };
 
             _stateMachine = new StateMachine(states, transitions, StateType.Idle);

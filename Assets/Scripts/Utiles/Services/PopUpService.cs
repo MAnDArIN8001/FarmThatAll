@@ -58,12 +58,7 @@ namespace Utiles.Services
             
             var pathToPopUp = _popUpDirectoryPath + typeOfPopUp.Name;
 
-            var stopWatch = Stopwatch.StartNew();
-
             var popUpFromResources = Resources.Load<T>(pathToPopUp);
-            
-            stopWatch.Stop();
-            Debug.Log(stopWatch.ElapsedMilliseconds);
 
             if (popUpFromResources is not null)
             {

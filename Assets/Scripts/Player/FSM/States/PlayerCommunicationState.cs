@@ -24,8 +24,10 @@ namespace Player.FSM.States
 
         private ICommunicable _communicable;
         
+        private readonly ControllableAnimator _animator;
+        
         public PlayerCommunicationState(StateType stateType, PointerSystem pointerSystem, 
-            CameraSystem cameraSystem, Transform context, AnimationSetup rotationAnimationSetup, EventBus eventBus)
+            CameraSystem cameraSystem, Transform context, AnimationSetup rotationAnimationSetup, EventBus eventBus, ControllableAnimator animator)
         {
             StateType = stateType;
             _pointerSystem = pointerSystem;
@@ -33,6 +35,7 @@ namespace Player.FSM.States
             _contextTransform = context;
             _rotationAnimationSetup = rotationAnimationSetup;
             _eventBus = eventBus;
+            _animator = animator;
         }
         
         public override void Enter()
@@ -43,6 +46,8 @@ namespace Player.FSM.States
             _communicable.StartCommunication();
             
             _cameraSystem.SetCamera(CameraType.FirstPerson);
+            
+            _animator.PlayCommunicate();
         }
 
         public override void Update() { }

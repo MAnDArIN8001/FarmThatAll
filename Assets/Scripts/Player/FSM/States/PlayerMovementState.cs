@@ -14,7 +14,9 @@ namespace Player.FSM.States
 
         private readonly Camera _mainCamera;
         
-        public PlayerMovementState(StateType stateType, MovementSystem movementSystem, PointerSystem pointerSystem, BaseInput input)
+        private readonly ControllableAnimator _animator;
+        
+        public PlayerMovementState(StateType stateType, MovementSystem movementSystem, PointerSystem pointerSystem, BaseInput input, ControllableAnimator animator)
         {
             StateType = stateType;
             
@@ -22,6 +24,7 @@ namespace Player.FSM.States
             _pointerSystem = pointerSystem;
             _input = input;
             _mainCamera = Camera.main;
+            _animator = animator;
         }
         
         public override void Enter()
@@ -29,6 +32,8 @@ namespace Player.FSM.States
             ComputeDestination();
 
             _input.Mouse.LeftClick.performed += HandleClick;
+
+            _animator.SetWalk(true);
         }
 
         public override void Update() { }
@@ -38,6 +43,8 @@ namespace Player.FSM.States
             _input.Mouse.LeftClick.performed -= HandleClick;
             
             _movementSystem.BreakMovement();
+            
+            _animator.SetWalk(false);
         }
 
         private void HandleClick(InputAction.CallbackContext context)

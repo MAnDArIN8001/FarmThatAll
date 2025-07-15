@@ -20,7 +20,7 @@ namespace UI.ElementCard.Slot
 
         [Space, SerializeField] private ItemsSetup _itemsSetup;
         
-        private DraggingCard _currentCard;
+        [SerializeField] private DraggingCard _currentCard;
 
         private Tween _cardMovementTween;
 
@@ -41,6 +41,11 @@ namespace UI.ElementCard.Slot
 
         public void InsertCard(ItemType itemType)
         {
+            if (_currentCard is not null)
+            {
+                return;
+            }
+            
             _currentCard = Instantiate(_dragCardPrefab, transform.position, Quaternion.identity);
             _currentCard.transform.SetParent(transform);
             
@@ -53,7 +58,9 @@ namespace UI.ElementCard.Slot
 
         public void Clear()
         {
-            Destroy(_currentCard.gameObject);
+            Debug.Log(_currentCard);
+            
+            _currentCard.Hide();
             _currentCard = null;
         }
     }
