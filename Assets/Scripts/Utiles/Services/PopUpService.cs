@@ -19,6 +19,8 @@ namespace Utiles.Services
         private readonly Dictionary<Type, AbstractPopUp> _activePopUps = new();
         private readonly Dictionary<Type, AbstractPopUp> _inactivePopUps = new();
 
+        private readonly List<AbstractPopUp> _popUps = new();
+
         private readonly MonoAbstractFactory _abstractFactory;
         
         public static PopUpService Instance { get; private set; }
@@ -107,6 +109,52 @@ namespace Utiles.Services
             popUp = null;
         }
 
+        public void SimpleOpen<T>(Vector3 position, out T popUp) where T : AbstractPopUp
+        {
+            var typeOfPopUp = typeof(T);
+            
+            if (_cachedPopUps.TryGetValue(typeOfPopUp, out var cachedPopUp))
+            {
+                popUp = _abstractFactory.Create<T>((T)cachedPopUp, _globalCanvas.transform);
+                popUp.transform.position = position;
+                
+                AddSimplePopUp(popUp);
+                
+                return;
+            }
+            
+            var pathToPopUp = _popUpDirectoryPath + typeOfPopUp.Name;
+
+            var popUpFromResources = Resources.Load<T>(pathToPopUp);
+
+            if (popUpFromResources is not null)
+            {
+                if (popUpFromResources.MustBeCached)
+                {
+                    _cachedPopUps.Add(typeOfPopUp, popUpFromResources);    
+                }   
+                
+                popUp = _abstractFactory.Create(popUpFromResources, _globalCanvas.transform);
+                popUp.transform.position = position;
+                
+                AddSimplePopUp(popUp);
+
+                return;
+            }
+
+            popUp = null;
+        }
+
+        private void AddSimplePopUp(AbstractPopUp popUp)
+        {
+            if (_popUps.Contains(popUp))
+            {
+                return;
+            }
+            
+            _popUps.Add(popUp);
+        }
+
         public void ClosePopUp<T>() where T : AbstractPopUp
         {
             var typeOfPopUp = typeof(T);
@@ -160,10 +208,16 @@ namespace Utiles.Services
             {
                 popUp.OnPopUpOpened -= HandlePopUpOpened;
             }
+
+            foreach (var popUp in _popUps)
+            {
+                Object.Destroy(popUp?.gameObject);
+            }
             
             _cachedPopUps.Clear();
             _activePopUps.Clear();
             _inactivePopUps.Clear();
+            _popUps.Clear();
         }
     }
 }

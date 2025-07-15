@@ -1,10 +1,12 @@
 using System;
+using Sounds;
 using Storage;
 using Storage.Items;
 using Storage.Setup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.Windows.Variants.TerminalWindows.Elements
 {
@@ -23,6 +25,8 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
         [Space, SerializeField] private Slider _totalSlider;
         
         [Space, SerializeField] private Button _sellButton;
+
+        [Inject] private SoundService _soundService;
 
         private Item _itemData;
         
@@ -94,6 +98,8 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             
             _storage.DecreaseItem(_itemData.ItemType, count);
             _storage.IncreaseItem(_itemData.SellPrice.ItemType, _itemData.SellPrice.Price * count);
+
+            _soundService.Play(SoundType.Music, "sell");
         }
 
         private void HandleStorageUpdate(ItemType itemType)

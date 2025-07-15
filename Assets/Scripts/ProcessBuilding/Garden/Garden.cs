@@ -37,14 +37,18 @@ namespace ProcessBuilding.Garden
 
         public void StartCommunication()
         {
-            _popUpService.OpenPopUp<GardenPopUp>(_popUpRoot.position, out _gardenPopUp);
+            if (_gardenPopUp is null)
+            {
+                _popUpService.SimpleOpen<GardenPopUp>(_popUpRoot.position, out _gardenPopUp);
+            }
             
             _gardenPopUp.Initialize(_growingSystem, this);
+            _gardenPopUp.Open();
         }
 
         public void StopCommunication()
         {
-            _popUpService.ClosePopUp<GardenPopUp>();
+            _gardenPopUp.Close();
         }
     }
 }

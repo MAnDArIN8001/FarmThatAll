@@ -42,6 +42,9 @@ namespace Utiles.Pool
 
         private void OnDestroy(T overflowedPoolObject)
         {
+            if (overflowedPoolObject == null || overflowedPoolObject.gameObject == null)
+                return;
+
             Object.Destroy(overflowedPoolObject.gameObject);
         }
         

@@ -65,6 +65,7 @@ namespace UI.PopUp.Variants.Terminal
             transform.localScale = _defaultScale;
             
             OnPopUpOpened?.Invoke(this);
+            base.Open();
         }
 
         public override void Close()
@@ -72,6 +73,7 @@ namespace UI.PopUp.Variants.Terminal
             transform.localScale = Vector3.zero;
             
             OnPopUpClosed?.Invoke(this);
+            base.Close();
         }
     }
 } 
