@@ -5,6 +5,7 @@ using Storage.Setup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utiles;
 using Utiles.EventSystem;
 
 namespace UI.Windows.Variants.TerminalWindows.Elements
@@ -12,6 +13,7 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
     public class ShopCard : MonoBehaviour
     {
         private bool _isBuilding;
+        private bool _isLevel;
         
         [Header("UI Elements")]
         [SerializeField] private Image _icon;
@@ -28,6 +30,8 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
         [SerializeField] private PriceView _priceViewPrefab;
         
         [Space, SerializeField] private ItemsSetup _itemsSetup;
+        
+        private LevelManager _levelManager;
 
         private Item _itemData;
         
@@ -59,6 +63,17 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             }
 
             _byuButton.interactable = CheckPrice();
+        }
+
+        public void InitializeUpgrade(LevelManager levelManager)
+        {
+            _isLevel = true;
+            _levelManager = levelManager;
+
+            if (_levelManager.CurrentLevel >= _itemData.TargetLevel)
+            {
+                _locker.SetActive(false);
+            }
         }
 
         private void OnEnable()
@@ -111,6 +126,10 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             if (_isBuilding)
             {
                 _eventBus.Publish(_itemData.BuildingData);
+            }
+            else if (_isLevel)
+            {
+                _levelManager.IncreaseLevel();
             }
             else
             {

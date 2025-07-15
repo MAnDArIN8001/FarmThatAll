@@ -84,6 +84,11 @@ namespace UI.Windows.Variants.TerminalWindows
                     _cards.Add(shopItem);
                 
                     shopItem.Initialize(itemData, _storage, _eventBus, isLocked, _filterManager.Filter == ItemScope.Building);
+
+                    if (_filterManager.Filter == ItemScope.Upgrade)
+                    {
+                        shopItem.InitializeUpgrade(LevelManager.Instance);
+                    }
                 }
             }
         }
