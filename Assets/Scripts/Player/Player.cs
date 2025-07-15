@@ -31,6 +31,8 @@ namespace Player
         private void Initialize(BaseInput input, EventBus eventBus)
         {
             _baseInput = input;
+            
+            eventBus.Subscribe<StopAction>(Handler);
 
             var transitions = new List<Transition>()
             {
@@ -44,7 +46,8 @@ namespace Player
                 
                 new Transition(StateType.Communication, StateType.Idle, 
                     () => _baseInput.Controls.StopAction.WasPerformedThisFrame() 
-                || eventBus.WasInvokedThisFrame<BuildingData>()),
+                || eventBus.WasInvokedThisFrame<BuildingData>()
+                || eventBus.WasInvokedThisFrame<StopAction>()),
                 
                 new Transition(StateType.Movement, StateType.Idle, 
                     () => _movementSystem.IsMovementDone)
@@ -58,6 +61,11 @@ namespace Player
             };
 
             _stateMachine = new StateMachine(states, transitions, StateType.Idle);
+        }
+
+        private void Handler(StopAction action)
+        {
+            
         }
         
         private void Update()
