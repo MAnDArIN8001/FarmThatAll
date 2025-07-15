@@ -17,6 +17,7 @@ namespace UI.PopUp
         
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text itemCount;
+        [SerializeField] private TMP_Text itemName;
         
         [SerializeField] private Image itemImage;
         [SerializeField] private Image progressBarImage;
@@ -34,7 +35,7 @@ namespace UI.PopUp
                 
                 _localStorageCount = value;
                 
-                itemCount.text = _localStorageCount.ToString();
+                itemCount.text = $"At the moment {_localStorageCount.ToString()} pieces are ready";
             }
         }
         
@@ -48,6 +49,7 @@ namespace UI.PopUp
             }
             
             collectButton.onClick.AddListener(CollectSteel);
+            itemName.text = factory.GeneratedItemType.ToString();
         }
 
         private void OnDisable()
