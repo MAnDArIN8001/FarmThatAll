@@ -12,7 +12,7 @@ namespace Building.Factory
     [RequireComponent(typeof(FactoryBuilding))]
     public class FactoryCommunicableBuilding : MonoBehaviour, ICommunicable
     {
-        private PopUpService _popUpService = PopUpService.Instance;
+        [Inject] private PopUpService _popUpService;
         
         [field: SerializeField] public FactoryBuilding Factory { get; private set; }
         [field: SerializeField] public Transform CommunicationTransform { get; private set; }
