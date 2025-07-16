@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Building.Factory;
 using Storage.Items;
+using Storage.Setup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -28,8 +30,8 @@ namespace UI.PopUp
         [SerializeField] private DestroyWindow _destroyWindow;
 
         [SerializeField] private GameObject _tab;
-
-
+        
+        [SerializeField] private ItemsSetup _itemsSetup;
 
         public FactoryBuilding factory;
 
@@ -47,6 +49,17 @@ namespace UI.PopUp
                 itemCount.text = $"At the moment {_localStorageCount.ToString()} pieces are ready";
             }
         }
+
+        public void Setup(FactoryBuilding factory)
+        {
+            var itemData = _itemsSetup.ItemBindings
+                .SelectMany(binding => binding.Items)
+                .FirstOrDefault(item => item.ItemType == factory.GeneratedItemType);
+            
+            itemName.text = itemData?.ItemName;
+            itemImage.sprite = itemData?.ItemSprite;
+            this.factory = factory;
+        }
         
         private void OnEnable()
         {
@@ -58,7 +71,6 @@ namespace UI.PopUp
             }
             
             collectButton.onClick.AddListener(CollectSteel);
-            itemName.text = factory.GeneratedItemType.ToString();
 
             if (_openDestroyWindowButton is not null)
             {
@@ -99,6 +111,7 @@ namespace UI.PopUp
         private void OpenDestroyWindow()
         {
             _destroyWindow.Open();
+            _destroyWindow.Initialize(factory.gameObject, this);
 
             Vector3 targetPosition = _openDestroyWindowButton.transform.position;
             StartCoroutine(MoveOverTime(_tab.transform, targetPosition, 0.5f));
