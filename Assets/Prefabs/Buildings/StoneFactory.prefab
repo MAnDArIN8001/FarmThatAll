@@ -169,7 +169,7 @@ MonoBehaviour:
   <Factory>k__BackingField: {fileID: 3807196053522024515}
   <CommunicationTransform>k__BackingField: {fileID: 5571804192239396656}
   <CommunicationViewpointTransform>k__BackingField: {fileID: 591229439156588955}
-  _popUpRoot: {fileID: 0}
+  _popUpRoot: {fileID: 2074922546984820942, guid: 7318c985117a57f40b5a59e8ac823b45, type: 3}
 --- !u!1 &5036668997075271211
 GameObject:
   m_ObjectHideFlags: 0
