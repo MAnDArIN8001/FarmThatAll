@@ -19,3 +19,15 @@ MonoBehaviour:
   - <Type>k__BackingField: closePopUp
     <Sound>k__BackingField:
     - {fileID: 8300000, guid: 5a724e195013c694ab038d586f791989, type: 3}
+  - <Type>k__BackingField: buy
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: 5bf65322c29bcf643820f357658d6663, type: 3}
+  - <Type>k__BackingField: sell
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: 2aa387ce4930f2a489ec48436d3bc712, type: 3}
+  - <Type>k__BackingField: destroyGarden
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: 8c4ea90f8c0811242b25916f64dbfd26, type: 3}
+  - <Type>k__BackingField: destroyFactory
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: f5724d8f95447f547b8a6a8a91165ff0, type: 3}

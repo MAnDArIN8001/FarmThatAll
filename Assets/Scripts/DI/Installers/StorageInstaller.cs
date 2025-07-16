@@ -12,7 +12,7 @@ namespace DI.Installers
         {
             Container.BindInstance(_itemsSetup);
             
-            Container.BindInterfacesAndSelfTo<Storage.Storage>().AsSingle();
+            Container.BindInterfacesAndSelfTo<Storage.Storage>().AsSingle().NonLazy();
         }
     }
 }

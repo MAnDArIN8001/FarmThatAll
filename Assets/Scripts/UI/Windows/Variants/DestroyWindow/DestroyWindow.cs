@@ -1,3 +1,4 @@
+using Player;
 using ProcessBuilding.Garden;
 using Sounds;
 using UI.Effects.ScalingEffect;
@@ -6,6 +7,7 @@ using UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
+using Utiles.EventSystem;
 using Zenject;
 
 public class DestroyWindow : AbstractWindow
@@ -15,6 +17,7 @@ public class DestroyWindow : AbstractWindow
     [Header("Buttons")]
     [SerializeField] private Button _destroyButton;
     [SerializeField] private Button _cancelBatton;
+    [SerializeField] private string _destroySound;
 
     #endregion
 
@@ -36,7 +39,7 @@ public class DestroyWindow : AbstractWindow
 
         if (_destroyButton is not null)
         {
-            _destroyButton.onClick.AddListener(DestroyGarden);
+            _destroyButton.onClick.AddListener(DestroyBuild);
         }
 
          if(_cancelBatton is not null)
@@ -50,12 +53,13 @@ public class DestroyWindow : AbstractWindow
         _gardenPopUp.CloseDestroyWindow();
     }
 
-    private void DestroyGarden()
+    private void DestroyBuild()
     {
-        Close();
-        _gardenPopUp.Close();
+
         Instantiate(_destroyEffect, _garden.transform.position, Quaternion.identity).Play();
-        _soundService.Play(SoundType.Music, "destroyGarden");
+        _soundService.Play(SoundType.Music, _destroySound);
+
+        EventBus.Instance.Publish<StopAction>(new StopAction());
         Destroy(_garden.gameObject);
 
     }

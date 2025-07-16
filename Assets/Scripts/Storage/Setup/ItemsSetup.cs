@@ -71,6 +71,9 @@ namespace Storage.Setup
         [Header("Level Data")]
         [field: SerializeField] public int TargetLevel { get; private set; }
 
+        [field: SerializeField, Header("Reward Data")] public bool IsHaveReward { get; private set; }
+        [field: SerializeField] public PriceData Reward { get; private set; }
+
         public Item(string itemName, ItemType itemType)
         {
             ItemName = itemName;

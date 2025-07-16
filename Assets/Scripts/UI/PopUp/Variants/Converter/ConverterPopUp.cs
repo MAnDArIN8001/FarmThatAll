@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Building.Converter;
+using Storage.Setup;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -19,6 +21,8 @@ namespace UI.PopUp.Variants.Converter
         
         [SerializeField] private GameObject recipeSelectionPanel;
         [SerializeField] private GameObject recipeProducingPanel;
+        
+        [SerializeField] private ItemsSetup _itemsSetup;
 
         private bool _isRunning;
         
@@ -40,25 +44,28 @@ namespace UI.PopUp.Variants.Converter
             Converter = converter;
 
             Converter.OnChangeConvertingState += ChangeConverterView;
-            
             foreach (var view in availableRecipesViews)
             {
+                view.Setup(this, _itemsSetup);
                 view.UpdateInfo();
             }
+            // Инициализация состояния окон при открытии
+            ChangeConverterView(Converter.CurrentRecipe != null);
         }
 
         private void ChangeConverterView(bool isRunning)
         {
             _isRunning = isRunning;
-            
-            if (_isRunning)
+            recipeSelectionPanel.SetActive(!_isRunning);
+            recipeProducingPanel.SetActive(_isRunning);
+        }
+
+        private void OnDisable()
+        {
+            if (Converter != null)
             {
-                recipeSelectionPanel.SetActive(false);
-                recipeProducingPanel.SetActive(true);
+                Converter.OnChangeConvertingState -= ChangeConverterView;
             }
-            
-            recipeSelectionPanel.SetActive(true);
-            recipeProducingPanel.SetActive(false);
         }
 
         void Update()

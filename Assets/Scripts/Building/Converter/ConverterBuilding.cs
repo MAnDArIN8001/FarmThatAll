@@ -12,7 +12,7 @@ namespace Building.Converter
 {
     public class ConverterBuilding : MonoBehaviour
     {
-        [Inject] private Storage.Storage _storage;
+        private Storage.Storage _storage = Storage.Storage.Instance;
         
         [SerializeField] private int progressBarStep;
         
@@ -53,6 +53,9 @@ namespace Building.Converter
         private void Awake()
         {
             _token = this.GetCancellationTokenOnDestroy();
+            
+            _storage = Storage.Storage.Instance; 
+            //_storage.IncreaseItem(ItemType.Wheat, 100);
         }
 
         public async UniTask StartProduceRecipe(Recipe recipe)

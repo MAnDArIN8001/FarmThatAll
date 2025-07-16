@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc2aa946ffd474081530f13e4258cf9, type: 3}
+  m_Name: CultureMappingSetup
+  m_EditorClassIdentifier: 
+  _cultures:
+  - <SeedType>k__BackingField: 1
+    <Culture>k__BackingField: {fileID: 5407569717703953737, guid: 6f9f88044158a2a43b31d8b523c12874, type: 3}
+  - <SeedType>k__BackingField: 3
+    <Culture>k__BackingField: {fileID: 5407569717703953737, guid: e47c2dea9494b494da07a68d7e7f81d7, type: 3}
+  - <SeedType>k__BackingField: 5
+    <Culture>k__BackingField: {fileID: 5407569717703953737, guid: 3dc9c2ad8205e1a409753ec25ef4258c, type: 3}
+  - <SeedType>k__BackingField: 7
+    <Culture>k__BackingField: {fileID: 5407569717703953737, guid: 7d9d0e2aba402124d81d4da0041fcc57, type: 3}

@@ -10,7 +10,7 @@ namespace Building.Converter
     [RequireComponent(typeof(ConverterBuilding))]
     public class ConverterCommunicableBuilding : MonoBehaviour, ICommunicable
     {
-        [Inject] private PopUpService _popUpService;
+        private PopUpService _popUpService;
 
         private ConverterBuilding _converter;
         
@@ -25,7 +25,8 @@ namespace Building.Converter
         {
             _converter = GetComponent<ConverterBuilding>();   
             
-            _popUpRoot ??= FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
+            _popUpRoot = FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include).transform;
+            _popUpService = PopUpService.Instance;
         }
         
         public void StartCommunication()

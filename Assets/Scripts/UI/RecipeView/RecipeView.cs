@@ -17,6 +17,7 @@ namespace UI.RecipeView
         private ConverterPopUp _converterPopUp;
         
         private ItemsSetup _itemsSetup;
+        private Storage.Storage _storage;
         
         [SerializeField] private Recipe recipe;
         
@@ -31,52 +32,67 @@ namespace UI.RecipeView
         [SerializeField] private TMP_Text recipeInputAmountText;
         [SerializeField] private Image recipeInputImage;
         
+        public Recipe Recipe => recipe;
+        
         public void Setup(ConverterPopUp converterPopUp, ItemsSetup itemsSetup)
         {
             _converterPopUp = converterPopUp;
-            
             _itemsSetup = itemsSetup;
-            
+            _storage = Storage.Storage.Instance;
+            if (_storage != null)
+            {
+                _storage.OnStorageItemChanged += HandleStorageChanged;
+            }
             makeRecipeButton.onClick.AddListener(CallConverter);
+            UpdateButtonInteractable();
         }
 
         private void OnDisable()
         {
             makeRecipeButton.onClick.RemoveListener(CallConverter);
+            if (_storage != null)
+            {
+                _storage.OnStorageItemChanged -= HandleStorageChanged;
+            }
+        }
+
+        private void HandleStorageChanged(Storage.Items.ItemType changedType)
+        {
+            if (changedType == recipe.Ingredient.Type)
+            {
+                UpdateButtonInteractable();
+            }
+        }
+
+        private void UpdateButtonInteractable()
+        {
+            if (_storage != null)
+            {
+                int available = _storage.GetItemsCount(recipe.Ingredient.Type);
+                makeRecipeButton.interactable = available >= recipe.Ingredient.Amount;
+            }
+            else
+            {
+                makeRecipeButton.interactable = false;
+            }
         }
 
         public void UpdateInfo()
         {
             recipeNameText.text = recipe.RecipeName;
-            recipeDurationText.text = (recipe.RecipeDurationMilliseconds / 1000.0f).ToString();
+            recipeDurationText.text = (recipe.RecipeDurationMilliseconds / 1000.0f).ToString() + "s";
             
             recipeOutputAmountText.text = recipe.RecipeOutputAmount.ToString();
             recipeOutputImage.sprite = GetItemOfType(recipe.RecipeOutputType);
 
             recipeInputAmountText.text = recipe.Ingredient.Amount.ToString();
             recipeInputImage.sprite = GetItemOfType(recipe.Ingredient.Type);
+            UpdateButtonInteractable();
         }
 
-        private Sprite GetItemOfType(ItemType itemType)
-        {
-            var itemScope = _itemsSetup.GetScopeOfItem(itemType);
-            
-            foreach (var binding in _itemsSetup.ItemBindings)
-            {
-                if (binding.ItemScope != itemScope)
-                    continue;
-
-                foreach (var item in binding.Items)
-                {
-                    if (item.ItemType == recipe.RecipeOutputType)
-                    {
-                        return item.ItemSprite;
-                    }
-                }
-            }
-            
-            return null;
-        }
+        private Sprite GetItemOfType(ItemType itemType) => _itemsSetup.ItemBindings
+            .SelectMany(binding => binding.Items)
+            .FirstOrDefault(item => item.ItemType == itemType)?.ItemSprite;
 
         private void CallConverter()
         {

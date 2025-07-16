@@ -859,6 +859,7 @@ MonoBehaviour:
   _targetItemScope: 0
   _dragCardPrefab: {fileID: 7474826607453460222, guid: 10362c5ce0fe8ab49a6be15b4abfdf6d, type: 3}
   _itemsSetup: {fileID: 11400000, guid: 71e555efea532ba40be2a083b954254d, type: 2}
+  _currentCard: {fileID: 0}
 --- !u!1 &2125970457667018801
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,6 +2615,7 @@ MonoBehaviour:
   _scalingTime: 0.1
   _destroyButton: {fileID: 8623747221757070152}
   _cancelBatton: {fileID: 8639576635962316806}
+  _destroySound: destroyGarden
   _destroyEffect: {fileID: 6226165539581104974, guid: 24efb91e65d324d44aa2cd4f00e9aa22, type: 3}
 --- !u!1 &5829934011595294867
 GameObject:
