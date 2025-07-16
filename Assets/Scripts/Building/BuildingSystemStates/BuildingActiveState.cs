@@ -1,8 +1,10 @@
 ﻿using System;
+using Sounds;
 using UnityEngine;
 using Utiles.EventSystem;
 using Utiles.Factory;
 using Utiles.FSM;
+using Zenject;
 using State = Utiles.FSM.State;
 
 namespace Building.BuildingSystemStates
@@ -24,6 +26,8 @@ namespace Building.BuildingSystemStates
         private ValidateBuilding _validateBuildingComponent;
         
         private BuildingData _currentBuildingData;
+
+        [Inject] private SoundService _soundService;
         public BuildingData CurrentBuildingData
         {
             get => _currentBuildingData;
@@ -114,6 +118,8 @@ namespace Building.BuildingSystemStates
                     {
                         var building = GameObject.Instantiate(_currentBuildingData.BuildingPrefab);
                         building.transform.position = _buildingShape.transform.position;
+
+                        _soundService.Play(SoundType.Music, "create");
                     }
                 }
             }

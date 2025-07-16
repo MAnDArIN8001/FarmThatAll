@@ -19,7 +19,9 @@ namespace Building
         private BaseInput _input;
         
         private EventBus _eventBus;
-        
+
+        [Inject] private DiContainer _container;
+
         [Inject]
         private void Initialize(BaseInput input, EventBus eventBus, MonoAbstractFactory factory)
         {
@@ -30,8 +32,11 @@ namespace Building
             {
                 _buildingActiveState =
                     new BuildingActiveState(StateType.Active, _eventBus, buildingShapeMaterial, _input, factory);
+
+                _container.Inject(_buildingActiveState);
+
             }
-            
+
             var states = new Dictionary<StateType, State>()
             {
                 { StateType.Idle, new BuildingIdleState(StateType.Idle) },
