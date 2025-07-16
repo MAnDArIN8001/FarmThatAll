@@ -21,6 +21,8 @@ namespace Sounds
         
         private Dictionary<SoundType, AudioMixerGroup> _audioMixerDictionary = new ();
         
+        public static SoundService Instance { get; private set; }
+        
         public SoundService(AudioPlayer soundPlayer, SoundDataSetup sfxSounds, SoundDataSetup musicSounds, 
             AudioMixerSetup mixerSetupSetup, Transform parent ,int minPoolSize, int maxPoolSize)
         {
@@ -30,6 +32,8 @@ namespace Sounds
             _mixersSetup = mixerSetupSetup;
             
             _audioPlayersPool = new AbstractPool<AudioPlayer>(soundPlayer, parent, minPoolSize, maxPoolSize);
+            
+            Instance = this;
         }
 
         private AudioClip GetSoundClip(SoundDataSetup setup, string soundType)

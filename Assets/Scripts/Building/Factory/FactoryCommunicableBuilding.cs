@@ -26,12 +26,16 @@ namespace Building.Factory
         {
             Factory = GetComponent<FactoryBuilding>();
             
-            _popUpRoot ??= FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
+            _popUpService = PopUpService.Instance;
+            _popUpRoot = FindAnyObjectByType<CentralPoint>(FindObjectsInactive.Include)?.transform;
         }
 
         public void StartCommunication()
         {
-            _popUpService.OpenPopUp(_popUpRoot.position, out _popUp);
+            if (_popUp is null)
+            {
+                _popUpService.SimpleOpen(_popUpRoot.position, out _popUp);    
+            }
 
             if (_popUp == null)
             {
@@ -39,17 +43,17 @@ namespace Building.Factory
                 
                 return;
             }
+
+            _popUp.Setup(Factory);
+            _popUp.Open();
             
             _popUp.transform.name = $"{nameof(FactoryPopUp)}";
             _popUp.transform.localPosition = Vector3.zero;
-            _popUp.factory = Factory; 
         }
 
         public void StopCommunication()
         {
-            _popUpService.ClosePopUp<FactoryPopUp>();
-
-            _popUp = null;
+            _popUp.Close();
         }
     }
 }

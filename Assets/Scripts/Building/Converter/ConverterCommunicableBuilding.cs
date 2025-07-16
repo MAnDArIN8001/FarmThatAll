@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Communication;
 using UI;
 using UI.PopUp.Variants.Converter;
@@ -18,6 +19,8 @@ namespace Building.Converter
         [field: SerializeField] public Transform CommunicationViewpointTransform { get; private set; }
         
         [Space, SerializeField] private Transform _popUpRoot;
+
+        [SerializeField] private List<Recipe> _recipes = new();
         
         private ConverterPopUp _popUp;
 
@@ -31,7 +34,10 @@ namespace Building.Converter
         
         public void StartCommunication()
         {
-            _popUpService.OpenPopUp(_popUpRoot.position, out _popUp);
+            if (_popUp is null)
+            {
+                _popUpService.SimpleOpen(_popUpRoot.position, out _popUp);    
+            }
             
             if (_popUp == null)
             {
@@ -40,7 +46,8 @@ namespace Building.Converter
                 return;
             }
             
-            _popUp.Setup(_converter);
+            _popUp.Setup(_converter, _recipes);
+            _popUp.Open();
             
             _popUp.transform.name = $"{nameof(ConverterPopUp)}";
             _popUp.transform.localPosition = Vector3.zero;
@@ -48,9 +55,7 @@ namespace Building.Converter
 
         public void StopCommunication()
         {
-            _popUpService.ClosePopUp<ConverterPopUp>();
-
-            _popUp = null;
+            _popUp.Close();
         }
     }
 }

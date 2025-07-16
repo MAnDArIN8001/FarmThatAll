@@ -68,7 +68,7 @@ namespace UI.PopUp.Variants.Garden
             }
 
             _seedsWindow.Initialize(growingSystem);
-            _destroyWindow.Initialize(garden, this);
+            _destroyWindow.Initialize(garden.gameObject, this);
         }
 
         private void Awake()
