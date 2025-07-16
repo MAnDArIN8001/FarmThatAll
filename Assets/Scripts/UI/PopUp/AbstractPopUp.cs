@@ -27,7 +27,6 @@ namespace UI.PopUp
         {
             OnPopUpClosed?.Invoke(this);
             
-            _soundService.Play(SoundType.Music, "closePopUp");
             gameObject.SetActive(false);
         }
     }
