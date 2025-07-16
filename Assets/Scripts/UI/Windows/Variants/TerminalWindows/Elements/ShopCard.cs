@@ -146,6 +146,11 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             {
                 _storage.IncreaseItem(_itemData.ItemType, 1);
             }
+
+            if (_itemData.IsHaveReward)
+            {
+                _storage.DecreaseItem(_itemData.Reward.ItemType, _itemData.Reward.Price);
+            }
             
             _byuButton.interactable = CheckPrice();
             _soundService.Play(SoundType.Music, "buy");

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e42349b4fb444e49294524b9598eecf, type: 3}
-  m_Name: Blueberry
+  m_Name: Wheat
   m_EditorClassIdentifier: 
   <GrowingTime>k__BackingField: 30
   <CultureReward>k__BackingField: 5

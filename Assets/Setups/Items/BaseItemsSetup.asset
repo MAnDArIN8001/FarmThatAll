@@ -26,6 +26,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Wheat
       <ItemType>k__BackingField: 3
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 8d22657b53ae44e4dae77e7e70935928, type: 3}
@@ -37,6 +41,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Cabbage
       <ItemType>k__BackingField: 5
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 3a507ba7617c0bb4f8c742fb281ca76c, type: 3}
@@ -48,6 +56,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Tomato
       <ItemType>k__BackingField: 7
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 300e2bed3984e024f852757f1b90e799, type: 3}
@@ -59,6 +71,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
   - <ItemScope>k__BackingField: 1
     _items: []
   - <ItemScope>k__BackingField: 2
@@ -72,6 +88,10 @@ MonoBehaviour:
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Steel
       <ItemType>k__BackingField: 11
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: e9b65767a86d22249805b48fb3ff07c8, type: 3}
@@ -81,6 +101,10 @@ MonoBehaviour:
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Money
       <ItemType>k__BackingField: 20
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 06b8f70a6f4984649894102f53b12da6, type: 3}
@@ -90,44 +114,64 @@ MonoBehaviour:
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
   - <ItemScope>k__BackingField: 3
     _items:
     - <ItemName>k__BackingField: Blueberry
       <ItemType>k__BackingField: 0
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 645bffff9f8b48141b0bfefd51aee425, type: 3}
       <SellPrice>k__BackingField:
-        <Price>k__BackingField: 35
+        <Price>k__BackingField: 39
         <ItemType>k__BackingField: 20
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Wheat
       <ItemType>k__BackingField: 2
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: ab68233cd17a6064a9a8057b306cc44c, type: 3}
-      <SellPrice>k__BackingField:
-        <Price>k__BackingField: 40
-        <ItemType>k__BackingField: 20
-      <BuyPrice>k__BackingField: []
-      <BuildingData>k__BackingField: {fileID: 0}
-      <TargetLevel>k__BackingField: 0
-    - <ItemName>k__BackingField: Cabbage
-      <ItemType>k__BackingField: 4
-      <ItemSprite>k__BackingField: {fileID: 21300000, guid: bca38251293b37042a00f4b9e8a86c5b, type: 3}
-      <SellPrice>k__BackingField:
-        <Price>k__BackingField: 30
-        <ItemType>k__BackingField: 20
-      <BuyPrice>k__BackingField: []
-      <BuildingData>k__BackingField: {fileID: 0}
-      <TargetLevel>k__BackingField: 0
-    - <ItemName>k__BackingField: Tomato
-      <ItemType>k__BackingField: 6
-      <ItemSprite>k__BackingField: {fileID: 21300000, guid: 231a9b48521996c448c8babc636a39e8, type: 3}
       <SellPrice>k__BackingField:
         <Price>k__BackingField: 50
         <ItemType>k__BackingField: 20
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
+    - <ItemName>k__BackingField: Cabbage
+      <ItemType>k__BackingField: 4
+      <ItemSprite>k__BackingField: {fileID: 21300000, guid: bca38251293b37042a00f4b9e8a86c5b, type: 3}
+      <SellPrice>k__BackingField:
+        <Price>k__BackingField: 20
+        <ItemType>k__BackingField: 20
+      <BuyPrice>k__BackingField: []
+      <BuildingData>k__BackingField: {fileID: 0}
+      <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
+    - <ItemName>k__BackingField: Tomato
+      <ItemType>k__BackingField: 6
+      <ItemSprite>k__BackingField: {fileID: 21300000, guid: 231a9b48521996c448c8babc636a39e8, type: 3}
+      <SellPrice>k__BackingField:
+        <Price>k__BackingField: 30
+        <ItemType>k__BackingField: 20
+      <BuyPrice>k__BackingField: []
+      <BuildingData>k__BackingField: {fileID: 0}
+      <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Bread
       <ItemType>k__BackingField: 8
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 198c8626df573564b9c09f47cce07f20, type: 3}
@@ -137,6 +181,10 @@ MonoBehaviour:
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Bluberry Juice
       <ItemType>k__BackingField: 9
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 95428b6f8f4e39741810cebabfef1175, type: 3}
@@ -146,6 +194,10 @@ MonoBehaviour:
       <BuyPrice>k__BackingField: []
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
   - <ItemScope>k__BackingField: 4
     _items:
     - <ItemName>k__BackingField: Garden
@@ -159,6 +211,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 11400000, guid: 0ebf14c878c5b404eacca15e3e0e351f, type: 2}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Bread Factory
       <ItemType>k__BackingField: 15
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 954b8d9ac1ecebd4bbc2ff1cc7aea8b5, type: 3}
@@ -170,6 +226,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 11400000, guid: b5e66055c9236bd4f9e6cc1066a8ec05, type: 2}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Juice Factory
       <ItemType>k__BackingField: 16
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 52dba6c0406a0954fbbcabdcddbefd50, type: 3}
@@ -181,6 +241,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 11400000, guid: b42d78e1a28e86843ab8a9779859324d, type: 2}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Stone Factory
       <ItemType>k__BackingField: 14
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 1ea5b05766432fc41b32956890e78ecb, type: 3}
@@ -192,6 +256,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 11400000, guid: ac35dfd688b232e4b9f568f438a4ee1c, type: 2}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
     - <ItemName>k__BackingField: Steel Factory
       <ItemType>k__BackingField: 13
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: b8d5234664b163e43b9f1aa52105e834, type: 3}
@@ -203,6 +271,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 11400000, guid: adfa7d21e64e9ff4d86b5e53f97bc2ee, type: 2}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 0
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 0
+        <ItemType>k__BackingField: 0
   - <ItemScope>k__BackingField: 5
     _items:
     - <ItemName>k__BackingField: Upgrade 1
@@ -216,6 +288,10 @@ MonoBehaviour:
         <ItemType>k__BackingField: 20
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 0
+      <IsHaveReward>k__BackingField: 1
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 200
+        <ItemType>k__BackingField: 20
     - <ItemName>k__BackingField: Upgrade 2
       <ItemType>k__BackingField: 18
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 6e77ccf9dc6d0c84bbccc609b9737717, type: 3}
@@ -223,12 +299,16 @@ MonoBehaviour:
         <Price>k__BackingField: 0
         <ItemType>k__BackingField: 0
       <BuyPrice>k__BackingField:
-      - <Price>k__BackingField: 500
+      - <Price>k__BackingField: 900
         <ItemType>k__BackingField: 20
       - <Price>k__BackingField: 300
         <ItemType>k__BackingField: 10
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 1
+      <IsHaveReward>k__BackingField: 1
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 400
+        <ItemType>k__BackingField: 20
     - <ItemName>k__BackingField: Upgrade 3
       <ItemType>k__BackingField: 19
       <ItemSprite>k__BackingField: {fileID: 21300000, guid: 6e77ccf9dc6d0c84bbccc609b9737717, type: 3}
@@ -236,9 +316,13 @@ MonoBehaviour:
         <Price>k__BackingField: 0
         <ItemType>k__BackingField: 20
       <BuyPrice>k__BackingField:
-      - <Price>k__BackingField: 800
+      - <Price>k__BackingField: 2800
         <ItemType>k__BackingField: 20
       - <Price>k__BackingField: 200
         <ItemType>k__BackingField: 11
       <BuildingData>k__BackingField: {fileID: 0}
       <TargetLevel>k__BackingField: 2
+      <IsHaveReward>k__BackingField: 1
+      <Reward>k__BackingField:
+        <Price>k__BackingField: 1000
+        <ItemType>k__BackingField: 20
