@@ -17,6 +17,7 @@ public class Comic : MonoBehaviour
     [SerializeField] private float _fadeDuration;
     [SerializeField] private float _slideDelay;
 
+    [SerializeField] private string _loadSceneName;
     void OnEnable()
     {
         StartCoroutine(SlideShow());
@@ -42,6 +43,8 @@ public class Comic : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
+            SceneManager.LoadScene(_loadSceneName);
+
         }
     }
     private void OnDestroy()

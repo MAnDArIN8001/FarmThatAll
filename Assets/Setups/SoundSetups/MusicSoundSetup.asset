@@ -31,3 +31,9 @@ MonoBehaviour:
   - <Type>k__BackingField: destroyFactory
     <Sound>k__BackingField:
     - {fileID: 8300000, guid: f5724d8f95447f547b8a6a8a91165ff0, type: 3}
+  - <Type>k__BackingField: backgraund
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: dc85d069edea304448b24c883072cd9c, type: 3}
+  - <Type>k__BackingField: create
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: 18a16fa5af0bdbb4e999a6e237e10ec0, type: 3}
