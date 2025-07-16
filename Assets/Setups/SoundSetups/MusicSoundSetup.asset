@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c950ae83a8443f81a2d6917c5ad823, type: 3}
   m_Name: MusicSoundSetup
   m_EditorClassIdentifier: 
-  _soundDataList:
-  - <SoundId>k__BackingField: test
-    <Sound>k__BackingField: {fileID: 0}
-  - <SoundId>k__BackingField: testSound
-    <Sound>k__BackingField: {fileID: 0}
-  - <SoundId>k__BackingField: testMusic
-    <Sound>k__BackingField: {fileID: 0}
+  soundDataList:
+  - <Type>k__BackingField: openPopUp
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: b08a1de09ff510046aace6dfc331754a, type: 3}
+  - <Type>k__BackingField: closePopUp
+    <Sound>k__BackingField:
+    - {fileID: 8300000, guid: 5a724e195013c694ab038d586f791989, type: 3}

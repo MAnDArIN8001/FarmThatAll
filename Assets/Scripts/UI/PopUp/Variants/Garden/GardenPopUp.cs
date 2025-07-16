@@ -132,10 +132,9 @@ namespace UI.PopUp.Variants.Garden
 
         public override void Open()
         {
-            gameObject.SetActive(true);
+            base.Open();
             
             _scalingEffect.Play(_defaultScale, transform);
-            
             OnPopUpOpened?.Invoke(this);
         }
 
@@ -145,7 +144,7 @@ namespace UI.PopUp.Variants.Garden
             {
                 OnPopUpClosed?.Invoke(this);
                 
-                gameObject.SetActive(false);
+                base.Close();
             });
         }
 

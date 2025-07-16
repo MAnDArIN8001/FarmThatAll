@@ -1,10 +1,12 @@
 using ProcessBuilding.Garden;
+using Sounds;
 using UI.Effects.ScalingEffect;
 using UI.PopUp.Variants.Garden;
 using UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
+using Zenject;
 
 public class DestroyWindow : AbstractWindow
 {
@@ -18,6 +20,8 @@ public class DestroyWindow : AbstractWindow
 
     [Header("Effects")]
     [SerializeField] private VisualEffect _destroyEffect;
+
+    [Inject] private SoundService _soundService;
 
     private ProcessBuilding.Garden.Garden _garden;
     private GardenPopUp _gardenPopUp;
@@ -51,6 +55,7 @@ public class DestroyWindow : AbstractWindow
         Close();
         _gardenPopUp.Close();
         Instantiate(_destroyEffect, _garden.transform.position, Quaternion.identity).Play();
+        _soundService.Play(SoundType.Music, "destroyGarden");
         Destroy(_garden.gameObject);
 
     }
