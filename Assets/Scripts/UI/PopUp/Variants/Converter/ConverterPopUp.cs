@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Building.Converter;
+using NUnit.Framework;
 using Storage.Setup;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,16 +40,20 @@ namespace UI.PopUp.Variants.Converter
             }
         }
         
-        public void Setup(ConverterBuilding converter)
+        public void Setup(ConverterBuilding converter, List<Recipe> recipes)
         {
             Converter = converter;
 
             Converter.OnChangeConvertingState += ChangeConverterView;
-            foreach (var view in availableRecipesViews)
+
+            for (int i = 0; i < recipes.Count; i++)
             {
-                view.Setup(this, _itemsSetup);
+                var view = availableRecipesViews[i];
+                
+                view.Setup(this, _itemsSetup, recipes[i]);
                 view.UpdateInfo();
             }
+
             // Инициализация состояния окон при открытии
             ChangeConverterView(Converter.CurrentRecipe != null);
         }

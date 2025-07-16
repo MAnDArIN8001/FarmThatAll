@@ -34,11 +34,12 @@ namespace UI.RecipeView
         
         public Recipe Recipe => recipe;
         
-        public void Setup(ConverterPopUp converterPopUp, ItemsSetup itemsSetup)
+        public void Setup(ConverterPopUp converterPopUp, ItemsSetup itemsSetup, Recipe recipe)
         {
             _converterPopUp = converterPopUp;
             _itemsSetup = itemsSetup;
             _storage = Storage.Storage.Instance;
+            this.recipe = recipe;
             if (_storage != null)
             {
                 _storage.OnStorageItemChanged += HandleStorageChanged;
@@ -80,7 +81,7 @@ namespace UI.RecipeView
         public void UpdateInfo()
         {
             recipeNameText.text = recipe.RecipeName;
-            recipeDurationText.text = (recipe.RecipeDurationMilliseconds / 1000.0f).ToString() + "s";
+            recipeDurationText.text = (recipe.RecipeDurationMilliseconds / 100.0f).ToString() + "s";
             
             recipeOutputAmountText.text = recipe.RecipeOutputAmount.ToString();
             recipeOutputImage.sprite = GetItemOfType(recipe.RecipeOutputType);

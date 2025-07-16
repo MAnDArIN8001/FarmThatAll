@@ -74,8 +74,8 @@ GameObject:
   - component: {fileID: 1852324237173734062}
   - component: {fileID: 4188480511307392174}
   - component: {fileID: 1943019470939936519}
-  - component: {fileID: 3807196053522024515}
-  - component: {fileID: 380458557686867018}
+  - component: {fileID: 7230491782074234563}
+  - component: {fileID: 4707027963909672660}
   m_Layer: 0
   m_Name: JuiceFactory
   m_TagString: Untagged
@@ -120,8 +120,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 1, z: 3}
-  m_Center: {x: 0.00000017881393, y: 0.49999997, z: 0.04722321}
+  m_Size: {x: 2.71334, y: 1, z: 2.7897673}
+  m_Center: {x: 0.14333022, y: 0.5, z: -0.057893276}
 --- !u!208 &1943019470939936519
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -132,13 +132,13 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.5, y: 0.5, z: 1.5}
+  m_Extents: {x: 1.35667, y: 0.5, z: 1.3948835}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0.0000001788139, y: 0.5, z: 0.04722321}
+  m_Center: {x: 0.1433302, y: 0.5, z: -0.05789328}
   m_TimeToStationary: 0.5
---- !u!114 &3807196053522024515
+--- !u!114 &7230491782074234563
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,14 +147,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3060219713996277913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97af29d23e9141faaf22f2c08989e674, type: 3}
+  m_Script: {fileID: 11500000, guid: cc86ee2e4ce34f6a9b71cefdc2fd2166, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localStorageCapacity: 100
-  <GenerationSetup>k__BackingField: {fileID: 11400000, guid: bb703d9f9a5151f44bf7b869c9b4c431, type: 2}
-  <GeneratedItemType>k__BackingField: 10
-  millisecondsTimeStep: 100
---- !u!114 &380458557686867018
+  progressBarStep: 1
+--- !u!114 &4707027963909672660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,13 +160,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3060219713996277913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72b8ed16c84e426daf7ffd96bd5d7379, type: 3}
+  m_Script: {fileID: 11500000, guid: abe2968e04164493ac47f79581c88e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Factory>k__BackingField: {fileID: 3807196053522024515}
   <CommunicationTransform>k__BackingField: {fileID: 5571804192239396656}
   <CommunicationViewpointTransform>k__BackingField: {fileID: 591229439156588955}
   _popUpRoot: {fileID: 0}
+  _recipes:
+  - {fileID: 11400000, guid: 85ea08ae67134184b9baa73de9d0dfa4, type: 2}
 --- !u!1 &5036668997075271211
 GameObject:
   m_ObjectHideFlags: 0
