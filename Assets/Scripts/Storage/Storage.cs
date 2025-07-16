@@ -78,24 +78,26 @@ namespace Storage
         {
             if (decreaseCount < 0)
             {
-                Debug.LogError($"Decrease value can't be less than zero");
+                Debug.LogWarning($"Decrease value can't be less than zero");
 
                 return;
             }
             
             if (!_storage.TryGetValue(itemType, out var item))
             {
-                Debug.LogError($"The storage doesn't contain any item with type {itemType}");
+                Debug.LogWarning($"The storage doesn't contain any item with type {itemType}");
 
                 return;
             }
 
             if (decreaseCount > item.Count)
             {
-                Debug.LogError($"Decrease value can't be more than current count");
+                Debug.LogWarning($"Decrease value can't be more than current count");
 
                 return;
             }
+            
+            Debug.Log($"{decreaseCount} {item.Count}");
             
             item.Count -= decreaseCount;
 

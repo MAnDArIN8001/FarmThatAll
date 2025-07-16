@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SteelFactoryBuilding
   m_EditorClassIdentifier: 
   <InteractionWithObjectsOffset>k__BackingField: 1
-  <BuildingPrefab>k__BackingField: {fileID: 3060219713996277913, guid: de10b662ac32e834d9f4b4e7cf529d79, type: 3}
+  <BuildingPrefab>k__BackingField: {fileID: 3060219713996277913, guid: e4ef70e3907a6c846b656be3c55a69f6, type: 3}
   <ViewOfBuilding>k__BackingField: {fileID: 352159930187981182, guid: b33de2a814cb85b40b9560551b265612, type: 3}
   <TerrainLayerMask>k__BackingField:
     serializedVersion: 2

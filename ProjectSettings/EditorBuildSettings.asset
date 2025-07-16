@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameplayScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/StartMenu.unity
+    guid: 4d366aabdec9ab14b81bad1b7ad53f58
   - enabled: 1
-    path: Assets/Scenes/PlayerMovementScene.unity
-    guid: 8edac00306c9bae44b59e16d62e9ea53
+    path: Assets/Scenes/Comic.unity
+    guid: 35d8b9ce76ca4e94f8ff7dd6a8af2735
+  - enabled: 1
+    path: Assets/Scenes/Gameplay.unity
+    guid: 97102f167d6e3fb42a1766f843c53854
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

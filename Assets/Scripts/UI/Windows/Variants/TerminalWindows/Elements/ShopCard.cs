@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Building;
 using Sounds;
@@ -77,6 +78,7 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             if (_levelManager.CurrentLevel != _itemData.TargetLevel)
             {
                 _locker.SetActive(true);
+                _byuButton.interactable = false;
             }
 
             _levelManager.OnLevelChanged += UpdateLocker;
@@ -103,9 +105,18 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             }
         }
 
+        private void OnDestroy()
+        {
+            if (_levelManager is not null)
+            {
+                _levelManager.OnLevelChanged -= UpdateLocker;
+            }
+        }
+
         private void UpdateLocker(int newLevel)
         {
-            _locker.SetActive(newLevel != _itemData.TargetLevel);
+            _locker?.SetActive(newLevel != _itemData.TargetLevel);
+            _byuButton.interactable = newLevel != _itemData.TargetLevel;
         }
 
         private bool CheckPrice()
@@ -149,7 +160,7 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
 
             if (_itemData.IsHaveReward)
             {
-                _storage.DecreaseItem(_itemData.Reward.ItemType, _itemData.Reward.Price);
+                _storage.IncreaseItem(_itemData.Reward.ItemType, _itemData.Reward.Price);
             }
             
             _byuButton.interactable = CheckPrice();

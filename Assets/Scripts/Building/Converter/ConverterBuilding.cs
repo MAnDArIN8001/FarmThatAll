@@ -55,7 +55,6 @@ namespace Building.Converter
             _token = this.GetCancellationTokenOnDestroy();
             
             _storage = Storage.Storage.Instance; 
-            _storage.IncreaseItem(ItemType.Blueberry, 100);
         }
 
         public async UniTask StartProduceRecipe(Recipe recipe)

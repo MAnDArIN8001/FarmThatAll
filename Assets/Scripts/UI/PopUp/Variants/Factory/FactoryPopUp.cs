@@ -50,6 +50,11 @@ namespace UI.PopUp
             }
         }
 
+        private void Awake()
+        {
+            _playerStorage = Storage.Storage.Instance;
+        }
+
         public void Setup(FactoryBuilding factory)
         {
             var itemData = _itemsSetup.ItemBindings

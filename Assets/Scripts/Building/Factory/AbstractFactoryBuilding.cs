@@ -5,7 +5,7 @@ namespace Building.Factory
 {
     public class AbstractFactoryBuilding : MonoBehaviour
     {
-        [SerializeField] private int localStorageCapacity = 100;
+        [SerializeField] private int localStorageCapacity = 1000;
         
         protected float Timer;
         

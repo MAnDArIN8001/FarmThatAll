@@ -40,6 +40,8 @@ namespace UI.Windows.Variants.TerminalWindows
 
         private void DrawCards()
         {
+            ClearCards();
+            
             foreach (var itemScope in _sellingItemsScope)
             {
                 var itemsOfScope = _storage.GetItemsWithScope(itemScope);
@@ -55,18 +57,30 @@ namespace UI.Windows.Variants.TerminalWindows
                         var card =  Instantiate(_sellCardPrefab, _cardsRoot);
                         _container.Inject(card);
 
-
                         card.Initialize(_storage,  itemData);
+                        
+                        _sellCards.Add(card);
+
+                        card.OnTargetResourceEnded += HandleCardRemove;
                     }
                 }
             }      
+        }
+
+        private void HandleCardRemove(SellCard card)
+        {
+            _sellCards.Remove(card);
+            
+            card.OnTargetResourceEnded -= HandleCardRemove;
         }
 
         private void ClearCards()
         {
             foreach (var card in _sellCards)
             {
-                Destroy(card.gameObject);
+                card?.Remove();
+                
+                card.OnTargetResourceEnded -= HandleCardRemove;
             }
             
             _sellCards.Clear();

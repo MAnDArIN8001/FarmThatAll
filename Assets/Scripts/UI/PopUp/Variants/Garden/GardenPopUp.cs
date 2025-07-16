@@ -60,8 +60,6 @@ namespace UI.PopUp.Variants.Garden
             _growingSystem = growingSystem;
             _growingSystem.OnCultureCollect += HandleResourceTake;
             
-            Debug.Log("Follow");
-
             if (_growingSystem.Culture is not null)
             {
                 _slot.InsertCard(growingSystem.Culture.CultureType);

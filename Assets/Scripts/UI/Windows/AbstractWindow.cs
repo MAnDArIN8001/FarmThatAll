@@ -29,7 +29,7 @@ namespace UI.Windows
             
             _scalingTween = transform.DOScale(Vector3.zero, _scalingTime).OnComplete(() =>
             {
-                gameObject.SetActive(false);
+                gameObject?.SetActive(false);
                 
                 callBack?.Invoke();
             });

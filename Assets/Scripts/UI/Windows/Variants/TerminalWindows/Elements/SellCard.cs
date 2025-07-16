@@ -129,5 +129,10 @@ namespace UI.Windows.Variants.TerminalWindows.Elements
             
             _totalSlider.maxValue = newCount;
         }
+
+        public void Remove()
+        {   
+            Destroy(gameObject);
+        }
     }
 }

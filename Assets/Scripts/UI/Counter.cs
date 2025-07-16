@@ -25,7 +25,7 @@ namespace UI
 
         private void Awake()
         {
-            _storage.IncreaseItem(ItemType.Money, 400);
+            _storage.IncreaseItem(ItemType.Money, 100);
             
             var itemData = _itemsSetup.ItemBindings
                 .SelectMany(binding => binding.Items)

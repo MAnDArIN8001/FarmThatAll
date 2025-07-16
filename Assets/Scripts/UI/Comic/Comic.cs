@@ -16,11 +16,14 @@ public class Comic : MonoBehaviour
 
     [SerializeField] private float _fadeDuration;
     [SerializeField] private float _slideDelay;
+    
+    [SerializeField] private StartMenu _startMenu;
 
     void OnEnable()
     {
         StartCoroutine(SlideShow());
     }
+    
     void Update()
     {
 
@@ -32,7 +35,6 @@ public class Comic : MonoBehaviour
 
     private void NextSlide()
     {
-
         if (_slides.Count > 0)
         {
             _slideImage.sprite = _slides.First();
@@ -41,13 +43,15 @@ public class Comic : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            _startMenu.FadeAndLoad();
         }
     }
+    
     private void OnDestroy()
     {
         StopAllCoroutines();
     }
+    
     private IEnumerator SlideShow()
     {
         while (_slides.Count >= 0)

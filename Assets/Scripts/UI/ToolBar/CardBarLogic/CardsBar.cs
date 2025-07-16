@@ -30,8 +30,6 @@ namespace UI.ToolBar
 
         private void OnEnable()
         {
-            _storage.IncreaseItem(ItemType.WheatSeed, 5);
-            
             LoadCards();
         }
 

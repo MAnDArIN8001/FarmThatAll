@@ -408,7 +408,7 @@ PrefabInstance:
       objectReference: {fileID: 1012287411}
     - target: {fileID: 2916792827168159101, guid: 3cbb15699e125184093adf2f617416e0, type: 3}
       propertyPath: _sceneName
-      value: PlayerMovementScene
+      value: Comic
       objectReference: {fileID: 0}
     - target: {fileID: 2916792827168159101, guid: 3cbb15699e125184093adf2f617416e0, type: 3}
       propertyPath: _sceneFader

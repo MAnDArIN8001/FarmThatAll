@@ -17,7 +17,7 @@ public class StartMenu : MonoBehaviour
         }
     }
 
-    private void FadeAndLoad()
+    public void FadeAndLoad()
     {
         _sceneFader.FadeAndLoadScene(_sceneName);
     }

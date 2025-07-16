@@ -13,12 +13,14 @@ public class SceneFader : MonoBehaviour
     {
         StartCoroutine(FadeFromBlack());
     }
+    
     public void FadeAndLoadScene(string sceneName)
     {
         _fadeImage.gameObject.SetActive(true);
 
         StartCoroutine(FadeOutAndLoad(sceneName));
     }
+    
     private IEnumerator FadeFromBlack()
     {
         float t = 0f;

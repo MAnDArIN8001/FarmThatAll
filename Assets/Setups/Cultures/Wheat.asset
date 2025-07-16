@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e42349b4fb444e49294524b9598eecf, type: 3}
   m_Name: Wheat
   m_EditorClassIdentifier: 
-  <GrowingTime>k__BackingField: 30
+  <GrowingTime>k__BackingField: 10
   <CultureReward>k__BackingField: 5

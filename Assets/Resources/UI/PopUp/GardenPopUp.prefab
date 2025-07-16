@@ -1123,7 +1123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6456e128a7194b6baccdd55f02ff9f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scalingTime: 0
+  _scalingTime: 0.25
   _navigator: {fileID: 2232127750998743900}
   _choiseWindow: {fileID: 3673362892639560244}
   _progressWindow: {fileID: 3610473675601840439}

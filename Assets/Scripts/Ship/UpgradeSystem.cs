@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using DG.Tweening;
+using Player;
 using Player.CameraControls;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utiles;
 using Utiles.EventSystem;
 using Zenject;
@@ -18,6 +21,9 @@ namespace Ship
         [Space, SerializeField] private List<UpgradeData> _upgradeData;
         
         [Space, SerializeField] private CameraSystem _cameraSystem;
+        
+        [Space, SerializeField] private TMP_Text _winText;
+        [SerializeField] private Image _image;
 
         [Inject] private LevelManager _levelManager;
 
@@ -42,10 +48,6 @@ namespace Ship
         private void HandleLevelChanged(int newLevel)
         {
             var upgradeData = _upgradeData[newLevel-1];
-            
-            Debug.Log(newLevel);
-            Debug.Log(upgradeData.Level);
-
 
             foreach (var itemToUpdate in upgradeData.ItemsToUpdate)
             {
@@ -66,6 +68,12 @@ namespace Ship
                 _cameraSystem.SetCamera(CameraType.Ship);
                 
                 _animator.SetTrigger("End");
+                
+                _winText.gameObject.SetActive(true);
+                
+                EventBus.Instance.Publish<StopAction>(new StopAction());
+
+                _image.DOFade(1f, 0.5f);
             }
         }
     }
